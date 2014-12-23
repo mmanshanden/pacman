@@ -59,6 +59,10 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collision.cs" />
+    <Compile Include="GameBoard.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="GameWorld.cs" />
     <Compile Include="Helpers\DrawHelper.cs" />
     <Compile Include="Helpers\InputHelper.cs" />
     <Compile Include="Interfaces\IGameState.cs" />
