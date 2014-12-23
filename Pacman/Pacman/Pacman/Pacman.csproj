@@ -76,6 +76,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="States\StateDefault.cs" />
+    <Compile Include="States\StateDemo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

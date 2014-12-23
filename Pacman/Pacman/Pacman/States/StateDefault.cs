@@ -18,7 +18,7 @@ namespace Pacman
 
         public IGameState TransitionTo()
         {
-            return this;
+            return new StateDemo();
         }
 
         public void Update(float dt)
