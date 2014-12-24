@@ -6,16 +6,17 @@ namespace Pacman
 {
     class StateDemo : IGameState
     {
-        GameWorld gameWorld;
+        Level gameWorld;
         GameObject gameObject;
 
         public StateDemo()
         {
-            this.gameWorld = new GameWorld();
+            this.gameWorld = new Level();
             this.gameObject = new GameObject();
+            this.gameObject.Position = Vector2.One;
 
             this.gameWorld.Add(gameObject);
-            this.gameObject.Speed = 0.5f;
+            this.gameObject.Speed = 1f;
             this.gameObject.Direction = Vector2.UnitX;
         }
 
@@ -36,9 +37,9 @@ namespace Pacman
 
         public void Draw(DrawHelper drawHelper)
         {
-            drawHelper.Scale(20, 20);
+            drawHelper.Scale(13, 13);
             this.gameWorld.Draw(drawHelper);
-            drawHelper.Scale(0.05f, 0.05f);
+            drawHelper.Scale(1/13f, 1/13f);
         }
 
     }
