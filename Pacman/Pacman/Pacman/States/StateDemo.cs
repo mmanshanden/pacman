@@ -7,22 +7,22 @@ namespace Pacman
     class StateDemo : IGameState
     {
         Level gameWorld;
-        GameObject gameObject;
+        Pacman gameObject;
 
         public StateDemo()
         {
             this.gameWorld = new Level();
-            this.gameObject = new GameObject();
+            this.gameObject = new Pacman();
             this.gameObject.Position = Vector2.One;
 
             this.gameWorld.Add(gameObject);
-            this.gameObject.Speed = 1f;
+            this.gameObject.Speed = 4;
             this.gameObject.Direction = Vector2.UnitX;
         }
 
         public void HandleInput(InputHelper inputHelper)
         {
-
+            gameObject.Direction = inputHelper.GetDirectionalInput();
         }
 
         public IGameState TransitionTo()
