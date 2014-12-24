@@ -32,6 +32,8 @@ namespace Pacman
         {
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            this.inputHelper.Update();
+
             this.gameState = this.gameState.TransitionTo();
 
             this.gameState.HandleInput(this.inputHelper);
