@@ -24,17 +24,16 @@ namespace Base
 
         public Vector2 GetDirectionalInput()
         {
-            Vector2 direction = new Vector2();
             if (KeyDown(Keys.W))
-                direction.Y -= 1;
+                return Vector2.UnitY * -1;
             if (KeyDown(Keys.S))
-                direction.Y += 1;
+                return Vector2.UnitY;
             if (KeyDown(Keys.A))
-                direction.X -= 1;
+                return Vector2.UnitX * -1;
             if (KeyDown(Keys.D))
-                direction.X += 1;
+                return Vector2.UnitX;
 
-            return direction;
+            return Vector2.Zero;
         }
 
         public void Update()
