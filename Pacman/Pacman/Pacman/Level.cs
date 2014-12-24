@@ -42,7 +42,7 @@ namespace Pacman
             };
 
             this.GameBoard = new GameBoard();
-            this.GameBoard.SetGrid(grid, new short[] { 1, 2, 3 });
+            this.GameBoard.SetGrid(grid, new short[] { 1, 2 });
         }
 
         public override void Draw(DrawHelper drawHelper)
