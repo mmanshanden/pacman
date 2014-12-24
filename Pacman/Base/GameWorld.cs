@@ -25,7 +25,7 @@ namespace Base
             this.gameObjects.Add(gameObject);
         }
 
-        public void Update(float dt)
+        public virtual void Update(float dt)
         {
             foreach (GameObject gameObject in this.gameObjects)
             {
@@ -33,7 +33,7 @@ namespace Base
                 gameObject.Update(dt);
             }
         }
-        public void Draw(DrawHelper drawHelper)
+        public virtual void Draw(DrawHelper drawHelper)
         {
             foreach (GameObject gameObject in this.gameObjects)
             {

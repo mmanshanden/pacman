@@ -24,7 +24,7 @@ namespace Base
         {
             get
             {
-                return Collision.ToPoint(this.Position);
+                return Collision.ToPoint(this.Center);
             }
         }
 
@@ -64,7 +64,7 @@ namespace Base
 
         public virtual void Collision_InvalidDirection(GameBoard gameBoard)
         {
-
+            this.Direction = Vector2.Zero;
         }
 
         public virtual void Collision_InvalidPosition()
