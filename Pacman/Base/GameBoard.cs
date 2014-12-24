@@ -83,6 +83,10 @@ namespace Base
         {
             return this.GetTileValue(gameObject.Tile);
         }
+        public int GetNeighbourCount(GameObject gameObject)
+        {
+            return this.GetNeighbourCount(gameObject.Tile);
+        }
         #endregion
 
         public static GameBoard FactoryMethod()

@@ -28,7 +28,7 @@ namespace Base
             }
         }
 
-        public Vector2 Direction
+        public virtual Vector2 Direction
         {
             get;
             set;
@@ -128,7 +128,7 @@ namespace Base
                 return;
             }
 
-            switch (gameBoard.GetNeighbourCount(next))
+            switch (gameBoard.GetNeighbourCount(this))
             {
                 case 0:
                     this.Collision_InvalidPosition();
