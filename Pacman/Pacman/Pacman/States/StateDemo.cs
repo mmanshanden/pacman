@@ -25,6 +25,8 @@ namespace Pacman
             this.ghost.Direction = Vector2.UnitX;
             this.ghost.Speed = 4;
             this.gameWorld.Add(ghost);
+
+            this.gameWorld.LoadLevel("Content/level1.txt");
         }
 
         public void HandleInput(InputHelper inputHelper)
