@@ -72,6 +72,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ghost.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Pacman.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

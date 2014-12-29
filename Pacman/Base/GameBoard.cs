@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace Base
 {
@@ -55,21 +56,32 @@ namespace Base
         }
         public int GetNeighbourCount(Point tile)
         {
+            return this.GetNeighbourTiles(tile).Count;
+        }
+        public List<Point> GetNeighbourTiles(Point tile)
+        {
+            List<Point> result = new List<Point>();
+
             Point top = new Point(tile.X, tile.Y - 1);
             Point bottom = new Point(tile.X, tile.Y + 1);
             Point left = new Point(tile.X - 1, tile.Y);
             Point right = new Point(tile.X + 1, tile.Y);
 
-            int count = 0;
+            if (!this.IsCollidable(top))
+                result.Add(top);
 
-            count += this.IsCollidable(top) ? 0 : 1;
-            count += this.IsCollidable(bottom) ? 0 : 1;
-            count += this.IsCollidable(left) ? 0 : 1;
-            count += this.IsCollidable(right) ? 0 : 1;
+            if (!this.IsCollidable(bottom))
+                result.Add(bottom);
 
-            return count;
+            if (!this.IsCollidable(left))
+                result.Add(left);
+
+            if (!this.IsCollidable(right))
+                result.Add(right);
+
+            return result;
         }
-
+        
         #region GameObject Overloads
         public bool IsOutSide(GameObject gameObject)
         {
@@ -86,6 +98,10 @@ namespace Base
         public int GetNeighbourCount(GameObject gameObject)
         {
             return this.GetNeighbourCount(gameObject.Tile);
+        }
+        public List<Point> GetNeighbourTiles(GameObject gameObject)
+        {
+            return this.GetNeighbourTiles(gameObject.Tile);
         }
         #endregion
 

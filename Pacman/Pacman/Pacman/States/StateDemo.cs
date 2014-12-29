@@ -8,6 +8,7 @@ namespace Pacman
     {
         Level gameWorld;
         Pacman gameObject;
+        Ghost ghost;
 
         public StateDemo()
         {
@@ -18,6 +19,12 @@ namespace Pacman
             this.gameWorld.Add(gameObject);
             this.gameObject.Speed = 4;
             this.gameObject.Direction = Vector2.UnitX;
+
+            this.ghost = new Ghost();
+            this.ghost.Position = Vector2.One;
+            this.ghost.Direction = Vector2.UnitX;
+            this.ghost.Speed = 4;
+            this.gameWorld.Add(ghost);
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -32,6 +39,7 @@ namespace Pacman
 
         public void Update(float dt)
         {
+            ghost.Target = gameObject.Position;
             this.gameWorld.Update(dt);
         }
 
