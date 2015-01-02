@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collision.cs" />
+    <Compile Include="FileReader.cs" />
     <Compile Include="GameBoard.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameWorld.cs" />

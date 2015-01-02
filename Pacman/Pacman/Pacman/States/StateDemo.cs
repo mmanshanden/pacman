@@ -7,31 +7,16 @@ namespace Pacman
     class StateDemo : IGameState
     {
         Level gameWorld;
-        Pacman gameObject;
-        Ghost ghost;
 
         public StateDemo()
         {
             this.gameWorld = new Level();
-            this.gameObject = new Pacman();
-            this.gameObject.Position = Vector2.One;
-
-            this.gameWorld.Add(gameObject);
-            this.gameObject.Speed = 4;
-            this.gameObject.Direction = Vector2.UnitX;
-
-            this.ghost = new Ghost();
-            this.ghost.Position = Vector2.One;
-            this.ghost.Direction = Vector2.UnitX;
-            this.ghost.Speed = 4;
-            this.gameWorld.Add(ghost);
-
             this.gameWorld.LoadLevel("Content/level1.txt");
         }
 
         public void HandleInput(InputHelper inputHelper)
         {
-            gameObject.Direction = inputHelper.GetDirectionalInput();
+            this.gameWorld.HandleInput(inputHelper);
         }
 
         public IGameState TransitionTo()
@@ -41,7 +26,6 @@ namespace Pacman
 
         public void Update(float dt)
         {
-            ghost.Target = gameObject.Position;
             this.gameWorld.Update(dt);
         }
 

@@ -4,15 +4,25 @@ namespace Pacman
 {
     class Ghost : GameObject
     {
+        public enum States
+        {
+            Chase,
+            Scatter,
+            Dead,
+        }
+
         public Vector2 Target
         {
             get;
             set;
         }
 
-        public Ghost()
-        {
+        Vector2 spawn;
 
+        public Ghost(Vector2 spawn)
+        {
+            this.spawn = spawn;
+            this.Position = spawn;
         }
 
         public override void Collision_InvalidDirection(GameBoard gameBoard)

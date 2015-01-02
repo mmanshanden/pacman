@@ -7,6 +7,8 @@ namespace Pacman
 {
     class Level : GameWorld
     {
+        Pacman pacman;
+
         public Level()
         {
             this.GameBoard = new GameBoard();
@@ -35,76 +37,40 @@ namespace Pacman
             base.Draw(drawHelper);
         }
 
-        public void LoadLevel(string path)
+        public void HandleInput(InputHelper inputHelper)
         {
-            Dictionary<string, string> file = Level.ParseFile(path);
-
-            string[] textgrid = file["level"].Split(';');
-
-            int width = textgrid[0].Length;
-            int height = textgrid.Length - 1;
-
-            short[,] grid = new short[width, height];
-
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    char tile = textgrid[y][x];
-                    short val = 0;
-
-                    switch (tile) 
-                    {
-                        case '#':
-                            val = 1;
-                            break;
-                    }
-
-                    grid[x, y] = val;
-                }
-            }
-
-
-            this.GameBoard.SetGrid(grid, new short[] { 1, 2 });
+            this.pacman.Direction = inputHelper.GetDirectionalInput();
         }
 
-        public static Dictionary<string, string> ParseFile(string path)
+        public void LoadLevel(string path)
         {
-            StreamReader r = new StreamReader(path);
-            Dictionary<string, string> data = new Dictionary<string, string>();
+            FileReader level = new FileReader("Content/level1.txt");
 
-            string line = r.ReadLine();
-            string key = "";
-            string value = "";
+            char[,] charGrid = level.ReadGrid("level");
+            short[,] grid = new short[charGrid.GetLength(0), charGrid.GetLength(1)];
 
-            while (line != null)
+            for (int x = 0; x < grid.GetLength(0); x++)
             {
-                string[] parts = line.Split('=');
-
-                if (line.Contains("="))
+                for (int y = 0; y < grid.GetLength(1); y++)
                 {
-                    if (key != "")
+                    switch (charGrid[x, y])
                     {
-                        data[key] = value;
-                        value = "";
-                    }                        
-
-                    key = parts[0];
-                    value += parts[1];
-                }                
-                else
-                {
-                    value += line + ';';
+                        case '#':
+                            grid[x, y] = 1;
+                            break;
+                        default:
+                            grid[x, y] = 0;
+                            break;
+                    }
                 }
-
-                line = r.ReadLine();
-
-                if (line == null)
-                    data[key] = value;
             }
 
-            r.Close();
-            return data;
+            this.pacman = new Pacman();
+            this.pacman.Position = level.ReadVector("pacman");
+            this.pacman.Speed = 6;
+            this.Add(pacman);
+
+            this.GameBoard.SetGrid(grid, new short[] { 1, 2 });
         }
     }
 }
