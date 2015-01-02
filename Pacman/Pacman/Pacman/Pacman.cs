@@ -56,5 +56,12 @@ namespace Pacman
             if (!gameBoard.IsCollidable(tile))
                 this.direction = queued;
         }
+
+        public override void Draw(DrawHelper drawHelper)
+        {
+            drawHelper.Translate(this.Position);
+            drawHelper.DrawBox(Color.Yellow);
+            drawHelper.Translate(-this.Position);
+        }
     }
 }

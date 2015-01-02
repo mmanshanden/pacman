@@ -15,5 +15,12 @@ namespace Pacman
         {
             this.Target = pacman.Center;
         }
+
+        public override void Draw(Base.DrawHelper drawHelper)
+        {
+            drawHelper.Translate(this.Position);
+            drawHelper.DrawBox(Color.Red);
+            drawHelper.Translate(-this.Position);
+        }
     }
 }

@@ -149,9 +149,7 @@ namespace Base
 
         public virtual void Draw(DrawHelper drawHelper)
         {
-            drawHelper.Translate(this.Position);
-            drawHelper.DrawBox(Color.Black);
-            drawHelper.Translate(-this.Position);
+
         }
         
     }

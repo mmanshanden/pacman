@@ -24,6 +24,9 @@ namespace Pacman
 
                     switch (this.GameBoard.GetTileValue(new Point(x, y)))
                     {
+                        default:
+                            drawHelper.DrawBox(Color.Black);
+                            break;
                         case 1:
                             drawHelper.DrawBox(Color.Blue);
                             break;
