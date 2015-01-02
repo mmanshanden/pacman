@@ -72,6 +72,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ghosts\Blinky.cs" />
     <Compile Include="Ghost.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Pacman.cs" />
