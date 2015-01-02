@@ -27,6 +27,9 @@ namespace Pacman
 
         public override void Collision_InvalidDirection(GameBoard gameBoard)
         {
+            if (gameBoard.GetNeighbourCount(this) == 1)
+                this.Direction = Vector2.Zero;
+
             this.Collision_Junction(gameBoard);
         }
 
