@@ -63,6 +63,8 @@
     <Compile Include="FileReader.cs" />
     <Compile Include="GameBoard.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="GameObjects\GameObjectGrid.cs" />
+    <Compile Include="GameObjects\GameObjectList.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="Helpers\DrawHelper.cs" />
     <Compile Include="Helpers\InputHelper.cs" />

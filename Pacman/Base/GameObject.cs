@@ -4,6 +4,11 @@ namespace Base
 {
     public class GameObject : ILoopMember
     {
+        public GameObject Parent
+        {
+            get;
+            set;
+        }
         public Vector2 Position
         {
             get;
