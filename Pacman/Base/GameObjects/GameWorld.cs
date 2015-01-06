@@ -5,44 +5,38 @@ using System.Text;
 
 namespace Base
 {
-    public class GameWorld
+    public class GameWorld : GameObjectList
     {
-        List<GameObject> gameObjects;
-
-        public GameBoard GameBoard
-        {
-            get;
-            set;
-        }
-
+        protected GameBoard gameBoard;
+        
         public GameWorld()
         {
-            this.gameObjects = new List<GameObject>();
+
         }
 
-        public void Add(GameObject gameObject)
+        public override void Update(float dt)
         {
-            this.gameObjects.Add(gameObject);
-        }
-
-        public virtual void Update(float dt)
-        {
-            foreach (GameObject gameObject in this.gameObjects)
+            foreach (GameObject gameObject in base.gameObjects)
             {
-                gameObject.Move(dt, this.GameBoard);
-                gameObject.Update(dt);
+                foreach (GameObject other in this.gameObjects)
+                {
+                    if (gameObject == other)
+                        continue;
+
+                    if (gameObject.CollidesWith(other))
+                    {
+                        gameObject.Collision_GameObject(other);
+                        other.Collision_GameObject(gameObject);
+                    }
+                }
             }
         }
 
-        public virtual void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawHelper drawHelper)
         {
-            this.GameBoard.Draw(drawHelper);
+            this.gameBoard.Draw(drawHelper);
 
-            foreach (GameObject gameObject in this.gameObjects)
-            {
-                gameObject.Draw(drawHelper);
-            }
-
+            base.Draw(drawHelper);
         }
     }
 }

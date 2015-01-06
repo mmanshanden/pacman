@@ -7,7 +7,7 @@ namespace Base
 {
     public class GameObjectList : GameObject
     {
-        List<GameObject> gameObjects;
+        protected List<GameObject> gameObjects;
 
         public GameObjectList()
         {

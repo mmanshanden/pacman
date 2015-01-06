@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 namespace Pacman
 {
     class Ghost : GameObject
-    {
+    {/*
         public enum States
         {
             Chase,
@@ -60,6 +60,6 @@ namespace Pacman
             }
 
             this.Direction = move;
-        }
+        }*/
     }
 }

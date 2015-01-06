@@ -8,7 +8,7 @@ namespace Base
 {
     public class GameObjectGrid : GameObject
     {
-        GameObject[,] grid;
+        protected GameObject[,] grid;
 
         public Vector2 Size
         {
@@ -50,6 +50,8 @@ namespace Base
 
         public override void Draw(DrawHelper drawHelper)
         {
+            // change to foreach (and skip null check?)
+
             for (int x = 0; x < this.Size.X; x++)
             {
                 for (int y = 0; y < this.Size.Y; y++)

@@ -61,10 +61,11 @@
   <ItemGroup>
     <Compile Include="Collision.cs" />
     <Compile Include="FileReader.cs" />
-    <Compile Include="GameObjects\GameBoard.cs" />
-    <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\Collections\GameObjectGrid.cs" />
     <Compile Include="GameObjects\Collections\GameObjectList.cs" />
+    <Compile Include="GameObjects\GameBoard.cs" />
+    <Compile Include="GameObjects\GameObject.cs" />
+    <Compile Include="GameObjects\GameTile.cs" />
     <Compile Include="GameObjects\GameWorld.cs" />
     <Compile Include="Helpers\DrawHelper.cs" />
     <Compile Include="Helpers\InputHelper.cs" />

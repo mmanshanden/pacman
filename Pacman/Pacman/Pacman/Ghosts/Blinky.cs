@@ -3,7 +3,7 @@ namespace Pacman
 {
     class Blinky : Ghost
     {
-        private Pacman pacman;
+       /* private Pacman pacman;
 
         public Blinky(Vector2 spawn, Pacman pacman)
             : base(spawn)
@@ -21,6 +21,6 @@ namespace Pacman
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Red);
             drawHelper.Translate(-this.Position);
-        }
+        }*/
     }
 }

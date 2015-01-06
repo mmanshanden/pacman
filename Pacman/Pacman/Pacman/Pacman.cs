@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 namespace Pacman
 {
     class Pacman : GameObject
-    {
+    {/*
         private Vector2 direction;
         private Vector2 queued;
 
@@ -62,6 +62,6 @@ namespace Pacman
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Yellow);
             drawHelper.Translate(-this.Position);
-        }
+        }*/
     }
 }

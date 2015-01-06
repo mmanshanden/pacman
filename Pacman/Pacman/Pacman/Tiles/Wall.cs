@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Pacman
 {
-    class Wall : GameObject
+    class Wall : GameTile
     {
         public override void Draw(DrawHelper drawHelper)
         {
