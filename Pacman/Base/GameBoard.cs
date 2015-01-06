@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Base
 {
-    public class GameBoard
+    public class GameBoard : GameObjectGrid
     {
         private short[,] grid;
         private short[] collidables;
@@ -20,10 +20,12 @@ namespace Base
             }
         }
 
-        public GameBoard()
+        public GameBoard(int widht, int height) 
+            : base(widht, height)
         {
             
         }
+
         public void SetGrid(short[,] grid, short[] collidables)
         {
             this.grid = grid;
@@ -105,9 +107,5 @@ namespace Base
         }
         #endregion
 
-        public static GameBoard FactoryMethod()
-        {
-            return new GameBoard();
-        }
     }
 }

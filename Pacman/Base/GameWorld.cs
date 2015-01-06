@@ -33,12 +33,16 @@ namespace Base
                 gameObject.Update(dt);
             }
         }
+
         public virtual void Draw(DrawHelper drawHelper)
         {
+            this.GameBoard.Draw(drawHelper);
+
             foreach (GameObject gameObject in this.gameObjects)
             {
                 gameObject.Draw(drawHelper);
             }
+
         }
     }
 }

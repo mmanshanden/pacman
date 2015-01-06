@@ -11,33 +11,7 @@ namespace Pacman
 
         public Level()
         {
-            this.GameBoard = new GameBoard();
-        }
-
-        public override void Draw(DrawHelper drawHelper)
-        {
-            for (int x = 0; x < this.GameBoard.Size.X; x++)
-            {
-                for (int y = 0; y < this.GameBoard.Size.Y; y++)
-                {
-                    drawHelper.Translate(x, y);
-
-                    switch (this.GameBoard.GetTileValue(new Point(x, y)))
-                    {
-                        default:
-                            drawHelper.DrawBox(Color.Black);
-                            break;
-                        case 1:
-                            drawHelper.DrawBox(Color.Blue);
-                            break;
-                    }
-
-
-                    drawHelper.Translate(-x, -y);
-                }
-            }
-            
-            base.Draw(drawHelper);
+        
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -50,24 +24,37 @@ namespace Pacman
             FileReader level = new FileReader("Content/level1.txt");
 
             char[,] charGrid = level.ReadGrid("level");
-            short[,] grid = new short[charGrid.GetLength(0), charGrid.GetLength(1)];
 
-            for (int x = 0; x < grid.GetLength(0); x++)
+            int width = charGrid.GetLength(0);
+            int height = charGrid.GetLength(1);
+
+            this.GameBoard = new GameBoard(width, height);
+
+            short[,] grid = new short[width, height];
+            
+            for (int x = 0; x < width; x++)
             {
-                for (int y = 0; y < grid.GetLength(1); y++)
+                for (int y = 0; y < height; y++)
                 {
+                    GameObject tile = null;
+
                     switch (charGrid[x, y])
                     {
                         case '#':
                             grid[x, y] = 1;
+                            tile = new Wall();
                             break;
                         case 'o':
                             grid[x, y] = 2;
+                            tile = new Ground();
                             break;
                         default:
                             grid[x, y] = 0;
+                            tile = new Ground();
                             break;
                     }
+
+                    this.GameBoard.Add(tile, x, y);
                 }
             }
 
