@@ -2,9 +2,9 @@
 
 namespace Base
 {
-    public class GameCharacter : GameObjectList
+    public class GameCharacter : GameObject
     {
-        public Vector2 Direction
+        public virtual Vector2 Direction
         {
             get;
             set;
@@ -49,7 +49,7 @@ namespace Base
             }
 
             GameTile tile, next;
-            tile = next = board.Get(this.Tile);
+            tile = next = board.Get(center);
 
             Vector2 junction = tile.Center;
 

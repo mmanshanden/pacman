@@ -26,14 +26,16 @@ namespace Base
             this.Add(tile as GameObject, x, y);
         }
 
-        public GameTile Get(Point point)
+        public GameTile Get(Vector2 position)
         {
-            return this.Get(point.X, point.Y) as GameTile;
+            Vector2 r = position - this.Position;
+            Point tile = Collision.ToPoint(r);
+            return this.Get(tile) as GameTile;
         }
 
-        public bool IsCollidable(Point point)
+        public bool IsCollidable(Vector2 position)
         {
-            GameTile tile = this.Get(point);
+            GameTile tile = this.Get(position);
 
             if (tile == null)
                 return false;
@@ -43,7 +45,7 @@ namespace Base
 
         public override bool CollidesWith(GameObject gameObject)
         {
-            return this.IsCollidable(gameObject.Tile);
+            return this.IsCollidable(gameObject.Position);
         }
     }
 }

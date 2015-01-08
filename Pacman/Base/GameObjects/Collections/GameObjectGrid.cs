@@ -36,6 +36,10 @@ namespace Base
         {
             return this.grid[x, y];
         }
+        public GameObject Get(Point point)
+        {
+            return this.grid[point.X, point.Y];
+        }
 
         public override void Update(float dt)
         {
