@@ -9,6 +9,12 @@ namespace Pacman
 {
     class Wall : GameTile
     {
+        public Wall()
+            : base()
+        {
+            this.Collidable = true;
+        }
+
         public override void Draw(DrawHelper drawHelper)
         {
             drawHelper.Translate(this.Position);

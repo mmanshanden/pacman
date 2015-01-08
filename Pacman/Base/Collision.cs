@@ -27,5 +27,18 @@ namespace Base
             vector.Y %= modulo;
             return vector;
         }
+        public static float SmallestPositive(float a, float b, float c)
+        {
+            float smallest = float.PositiveInfinity;
+
+            if (a >= 0 && a < smallest)
+                smallest = a;
+            if (b >= 0 && b < smallest)
+                smallest = b;
+            if (c >= 0 && c < smallest)
+                smallest = c;
+
+            return smallest;
+        }
     }
 }

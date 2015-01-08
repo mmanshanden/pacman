@@ -4,6 +4,8 @@ namespace Base
 {
     public class GameObject
     {
+        protected Vector2 position;
+
         public GameObject Parent
         {
             get;
@@ -21,8 +23,8 @@ namespace Base
         }
         public Vector2 Position
         {
-            get;
-            set;
+            get { return this.position; }
+            set { this.position = value; }
         }
         public Point Tile
         {

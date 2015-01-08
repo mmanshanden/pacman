@@ -19,12 +19,18 @@ namespace Base
                 point.Y < this.Size.Y
             );
         }
-        
+
+        public void Add(GameTile tile, int x, int y)
+        {
+            tile.Center = new Vector2(x + 0.5f, y + 0.5f);
+            this.Add(tile as GameObject, x, y);
+        }
 
         public GameTile Get(Point point)
         {
             return this.Get(point.X, point.Y) as GameTile;
         }
+
         public bool IsCollidable(Point point)
         {
             GameTile tile = this.Get(point);

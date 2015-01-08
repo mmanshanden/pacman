@@ -18,9 +18,14 @@ namespace Base
         {
             get { return this.Direction * this.Speed; }
         }
-        public GameWorld World
+        protected GameWorld World
         {
             get { return this.Parent as GameWorld; }
+        }
+
+        protected Vector2 Center
+        {
+            get { return this.Position + Vector2.One * 0.5f; }
         }
 
         public GameCharacter()
@@ -31,11 +36,75 @@ namespace Base
 
         public void Move(GameBoard board, float dt)
         {
-            if (this.Velocity == Vector2.Zero)
+            Vector2 velocity = this.Velocity;
+            Vector2 center = this.Center;
+
+            if (velocity == Vector2.Zero)
                 return;
 
+            if (board == null)
+            {
+                this.Position += this.Velocity * dt;
+                return;
+            }
 
-            this.Position += this.Velocity * dt;
+            GameTile tile, next;
+            tile = next = board.Get(this.Tile);
+
+            Vector2 junction = tile.Center;
+
+            float v, p, j;
+
+            if (velocity.X != 0)
+            {
+                v = velocity.X;
+                p = center.X;
+                j = junction.X;
+
+                if (velocity.X > 0)
+                    next = tile.Right;
+                else
+                    next = tile.Left;
+            }
+            else
+            {
+                v = velocity.Y;
+                p = center.Y;
+                j = junction.Y;
+
+                if (velocity.Y > 0)
+                    next = tile.Bottom;
+                else
+                    next = tile.Top;
+            }
+
+            float t = Collision.SolveForX(v, p, j);
+
+            if (t < 0 || t > dt)
+            {
+                this.Position += this.Velocity * dt;
+                return;
+            }
+
+            this.Position = tile.Position;
+
+            if (next.Collidable)
+            {
+                this.Collision_InvalidDirection(board);
+                this.Position += this.Velocity * (dt - t);
+                return;
+            }
+
+            this.Position += this.Velocity * (dt - t);
+        }
+
+        public virtual void Collision_InvalidDirection(GameBoard board)
+        {
+            this.Direction = Vector2.Zero;
+        }
+        public virtual void Collision_Junction(GameBoard board)
+        {
+
         }
 
     }
