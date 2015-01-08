@@ -95,6 +95,14 @@ namespace Base
                 return;
             }
 
+            switch (tile.GetSurroundingTilesCount())
+            {
+                case 3:
+                case 4:
+                    this.Collision_Junction(board);
+                    break;
+            }
+
             this.Position += this.Velocity * (dt - t);
         }
 
