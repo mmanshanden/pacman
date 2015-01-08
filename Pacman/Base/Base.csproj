@@ -64,6 +64,7 @@
     <Compile Include="GameObjects\Collections\GameObjectGrid.cs" />
     <Compile Include="GameObjects\Collections\GameObjectList.cs" />
     <Compile Include="GameObjects\GameBoard.cs" />
+    <Compile Include="GameObjects\GameCharacter.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameTile.cs" />
     <Compile Include="GameObjects\GameWorld.cs" />

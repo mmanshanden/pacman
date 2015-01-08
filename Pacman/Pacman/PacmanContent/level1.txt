@@ -30,7 +30,10 @@ level=
 #.##########.##.##########.#
 #..........................#
 ############################
+ghosthouse=
+.b.
+#e#
+#.#
+pic
+ghosthouse_location=13,5;12
 pacman=13,5;17
-ghosts=blinky
-ghosthouse_entry=13,5;11
-blinky=11,5;14

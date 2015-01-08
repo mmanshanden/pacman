@@ -16,7 +16,7 @@ namespace Pacman
 
         public void HandleInput(InputHelper inputHelper)
         {
-            //this.pacman.Direction = inputHelper.GetDirectionalInput();
+            this.pacman.Direction = inputHelper.GetDirectionalInput();
         }
 
         public void LoadLevel(string path)
@@ -52,6 +52,10 @@ namespace Pacman
                     this.gameBoard.Add(tile, x, y);
                 }
             }
+
+            this.pacman = new Pacman();
+            pacman.Position = level.ReadVector("pacman");
+            this.Add(pacman);
 
            
         }

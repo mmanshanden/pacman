@@ -10,6 +10,17 @@ namespace Base
 
         }
 
+        public bool IsInside(Point point)
+        {
+            return (
+                point.X >= 0 ||
+                point.Y >= 0 ||
+                point.X < this.Size.X ||
+                point.Y < this.Size.Y
+            );
+        }
+        
+
         public GameTile Get(Point point)
         {
             return this.Get(point.X, point.Y) as GameTile;

@@ -21,5 +21,11 @@ namespace Base
         {
             return (y - b) / a;
         }
+        public static Vector2 ModuloVector(Vector2 vector, float modulo)
+        {
+            vector.X %= modulo;
+            vector.Y %= modulo;
+            return vector;
+        }
     }
 }

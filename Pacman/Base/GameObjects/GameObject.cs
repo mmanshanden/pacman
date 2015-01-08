@@ -9,6 +9,16 @@ namespace Base
             get;
             set;
         }
+        public GameObject Root
+        {
+            get
+            {
+                if (this.Parent != null)
+                    return Parent.Root;
+
+                return this;
+            }
+        }
         public Vector2 Position
         {
             get;
@@ -25,6 +35,14 @@ namespace Base
         public GameObject()
         {
 
+        }
+
+        public Vector2 GetGlobalPosition()
+        {
+            if (this.Parent != null)
+                return this.Parent.GetGlobalPosition() + this.Position;
+
+            return this.Position;
         }
 
         public virtual void Collision_GameObject(GameObject gameObject)

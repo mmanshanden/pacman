@@ -8,27 +8,39 @@ namespace Base
     public class GameWorld : GameObjectList
     {
         protected GameBoard gameBoard;
+
+        public List<GameCharacter> gameCharacters;
         
         public GameWorld()
         {
+            this.gameCharacters = new List<GameCharacter>();
+        }
 
+        public void Add(GameCharacter gameCharacter)
+        {
+            this.gameCharacters.Add(gameCharacter);
+            this.Add(gameCharacter as GameObject);
         }
 
         public override void Update(float dt)
         {
-            foreach (GameObject gameObject in base.gameObjects)
+            foreach (GameCharacter character in this.gameCharacters)
             {
-                foreach (GameObject other in this.gameObjects)
+                foreach (GameObject gameObject in this.gameObjects)
                 {
-                    if (gameObject == other)
+                    if (character == gameObject)
                         continue;
 
-                    if (gameObject.CollidesWith(other))
+                    if (character.CollidesWith(gameObject))
                     {
-                        gameObject.Collision_GameObject(other);
-                        other.Collision_GameObject(gameObject);
+                        character.Collision_GameObject(gameObject);
+                        gameObject.Collision_GameObject(character);
                     }
+
+                    // gameobject.update()?
                 }
+
+                character.Move(this.gameBoard, dt);
             }
         }
 
