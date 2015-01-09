@@ -54,7 +54,7 @@ namespace Base
 
         public virtual bool CollidesWith(GameObject gameObject)
         {
-            return false;
+            return (gameObject.Tile == this.Tile);
         }
 
         public virtual void Update(float dt)

@@ -39,7 +39,7 @@ namespace Pacman
 
         public Pacman()
         {
-
+            this.Speed = 6;
         }
 
         public override void Collision_InvalidDirection(GameBoard gameBoard)

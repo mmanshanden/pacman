@@ -10,6 +10,11 @@ namespace Pacman
 
         }
 
+        public override void Collision_GameObject(GameObject gameObject)
+        {
+            base.Collision_GameObject(gameObject);
+        }
+
         public override void Draw(DrawHelper drawHelper)
         {
             drawHelper.Translate(this.Position);
