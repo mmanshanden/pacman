@@ -42,7 +42,14 @@ namespace Pacman
                             tile = new Wall();
                             break;
                         case 'o':
+                        case ',':
                             tile = new Ground();
+                            break;
+                        case '.':
+                            tile = new Ground();
+                            Bubble b = new Bubble();
+                            b.Position = new Vector2(x, y);
+                            this.Add(b);
                             break;
                         default:
                             tile = new Ground();
