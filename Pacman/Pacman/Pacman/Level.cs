@@ -64,6 +64,10 @@ namespace Pacman
             pacman.Position = level.ReadVector("pacman");
             this.Add(pacman);
 
+            Blinky blinky = new Blinky(new Vector2(13.5f, 11), pacman);
+            blinky.Speed = 5;
+            blinky.Direction = Vector2.UnitX;
+            this.Add(blinky);
            
         }
     }

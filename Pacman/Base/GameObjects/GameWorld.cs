@@ -36,12 +36,12 @@ namespace Base
                         character.Collision_GameObject(gameObject);
                         gameObject.Collision_GameObject(character);
                     }
-
-                    // gameobject.update()?
                 }
 
                 character.Move(this.gameBoard, dt);
             }
+
+            base.Update(dt);
         }
 
         public override void Draw(DrawHelper drawHelper)

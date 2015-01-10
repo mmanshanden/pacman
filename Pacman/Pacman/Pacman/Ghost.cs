@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 namespace Pacman
 {
-    class Ghost : GameObject
-    {/*
+    class Ghost : GameCharacter
+    {
         public enum States
         {
             Chase,
@@ -27,8 +27,8 @@ namespace Pacman
 
         public override void Collision_InvalidDirection(GameBoard gameBoard)
         {
-            if (gameBoard.GetNeighbourCount(this) == 1)
-                this.Direction = Vector2.Zero;
+            //if (gameBoard.GetNeighbourCount(this) == 1)
+            //    this.Direction = Vector2.Zero;
 
             this.Collision_Junction(gameBoard);
         }
@@ -60,6 +60,6 @@ namespace Pacman
             }
 
             this.Direction = move;
-        }*/
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace Base
 {
@@ -46,6 +47,29 @@ namespace Base
         public override bool CollidesWith(GameObject gameObject)
         {
             return this.IsCollidable(gameObject.Position);
+        }
+
+        public int GetNeighbourCount(GameObject gameObject)
+        {
+            GameTile t = this.Get(gameObject.Position);
+            return t.GetSurroundingTilesCount();
+        }
+
+        public List<Point> GetNeighbourTiles(GameObject gameObject)
+        {
+            GameTile t = this.Get(gameObject.Position);
+
+            List<Point> tiles = new List<Point>();
+            if (!t.Top.Collidable)
+                tiles.Add(t.Top.Tile);
+            if (!t.Bottom.Collidable)
+                tiles.Add(t.Bottom.Tile);
+            if (!t.Left.Collidable)
+                tiles.Add(t.Left.Tile);
+            if (!t.Right.Collidable)
+                tiles.Add(t.Right.Tile);
+
+            return tiles;
         }
     }
 }
