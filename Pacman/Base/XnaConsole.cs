@@ -10,54 +10,62 @@ namespace Base
 {
     public class XnaConsole
     {
-        List<string> TextLines;
-        SpriteFont Font;
+        List<string> textLines;
+        SpriteFont font;
         Texture2D consoleBackground;
-        public bool visible { get; set; }
+        public bool Visible { get; set; }
 
         public XnaConsole()
         {
-            this.TextLines = new List<string>();
-            this.visible = false; 
+            this.textLines = new List<string>();
+            this.Visible = true;
+
+            this.WriteLine("Console loaded");
+            this.WriteLine("-----------------------------------");
         }
-
-
-
+        
         public void LoadContent(ContentManager content, Texture2D pixel)
         {
-            this.Font = content.Load<SpriteFont>("Font");
+            this.font = content.Load<SpriteFont>("Font");
             this.consoleBackground = pixel; 
         }
 
         public void WriteLine(string line) 
         {
-            if (TextLines.Count == 10)
+            if (textLines.Count == 10)
             {
-                TextLines.RemoveAt(0); 
+                textLines.RemoveAt(0); 
             }
 
-            TextLines.Add(line); 
+            textLines.Add(line); 
         }
 
         public void Clear()
         {
-            TextLines.Clear(); 
+            textLines.Clear(); 
         }
 
 
         public void Draw(SpriteBatch spriteBatch, Vector2 screenSize)
         {
+            if (!this.Visible)
+                return;
 
-            spriteBatch.Draw(consoleBackground, Vector2.Zero, Color.ForestGreen*0.5f);
+            spriteBatch.Draw(
+                consoleBackground, 
+                new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y / 2),
+                Color.Black * 0.5f
+            );
 
-            int c = TextLines.Count(); 
+            int c = textLines.Count();
 
-            for(int x = c; x > (c-10); x--)
+            Vector2 position = new Vector2(5, 5);
+
+            foreach (string line in this.textLines)
             {
-                // Y-position probably has to be changed
-                spriteBatch.DrawString(Font, TextLines[x], new Vector2(15, 200-x*15), Color.Black);
+                spriteBatch.DrawString(font, line, position, Color.White);
+                position.Y += 12;
             }
-
 
         }
     }

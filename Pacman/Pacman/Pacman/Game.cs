@@ -41,7 +41,7 @@ namespace Pacman
             this.drawHelper.LoadTextures(Content);
 
 
-            Console.LoadContent(Content);
+            Console.LoadContent(Content, DrawHelper.Pixel);
         }
 
         protected override void Update(GameTime gameTime)
