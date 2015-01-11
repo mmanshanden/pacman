@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace Base
 {
-    class XnaConsole
+    public class XnaConsole
     {
         List<string> TextLines;
         SpriteFont Font;

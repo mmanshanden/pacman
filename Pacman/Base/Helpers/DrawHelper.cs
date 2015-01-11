@@ -16,6 +16,12 @@ namespace Base
 
         private Texture2D pixel;
 
+        public static Texture2D Pixel
+        {
+            get;
+            private set;
+        }
+
         public SpriteBatch SpriteBatch
         {
             get { return this.spriteBatch; }
@@ -34,6 +40,7 @@ namespace Base
         {
             this.pixel = new Texture2D(this.graphicsDevice, 1, 1);
             this.pixel.SetData(new Color[] { Color.White });
+            DrawHelper.Pixel = this.pixel;
         }
 
         #region Transformations
