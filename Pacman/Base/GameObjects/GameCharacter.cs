@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace Base
 {
@@ -23,6 +24,23 @@ namespace Base
             get { return this.Parent as GameWorld; }
         }
 
+        public GameBoard Board
+        {
+            get
+            {
+                List<GameObject> tree = this.GetTree();
+                foreach (GameObject gameObject in tree)
+                {
+                    GameWorld world = gameObject as GameWorld;
+
+                    if (world != null)
+                        return world.GameBoard;
+                }
+
+                return null;
+            }
+        }
+
         protected Vector2 Center
         {
             get { return this.Position + Vector2.One * 0.5f; }
@@ -34,13 +52,15 @@ namespace Base
             this.Speed = 1;
         }
 
-        public void Move(GameBoard board, float dt)
+        public void Move(float dt)
         {
             Vector2 velocity = this.Velocity;
             Vector2 center = this.Center;
 
             if (velocity == Vector2.Zero)
                 return;
+
+            GameBoard board = this.Board;
 
             if (board == null)
             {

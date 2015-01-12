@@ -28,7 +28,7 @@ namespace Pacman
             int width = charGrid.GetLength(0);
             int height = charGrid.GetLength(1);
 
-            base.gameBoard = new GameBoard(width, height);
+            GameBoard gameBoard = new GameBoard(width, height);
                         
             for (int x = 0; x < width; x++)
             {
@@ -56,9 +56,11 @@ namespace Pacman
                             break;
                     }
 
-                    this.gameBoard.Add(tile, x, y);
+                    gameBoard.Add(tile, x, y);
                 }
             }
+
+            this.Add(gameBoard);
 
             this.pacman = new Pacman();
             pacman.Position = level.ReadVector("pacman");

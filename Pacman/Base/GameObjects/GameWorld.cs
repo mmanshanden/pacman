@@ -7,7 +7,11 @@ namespace Base
 {
     public class GameWorld : GameObjectList
     {
-        protected GameBoard gameBoard;
+        public GameBoard GameBoard
+        {
+            get;
+            private set;
+        }
 
         public List<GameCharacter> gameCharacters;
         
@@ -20,6 +24,11 @@ namespace Base
         {
             this.gameCharacters.Add(gameCharacter);
             this.Add(gameCharacter as GameObject);
+        }
+        public void Add(GameBoard gameBoard)
+        {
+            this.GameBoard = gameBoard;
+            this.Add(gameBoard as GameObject);
         }
 
         public override void Update(float dt)
@@ -38,7 +47,7 @@ namespace Base
                     }
                 }
 
-                character.Move(this.gameBoard, dt);
+                character.Move(dt);
             }
 
             base.Update(dt);
@@ -46,8 +55,6 @@ namespace Base
 
         public override void Draw(DrawHelper drawHelper)
         {
-            this.gameBoard.Draw(drawHelper);
-
             base.Draw(drawHelper);
         }
     }

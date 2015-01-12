@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace Base
 {
@@ -37,6 +38,20 @@ namespace Base
         public GameObject()
         {
 
+        }
+
+        public List<GameObject> GetTree()
+        {
+            List<GameObject> tree = new List<GameObject>();
+            GameObject highest = this;
+
+            while (highest.Parent != null)
+            {
+                tree.Add(highest.Parent);
+                highest = highest.Parent;
+            }
+
+            return tree;
         }
 
         public Vector2 GetGlobalPosition()
