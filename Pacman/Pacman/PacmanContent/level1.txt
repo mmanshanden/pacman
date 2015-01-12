@@ -35,5 +35,5 @@ ghosthouse=
 #e#
 #.#
 pic
-ghosthouse_location=13,5;12
-pacman=13,5;17
+ghosthouse_location=13.5;12
+pacman=13.5;17

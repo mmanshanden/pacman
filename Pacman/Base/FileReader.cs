@@ -20,15 +20,33 @@ namespace Base
         {
             string[] values = this.data[key].Split(';');
             Vector2 vector = new Vector2();
-            vector.X = float.Parse(values[0]);
-            vector.Y = float.Parse(values[1]);
+            vector.X = this.ParseFloat(values[0]);
+            vector.Y = this.ParseFloat(values[1]);
 
             return vector;
         }
+
+        // do not rely on "Culture settings"
+        private float ParseFloat(string s)
+        {
+            string[] parts = s.Split('.');
+
+            if (parts.Length == 1)
+                return float.Parse(s);
+
+            float precomma = float.Parse(parts[0]);
+            float postcomma = float.Parse(parts[1]);
+
+            postcomma /= (float)Math.Pow(10, parts[1].Length);
+
+            return precomma + postcomma;
+        }
+
         public string ReadString(string key)
         {
             return this.data[key];
         }
+
         public char[,] ReadGrid(string key)
         {
             string[] lines = data[key].Split(';');
