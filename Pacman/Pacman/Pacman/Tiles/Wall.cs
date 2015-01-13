@@ -1,18 +1,13 @@
 ﻿using Base;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Pacman
 {
     class Wall : GameTile
     {
-        public Wall()
-            : base()
+        public override bool IsCollidable(GameObject gameObject)
         {
-            this.Collidable = true;
+            return true;
         }
 
         public override void Draw(DrawHelper drawHelper)

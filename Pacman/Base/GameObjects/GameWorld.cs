@@ -46,8 +46,6 @@ namespace Base
                         gameObject.Collision_GameObject(character);
                     }
                 }
-
-                character.Move(dt);
             }
 
             base.Update(dt);

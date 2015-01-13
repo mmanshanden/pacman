@@ -11,65 +11,60 @@ namespace Base
 
         }
 
+        public bool IsInside(Vector2 position)
+        {
+            Point point = Collision.ToPoint(position);
+            return this.IsInside(point);
+        }
         public bool IsInside(Point point)
         {
             return (
-                point.X >= 0 ||
-                point.Y >= 0 ||
-                point.X < this.Size.X ||
-                point.Y < this.Size.Y
+                point.X >= 0 && point.X < this.Size.X &&
+                point.Y >= 0 && point.Y < this.Size.Y
             );
         }
 
-        public void Add(GameTile tile, int x, int y)
+        public GameTile GetTile(Vector2 position)
         {
-            tile.Center = new Vector2(x + 0.5f, y + 0.5f);
-            this.Add(tile as GameObject, x, y);
+            if (!IsInside(position))
+                return null;
+
+            Point point = Collision.ToPoint(position);
+            return this.Get(point) as GameTile;
+        }
+        public List<GameTile> GetNeighbourList(Vector2 position, GameObject gameObject)
+        {
+            return this.GetTile(position).GetNeighbourList(gameObject);
+        }
+        public int GetNeighbourCount(Vector2 position, GameObject gameObject)
+        {
+            return this.GetTile(position).GetNeighbourCount(gameObject);
         }
 
-        public GameTile Get(Vector2 position)
+        #region GameObject overloads
+        public bool IsInside(GameObject gameObject)
         {
-            Vector2 r = position - this.Position;
-            Point tile = Collision.ToPoint(r);
-            return this.Get(tile) as GameTile;
+            return this.IsInside(gameObject.Center);
         }
-
-        public bool IsCollidable(Vector2 position)
+        public GameTile GetTile(GameObject gameObject)
         {
-            GameTile tile = this.Get(position);
-
-            if (tile == null)
-                return false;
-
-            return tile.Collidable;
+            return this.GetTile(gameObject.Center);
         }
-
-        public override bool CollidesWith(GameObject gameObject)
+        public List<GameTile> GetNeighbourList(GameObject gameObject)
         {
-            return this.IsCollidable(gameObject.Position);
+            return this.GetNeighbourList(gameObject.Center, gameObject);
         }
-
         public int GetNeighbourCount(GameObject gameObject)
         {
-            GameTile t = this.Get(gameObject.Position);
-            return t.GetSurroundingTilesCount();
+            return this.GetNeighbourCount(gameObject.Center, gameObject);
         }
+        #endregion
 
-        public List<Point> GetNeighbourTiles(GameObject gameObject)
+        public static GameBoard CopyDimensions(char[,] grid)
         {
-            GameTile t = this.Get(gameObject.Position);
-
-            List<Point> tiles = new List<Point>();
-            if (!t.Top.Collidable)
-                tiles.Add(t.Top.Tile);
-            if (!t.Bottom.Collidable)
-                tiles.Add(t.Bottom.Tile);
-            if (!t.Left.Collidable)
-                tiles.Add(t.Left.Tile);
-            if (!t.Right.Collidable)
-                tiles.Add(t.Right.Tile);
-
-            return tiles;
+            int width = grid.GetLength(0);
+            int height = grid.GetLength(1);
+            return new GameBoard(width, height);
         }
     }
 }

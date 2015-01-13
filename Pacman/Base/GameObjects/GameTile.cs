@@ -1,21 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace Base
 {
     public class GameTile : GameObject
     {
-        public bool Collidable
-        {
-            get;
-            set;
-        }
-
-        public Vector2 Center
-        {
-            get;
-            set;
-        }
-
         public GameBoard Board
         {
             get { return this.Parent as GameBoard; }
@@ -24,53 +13,49 @@ namespace Base
         #region Surrounding Tiles
         public GameTile Left
         {
-            get
-            {
-                return Board.Get(this.Tile.X - 1, this.Tile.Y) as GameTile;
-            }
-            
+            get { return Board.GetTile(this.Center + Collision.Left); }
         }
         public GameTile Right
         {
-            get
-            {
-                return Board.Get(this.Tile.X + 1, this.Tile.Y) as GameTile;
-            }
+            get { return Board.GetTile(this.Center + Collision.Right); }
         }
         public GameTile Top
         {
-            get
-            {
-                return Board.Get(this.Tile.X, this.Tile.Y - 1) as GameTile;
-            }
+            get { return Board.GetTile(this.Center + Collision.Up); }
         }
         public GameTile Bottom
         {
-            get
-            {
-                return Board.Get(this.Tile.X, this.Tile.Y + 1) as GameTile;
-            }
+            get { return Board.GetTile(this.Center + Collision.Down); }
         }
         #endregion
 
-        public GameTile()
+        public virtual bool IsCollidable(GameObject gameObject)
         {
-            this.Collidable = false;
+            return false;
         }
 
-        public int GetSurroundingTilesCount()
+        public List<GameTile> GetNeighbourList(GameObject gameObject)
         {
-            int count = 0;
-            if (!Left.Collidable)
-                count++;
-            if (!Right.Collidable)
-                count++;
-            if (!Top.Collidable)
-                count++;
-            if (!Bottom.Collidable)
-                count++;
+            List<GameTile> result = new List<GameTile>();
 
-            return count;
+            if (this.Left != null && !this.Left.IsCollidable(gameObject))
+                result.Add(this.Left);
+
+            if (this.Right != null && !this.Right.IsCollidable(gameObject))
+                result.Add(this.Right);
+
+            if (this.Top != null && !this.Top.IsCollidable(gameObject))
+                result.Add(this.Top);
+
+            if (this.Bottom != null && !this.Bottom.IsCollidable(gameObject))
+                result.Add(this.Bottom);
+
+            return result;
         }
+        public int  GetNeighbourCount(GameObject gameObject)
+        {
+            return this.GetNeighbourList(gameObject).Count;
+        }
+
     }
 }

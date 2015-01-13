@@ -39,19 +39,19 @@ namespace Pacman
 
         public Pacman()
         {
-            this.Speed = 6;
+
         }
 
-        public override void Collision_InvalidDirection(GameBoard gameBoard)
+        public override void Collision_InvalidDirection(GameBoard gameBoard, GameTile tile)
         {
             this.direction = Vector2.Zero;
         }
 
-        public override void Collision_Junction(GameBoard gameBoard)
+        public override void Collision_Junction(GameBoard gameBoard, GameTile tile)
         {
             Vector2 p = this.Position + this.queued;
 
-            if (!gameBoard.IsCollidable(p))
+            if (!gameBoard.GetTile(p).IsCollidable(this))
                 this.direction = queued;
         }
 

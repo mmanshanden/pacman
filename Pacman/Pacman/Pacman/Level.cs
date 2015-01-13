@@ -23,30 +23,25 @@ namespace Pacman
         {
             FileReader level = new FileReader("Content/level1.txt");
 
-            char[,] charGrid = level.ReadGrid("level");
+            char[,] levelGrid = level.ReadGrid("level");
+            GameBoard gameBoard = GameBoard.CopyDimensions(levelGrid);
+            this.Add(gameBoard);
 
-            int width = charGrid.GetLength(0);
-            int height = charGrid.GetLength(1);
-
-            GameBoard gameBoard = new GameBoard(width, height);
-                        
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < gameBoard.Size.X; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < gameBoard.Size.Y; y++)
                 {
-                    GameTile tile = null;
+                    GameTile tile = new Ground();
 
-                    switch (charGrid[x, y])
+                    switch (levelGrid[x, y])
                     {
                         case '#':
                             tile = new Wall();
                             break;
                         case 'o':
-                        case ',':
-                            tile = new Ground();
+                            tile = new InvisibleWall();
                             break;
                         case '.':
-                            tile = new Ground();
                             Bubble b = new Bubble();
                             b.Position = new Vector2(x, y);
                             this.Add(b);
@@ -60,17 +55,18 @@ namespace Pacman
                 }
             }
 
-            this.Add(gameBoard);
-
             this.pacman = new Pacman();
             pacman.Position = level.ReadVector("pacman");
             this.Add(pacman);
 
-            Blinky blinky = new Blinky(new Vector2(13.5f, 11), pacman);
-            blinky.Speed = 5;
+            GhostHouse ghosthouse = new GhostHouse();
+            this.Add(ghosthouse);
+
+            Blinky blinky = new Blinky(pacman);
+            blinky.Position = level.ReadVector("blinky");
             blinky.Direction = Vector2.UnitX;
-            this.Add(blinky);
-           
+            ghosthouse.Add(blinky);
+            
         }
     }
 }

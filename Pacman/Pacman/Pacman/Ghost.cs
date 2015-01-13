@@ -17,38 +17,39 @@ namespace Pacman
             set;
         }
 
-        Vector2 spawn;
-
-        public Ghost(Vector2 spawn)
+        public States State
         {
-            this.spawn = spawn;
-            this.Position = spawn;
+            get;
+            private set;
         }
 
-        public override void Collision_InvalidDirection(GameBoard gameBoard)
+        public Ghost()
         {
-            //if (gameBoard.GetNeighbourCount(this) == 1)
-            //    this.Direction = Vector2.Zero;
-
-            this.Collision_Junction(gameBoard);
+            this.State = States.Chase;
         }
 
-        public override void Collision_Junction(GameBoard gameBoard)
+        #region Collision Events
+        public override void Collision_InvalidDirection(GameBoard board, GameTile tile)
+        {
+            if (tile.GetNeighbourCount(this) == 1)
+                this.Direction = Vector2.Zero;
+
+            this.Collision_Junction(board, tile);
+        }
+        public override void Collision_Junction(GameBoard board, GameTile tile)
         {
             Vector2 move = this.Direction;
             float min = float.PositiveInfinity;
 
-            foreach (Point neighbour in gameBoard.GetNeighbourTiles(this))
+            foreach (GameTile neighbour in tile.GetNeighbourList(this))
             {
-                Vector2 direction = new Vector2();
-                direction.X = neighbour.X - Tile.X;
-                direction.Y = neighbour.Y - Tile.Y;
+                Vector2 direction = neighbour.Position - tile.Position;
 
                 // ghosts never go back, so we skip that direction
                 if (direction * -1 == this.Direction)
                     continue;
 
-                Vector2 center = new Vector2(neighbour.X, neighbour.Y) + Vector2.One * 0.5f;
+                Vector2 center = neighbour.Center;
                 float distance = Vector2.Distance(center, this.Target);
 
                 if (distance < min)
@@ -60,6 +61,30 @@ namespace Pacman
             }
 
             this.Direction = move;
+        }
+        public virtual void Collision_Target(GameBoard board, GameTile tile)
+        {
+
+        }
+        #endregion
+
+        protected override void Move(GameBoard board, GameTile tile, float dt)
+        {
+            Vector2 times = Collision.IntersectionTime(this.Center, this.Velocity, this.Target);
+            float time = Collision.GetSmallestPositive(times.X, times.Y);
+
+            if (time < dt)
+            {
+                Console.WriteLine("Target event");
+                this.Center = this.Target;
+                this.Collision_Target(board, tile);
+            }
+            else
+            {
+                time = 0;
+            }
+            
+            base.Move(board, tile, dt - time);
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Pacman
     {
         private Pacman pacman;
 
-        public Blinky(Vector2 spawn, Pacman pacman)
-            : base(spawn)
+        public Blinky(Pacman pacman)
+            : base()
         {
             this.pacman = pacman;
         }
@@ -14,6 +14,7 @@ namespace Pacman
         public override void Update(float dt)
         {
             this.Target = pacman.Position + Vector2.One * 0.5f;
+            base.Update(dt);
         }
 
         public override void Draw(Base.DrawHelper drawHelper)

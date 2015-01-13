@@ -5,6 +5,7 @@ namespace Base
 {
     public class GameCharacter : GameObject
     {
+        #region Movement
         public virtual Vector2 Direction
         {
             get;
@@ -19,21 +20,21 @@ namespace Base
         {
             get { return this.Direction * this.Speed; }
         }
+        #endregion
+
         protected GameWorld World
         {
             get { return this.Parent as GameWorld; }
         }
-
-        public GameBoard Board
+        protected GameBoard Board
         {
             get
             {
-                List<GameObject> tree = this.GetTree();
-                foreach (GameObject gameObject in tree)
+                foreach (GameObject gameObject in this.GetTree())
                 {
                     GameWorld world = gameObject as GameWorld;
 
-                    if (world != null)
+                    if (world != null && world.GameBoard != null)
                         return world.GameBoard;
                 }
 
@@ -41,24 +42,96 @@ namespace Base
             }
         }
 
-        protected Vector2 Center
-        {
-            get { return this.Position + Vector2.One * 0.5f; }
-        }
-
         public GameCharacter()
         {
             this.Direction = Vector2.Zero;
-            this.Speed = 1;
+            this.Speed = 6;
         }
 
-        public void Move(float dt)
-        {
-            Vector2 velocity = this.Velocity;
-            Vector2 center = this.Center;
 
-            if (velocity == Vector2.Zero)
+        public virtual void Collision_InvalidDirection(GameBoard board, GameTile tile)
+        {
+            this.Direction = Vector2.Zero;
+        }
+
+        public virtual void Collision_Junction(GameBoard board, GameTile tile)
+        {
+            
+        }
+
+        protected virtual void Move(GameBoard board, GameTile tile, float dt)
+        {
+            Vector2 junction = tile.Center;
+
+            float v, j, p;
+            GameTile next;
+
+            // set velocity, junction, position
+            // and next tile based on direction.
+            if (this.Direction.X != 0)
+            {
+                v = this.Velocity.X;
+                p = this.Center.X;
+                j = junction.X;
+
+                if (Direction.X > 0)
+                    next = tile.Right;
+                else
+                    next = tile.Left;
+            }
+            else
+            {
+                v = this.Velocity.Y;
+                p = this.Center.Y;
+                j = junction.Y;
+
+                if (Direction.Y > 0)
+                    next = tile.Bottom;
+                else
+                    next = tile.Top;
+            }
+
+            float t = Collision.SolveForX(v, p, j);
+
+            // will we cross junction?
+            if (t < 0 || t > dt)
+            {
+                // nope..!
+                this.Position += this.Velocity * dt;
                 return;
+            }
+
+            // we crossed junction
+            this.Center = junction;
+
+            if (next.IsCollidable(this))
+            {
+                this.Collision_InvalidDirection(board, tile);
+                this.Position += this.Velocity * (dt - t);
+                return;
+            }
+
+            switch (tile.GetNeighbourCount(this))
+            {
+                case 3:
+                case 4:
+                    this.Collision_Junction(board, tile);
+                    break;
+            }
+
+            this.Position += this.Velocity * (dt - t);
+        }
+
+        public override void Update(float dt)
+        {
+            if (this.Velocity == Vector2.Zero)
+                return;
+
+            if (this.World == null)
+            {
+                this.Position += this.Velocity * dt;
+                return;
+            }
 
             GameBoard board = this.Board;
 
@@ -68,71 +141,15 @@ namespace Base
                 return;
             }
 
-            GameTile tile, next;
-            tile = next = board.Get(center);
+            GameTile tile = board.GetTile(this);
 
-            Vector2 junction = tile.Center;
-
-            float v, p, j;
-
-            if (velocity.X != 0)
-            {
-                v = velocity.X;
-                p = center.X;
-                j = junction.X;
-
-                if (velocity.X > 0)
-                    next = tile.Right;
-                else
-                    next = tile.Left;
-            }
-            else
-            {
-                v = velocity.Y;
-                p = center.Y;
-                j = junction.Y;
-
-                if (velocity.Y > 0)
-                    next = tile.Bottom;
-                else
-                    next = tile.Top;
-            }
-
-            float t = Collision.SolveForX(v, p, j);
-
-            if (t < 0 || t > dt)
+            if (tile == null)
             {
                 this.Position += this.Velocity * dt;
                 return;
             }
 
-            this.Position = tile.Position;
-
-            if (next.Collidable)
-            {
-                this.Collision_InvalidDirection(board);
-                this.Position += this.Velocity * (dt - t);
-                return;
-            }
-
-            switch (tile.GetSurroundingTilesCount())
-            {
-                case 3:
-                case 4:
-                    this.Collision_Junction(board);
-                    break;
-            }
-
-            this.Position += this.Velocity * (dt - t);
-        }
-
-        public virtual void Collision_InvalidDirection(GameBoard board)
-        {
-            this.Direction = Vector2.Zero;
-        }
-        public virtual void Collision_Junction(GameBoard board)
-        {
-
+            this.Move(board, tile, dt);
         }
 
     }

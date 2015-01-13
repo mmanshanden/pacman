@@ -19,17 +19,17 @@ namespace Base
             this.gameObjects.Add(gameObject);
             gameObject.Parent = this;
         }
+        
+        public override void Update(float dt)
+        {
+            foreach (GameObject gameObject in this.gameObjects)
+                gameObject.Update(dt);
+        }
 
         public override void Draw(DrawHelper drawHelper)
         {
             foreach (GameObject gameObject in this.gameObjects)
                 gameObject.Draw(drawHelper);
-        }
-
-        public override void Update(float dt)
-        {
-            foreach (GameObject gameObject in this.gameObjects)
-                gameObject.Update(dt);
         }
     }
 }

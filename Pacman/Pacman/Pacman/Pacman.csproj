@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bubble.cs" />
+    <Compile Include="GhostHouse.cs" />
     <Compile Include="Ghosts\Blinky.cs" />
     <Compile Include="Ghost.cs" />
     <Compile Include="Level.cs" />
@@ -82,7 +83,9 @@
     <Compile Include="Game.cs" />
     <Compile Include="States\StateDefault.cs" />
     <Compile Include="States\StateDemo.cs" />
+    <Compile Include="Tiles\GhostHouseEntry.cs" />
     <Compile Include="Tiles\Ground.cs" />
+    <Compile Include="Tiles\InvisibleWall.cs" />
     <Compile Include="Tiles\Wall.cs" />
   </ItemGroup>
   <ItemGroup>

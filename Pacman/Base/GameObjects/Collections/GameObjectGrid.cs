@@ -34,6 +34,12 @@ namespace Base
 
         public GameObject Get(int x, int y)
         {
+            if (x < 0 || x >= this.Size.X)
+                return null;
+
+            if (y < 0 || y >= this.Size.Y)
+                return null;
+
             return this.grid[x, y];
         }
         public GameObject Get(Point point)
@@ -54,16 +60,8 @@ namespace Base
 
         public override void Draw(DrawHelper drawHelper)
         {
-            // change to foreach (and skip null check?)
-
-            for (int x = 0; x < this.Size.X; x++)
-            {
-                for (int y = 0; y < this.Size.Y; y++)
-                {
-                    if (this.grid[x, y] != null)
-                        this.grid[x, y].Draw(drawHelper);
-                }
-            }
+            foreach (GameObject gameObject in this.grid)
+                gameObject.Draw(drawHelper);
         }
 
     }

@@ -5,8 +5,7 @@ namespace Base
 {
     public class GameObject
     {
-        protected Vector2 position;
-
+        #region Tree
         public GameObject Parent
         {
             get;
@@ -22,10 +21,24 @@ namespace Base
                 return this;
             }
         }
+        #endregion
+
+        #region Position
         public Vector2 Position
         {
-            get { return this.position; }
-            set { this.position = value; }
+            get;
+            set;
+        }
+        public Vector2 Center
+        {
+            get
+            {
+                return this.Position + Collision.HalfVector;
+            }
+            set
+            {
+                this.Position = value - Collision.HalfVector;
+            }
         }
         public Point Tile
         {
@@ -34,6 +47,7 @@ namespace Base
                 return Collision.ToPoint(this.Position);
             }
         }
+        #endregion
 
         public GameObject()
         {
@@ -52,14 +66,6 @@ namespace Base
             }
 
             return tree;
-        }
-
-        public Vector2 GetGlobalPosition()
-        {
-            if (this.Parent != null)
-                return this.Parent.GetGlobalPosition() + this.Position;
-
-            return this.Position;
         }
 
         public virtual void Collision_GameObject(GameObject gameObject)
