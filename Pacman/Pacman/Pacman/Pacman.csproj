@@ -99,6 +99,10 @@
       <Project>{b22cf147-62c7-4d28-a553-f63a4febb88a}</Project>
       <Name>Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Common.csproj">
+      <Project>{542e7480-f422-4048-be1a-73c7e2e8b219}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PacmanContent\PacmanContent.contentproj">
       <Name>PacmanContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
