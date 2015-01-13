@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base", "Base\Base.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{542E7480-F422-4048-BE1A-73C7E2E8B219}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Network", "Network\Network.csproj", "{E91DBD00-0D12-4444-B74F-A13F90448B88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -31,6 +33,10 @@ Global
 		{542E7480-F422-4048-BE1A-73C7E2E8B219}.Debug|x86.Build.0 = Debug|x86
 		{542E7480-F422-4048-BE1A-73C7E2E8B219}.Release|x86.ActiveCfg = Release|x86
 		{542E7480-F422-4048-BE1A-73C7E2E8B219}.Release|x86.Build.0 = Release|x86
+		{E91DBD00-0D12-4444-B74F-A13F90448B88}.Debug|x86.ActiveCfg = Debug|x86
+		{E91DBD00-0D12-4444-B74F-A13F90448B88}.Debug|x86.Build.0 = Debug|x86
+		{E91DBD00-0D12-4444-B74F-A13F90448B88}.Release|x86.ActiveCfg = Release|x86
+		{E91DBD00-0D12-4444-B74F-A13F90448B88}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
