@@ -62,7 +62,6 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="GameClient.cs" />
     <Compile Include="GameServer.cs" />
     <Compile Include="MessageParser.cs" />
