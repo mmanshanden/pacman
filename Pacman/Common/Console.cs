@@ -45,7 +45,13 @@ public class Console
         if (textLines.Count == lineCount)
             textLines.RemoveAt(0);
 
-        textLines.Add(line); 
+        string[] lines;
+        lines = line.Split('\n');
+
+        for (int i = 0; i < lines.Count(); i++)
+        {
+            textLines.Add(lines[i]);
+        }
     }
 
     public static void Clear()
