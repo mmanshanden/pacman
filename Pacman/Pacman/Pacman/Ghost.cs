@@ -71,7 +71,6 @@ namespace Pacman
         protected override void Move(GameBoard board, GameTile tile, float dt)
         {
             float v, j, p;
-            GameTile next;
 
             // set velocity, junction, position
             // and next tile based on direction.
