@@ -70,21 +70,45 @@ namespace Pacman
 
         protected override void Move(GameBoard board, GameTile tile, float dt)
         {
-            Vector2 times = Collision.IntersectionTime(this.Center, this.Velocity, this.Target);
-            float time = Collision.GetSmallestPositive(times.X, times.Y);
+            float v, j, p;
+            GameTile next;
 
-            if (time < dt)
+            // set velocity, junction, position
+            // and next tile based on direction.
+            if (this.Target.Y == this.Center.Y)
             {
-                Console.WriteLine("Target event");
-                this.Center = this.Target;
-                this.Collision_Target(board, tile);
+                v = this.Velocity.X;
+                p = this.Center.X;
+                j = this.Target.X;
+            }
+            else if (this.Target.X == this.Center.X)
+            {
+                v = this.Velocity.Y;
+                p = this.Center.Y;
+                j = this.Target.Y;
             }
             else
             {
-                time = 0;
+                base.Move(board, tile, dt);
+                return;
             }
-            
-            base.Move(board, tile, dt - time);
+
+            float t = Collision.SolveForX(v, p, j);
+
+            // will we reach target?
+            if (t < 0 || t > dt)
+            {
+                // nope..!
+
+                base.Move(board, tile, dt);
+                return;
+            }
+
+            // we crossed junction
+            this.Center = this.Target;
+            this.Collision_Target(board, tile);
+            Console.WriteLine("Target event");
+            base.Move(board, tile, dt - t);
         }
     }
 }
