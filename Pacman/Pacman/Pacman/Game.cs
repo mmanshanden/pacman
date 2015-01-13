@@ -1,6 +1,7 @@
 using Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Pacman
 {
@@ -13,11 +14,6 @@ namespace Pacman
 
         protected IGameState gameState;
 
-        public static XnaConsole Console
-        {
-            get;
-            private set;
-        }
         public static Vector2 Screen
         {
             get;
@@ -29,8 +25,6 @@ namespace Pacman
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
             this.gameState = new StateDefault();
-
-            Console = new XnaConsole();
         }
 
         protected override void LoadContent()
@@ -40,8 +34,7 @@ namespace Pacman
 
             this.drawHelper.LoadTextures(Content);
 
-
-            Console.LoadContent(Content, DrawHelper.Pixel);
+            Console.Initialize(GraphicsDevice, Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -49,6 +42,9 @@ namespace Pacman
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             this.inputHelper.Update();
+
+            if (this.inputHelper.KeyPressed(Keys.OemTilde))
+                Console.Visible = !Console.Visible;
 
             this.gameState = this.gameState.TransitionTo();
 
@@ -64,13 +60,9 @@ namespace Pacman
 
             this.drawHelper.SpriteBatch.Begin();
             this.gameState.Draw(drawHelper);
-
-            Console.Draw(
-                this.drawHelper.SpriteBatch,
-                new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height)
-            );
-
             this.drawHelper.SpriteBatch.End();
+
+            Console.Draw();
 
             base.Draw(gameTime);
         }
