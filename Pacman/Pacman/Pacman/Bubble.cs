@@ -13,6 +13,13 @@ namespace Pacman
         public override void Collision_GameObject(GameObject gameObject)
         {
             base.Collision_GameObject(gameObject);
+
+            if (gameObject is Pacman)
+            {
+                GameObjectList gameObjectList = (GameObjectList)this.Parent;
+                gameObjectList.Remove(this); 
+            }
+            
         }
 
         public override void Draw(DrawHelper drawHelper)
