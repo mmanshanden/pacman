@@ -13,6 +13,9 @@ namespace Pacman
         {
             this.server = new GameServer();
             this.server.StartSimple();
+
+            Console.Clear();
+            Console.WriteLine("Hosting server");
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -33,8 +36,6 @@ namespace Pacman
         public void Draw(DrawHelper drawHelper)
         {
             Console.Visible = true;
-            Console.Clear();
-            Console.WriteLine("Hosting server");
         }
 
     }

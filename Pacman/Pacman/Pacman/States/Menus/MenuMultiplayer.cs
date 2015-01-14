@@ -54,9 +54,11 @@ namespace Pacman
         }
 
         public void Update(float dt)
-        {
-            this.client.Update();
+        {            
+            if (this.nextState != null)
+                return;
 
+            this.client.Update();
             Console.Clear();
 
             foreach(DiscoveryClient.DiscoveryReply server in this.client.Replies)

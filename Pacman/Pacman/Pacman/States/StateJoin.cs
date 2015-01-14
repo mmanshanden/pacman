@@ -13,6 +13,9 @@ namespace Pacman
         {
             this.client = new GameClient();
             this.client.ConnectToServer(endpoint);
+
+            Console.Clear();
+            Console.WriteLine("Joining server " + endpoint);
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -33,8 +36,6 @@ namespace Pacman
         public void Draw(DrawHelper drawHelper)
         {
             Console.Visible = true;
-            Console.Clear();
-            Console.WriteLine("In StateJoin");
             
         }
 
