@@ -66,7 +66,7 @@ namespace Network
         private void ReceiveMessage()
         {
             this.receivedData = new NetMessage();
-            this.receivedData.Parse(inc);
+            this.receivedData.ReadMessage(inc);
             Console.WriteLine(this.receivedData.ToString());
         }
 
