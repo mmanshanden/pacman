@@ -41,9 +41,6 @@ namespace Network
         {
             this.server.Start();
             this.serverStarted = true;
-
-            // allow start up time
-            Thread.Sleep(200);
         }
 
         #region Threading
