@@ -105,6 +105,9 @@ namespace Network
             msg.Write((byte)PacketType.Login);
             msg.Write("Connection approved");
 
+            // allow start up time
+            Thread.Sleep(200);
+
             // send reply
             server.SendMessage(msg, inc.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
             Console.WriteLine("Login reply send back to " + inc.SenderEndpoint.Address.ToString());
