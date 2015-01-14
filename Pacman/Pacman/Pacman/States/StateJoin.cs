@@ -33,15 +33,18 @@ namespace Pacman
             this.client.Update(dt);
 
             NetMessage message = this.client.GetData();
+
             if (message == null)
                 return;
-
+   
             switch (message.Type)
             {
                 case DataType.Playing:
-                    PlayingMessage msg = message as PlayingMessage;
-                    Console.WriteLine(msg.Players.Count + " players were sent");
-                    Console.WriteLine(msg.Players[0].Position.ToString());
+                    PlayingMessage msg = new PlayingMessage(message);
+                    msg.Parse();
+
+                    Console.WriteLine(msg.ToString());
+
                     break;
             }
 
@@ -49,7 +52,6 @@ namespace Pacman
 
         public void Draw(DrawHelper drawHelper)
         {
-            Console.Visible = true;
             
         }
 

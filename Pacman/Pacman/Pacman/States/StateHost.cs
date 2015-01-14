@@ -37,12 +37,12 @@ namespace Pacman
             player.Position = new Vector2(10, 12);
             message.Players.Add(player);
             message.Players.Add(player);
-            this.server.SetData(DataType.Playing, message);
+            this.server.SetData(message);
         }
 
         public void Draw(DrawHelper drawHelper)
         {
-            Console.Visible = true;
+            
         }
 
     }

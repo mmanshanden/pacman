@@ -28,6 +28,15 @@ namespace Network
                 this.Direction.Y = msg.ReadFloat();
                 this.Speed = msg.ReadFloat();
             }
+            public override string ToString()
+            {
+                string result = "";
+                result += "Position: " + Position.ToString() + '\n';
+                result += "Direction: " + Direction.ToString() + '\n';
+                result += "Speed: " + Speed.ToString() + '\n';
+
+                return result;
+            }
         }
         public class Ghost
         {
@@ -69,6 +78,14 @@ namespace Network
             this.Players = new List<Player>();
             this.Ghosts = new List<Ghost>();
         }
+        public PlayingMessage(NetMessage msg)
+            : base(msg)
+        {
+            this.Type = DataType.Playing;
+
+            this.Players = new List<Player>();
+            this.Ghosts = new List<Ghost>();
+        }
 
         public override void WriteMessage(NetOutgoingMessage msg)
         {
@@ -83,27 +100,38 @@ namespace Network
                 ghost.WriteMessage(msg);
         }
 
-        public override void ReadMessage(NetIncomingMessage msg)
+        public override void Parse()
         {
-            base.ReadMessage(msg);
+            base.Parse();
 
-            int playercount = msg.ReadInt32();
+            int playercount = inc.ReadInt32();
             for (int i = 0; i < playercount; i++)
             {
                 Player player = new Player();
-                player.ReadMessage(msg);
+                player.ReadMessage(inc);
                 this.Players.Add(player);
             }
 
-            int ghostcount = msg.ReadInt32();
+            int ghostcount = inc.ReadInt32();
             for (int i = 0; i < ghostcount; i++)
             {
                 Ghost ghost = new Ghost();
-                ghost.ReadMessage(msg);
+                ghost.ReadMessage(inc);
                 this.Ghosts.Add(ghost);
             }
+
         }
 
+        public override string ToString()
+        {
+            string result = base.ToString();
+
+            result += "\nPlayers:\n==============================\n";
+            foreach (Player player in this.Players)
+                result += player.ToString();
+
+            return result;
+        }
 
     }
 }
