@@ -73,12 +73,12 @@ namespace Network
                 return;
 
             NetOutgoingMessage msg = this.client.CreateMessage();
-            msg.Write((byte)PacketType.WorldState);
-
             this.sendData.WriteMessage(msg);
 
             this.client.SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
             this.sendData = null;
+
+            Console.WriteLine("message send to server");
         }
 
         public void Update(float dt)

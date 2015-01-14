@@ -38,6 +38,13 @@ namespace Pacman
             message.Players.Add(player);
             message.Players.Add(player);
             this.server.SetData(message);
+
+            // read all messages from server
+            NetMessage msg;
+            while((msg = this.server.GetData()) != null) 
+            {
+                Console.WriteLine(msg.ToString());
+            }
         }
 
         public void Draw(DrawHelper drawHelper)

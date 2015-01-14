@@ -120,7 +120,7 @@ namespace Network
             NetMessage message = new NetMessage();
             message.PacketType = PacketType.Login;
             message.DataType = DataType.Lobby;
-            message.ConnectionId = inc.GetHashCode();
+            message.ConnectionId = inc.SenderConnection.GetHashCode();
             message.WriteMessage(outmsg);
 
             // allow start up time
@@ -138,9 +138,7 @@ namespace Network
 
             if (this.server.Connections.Count == 0)
                 return;
-
-            Console.WriteLine("Sending " + this.sendData.ToString());
-
+            
             // message
             NetOutgoingMessage msg = this.server.CreateMessage();
             this.sendData.WriteMessage(msg);
@@ -151,11 +149,11 @@ namespace Network
             // message has been send, dont send again
             this.sendData = null;
         }
-        private void ReceiveMessage()
+
+        private void ReceiveMessage(NetMessage message)
         {
-            NetMessage msg = new NetMessage();
-            msg.ReadMessage(inc);
-            this.receivedData.Add(msg);
+            message.ConnectionId = inc.SenderConnection.GetHashCode();
+            this.receivedData.Add(message);
         }
 
         public void Update(float dt)
@@ -181,14 +179,9 @@ namespace Network
                     this.ReceiveLogin();
                     break;
                 case NetIncomingMessageType.Data:
-
-                    switch ((PacketType)inc.ReadByte())
-                    {
-                        case PacketType.WorldState:
-                            this.ReceiveMessage();
-                            break;
-                    }
-
+                    NetMessage message = new NetMessage();
+                    message.ReadMessage(inc);
+                    this.ReceiveMessage(message);
                     break;
             }
         }

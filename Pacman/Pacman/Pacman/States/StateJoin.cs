@@ -32,6 +32,14 @@ namespace Pacman
         {
             this.client.Update(dt);
 
+
+            PlayingMessage test = new PlayingMessage();
+            PlayingMessage.Player p = new PlayingMessage.Player();
+            p.Position = new Vector2(12.123f, 0.2354f);
+            p.Speed = 9001;
+            this.client.SetData(test);
+
+
             NetMessage baremsg = this.client.GetData();
 
             if (baremsg == null)
@@ -45,6 +53,8 @@ namespace Pacman
                     Console.WriteLine(playermsg.ToString());
                     break;
             }
+
+            
 
         }
 
