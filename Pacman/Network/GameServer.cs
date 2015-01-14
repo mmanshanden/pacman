@@ -41,6 +41,9 @@ namespace Network
         {
             this.server.Start();
             this.serverStarted = true;
+
+            // allow start up time
+            Thread.Sleep(200);
         }
 
         #region Threading
@@ -98,11 +101,13 @@ namespace Network
             inc.SenderConnection.Approve();
 
             // reply
-            NetOutgoingMessage outmsg = server.CreateMessage();
-            outmsg.Write("test");
+            NetOutgoingMessage msg = server.CreateMessage();
+            msg.Write((byte)PacketType.Login);
+            msg.Write("Connection approved");
 
             // send reply
-            server.SendMessage(outmsg, inc.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+            server.SendMessage(msg, inc.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+            Console.WriteLine("Login reply send back to " + inc.SenderEndpoint.Address.ToString());
         }
 
         private void ReceiveMessage()
@@ -135,14 +140,6 @@ namespace Network
                     this.ReceiveMessage();
                     break;
             }
-
-            if (inc.MessageType == NetIncomingMessageType.ConnectionApproval)
-                this.ReceiveLogin();
-
-            if (inc.MessageType != NetIncomingMessageType.Data)
-                return;
-
-            // do stuff with message
         }
     }
 }

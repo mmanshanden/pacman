@@ -22,6 +22,24 @@ namespace Pacman
 
             if (inputHelper.KeyPressed(Keys.R))
                 this.client.Discover();
+
+            int number = -1;
+
+            if (inputHelper.KeyPressed(Keys.D1))
+                number = 0;
+            if (inputHelper.KeyPressed(Keys.D2))
+                number = 1;
+            if (inputHelper.KeyPressed(Keys.D3))
+                number = 2;
+
+            if (number == -1)
+                return;
+
+            if (number > client.Replies.Count)
+                return;
+
+            this.nextState = new StateJoin(this.client.Replies[number].Endpoint);
+
         }
 
         public IGameState TransitionTo()

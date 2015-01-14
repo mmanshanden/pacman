@@ -1,5 +1,4 @@
 ﻿using Lidgren.Network;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +24,6 @@ namespace Network
             this.timer = UpdateTimer;
 
             NetPeerConfiguration config = new NetPeerConfiguration("game");
-            config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
 
             this.client = new NetClient(config);
             this.client.Start();
@@ -47,7 +45,8 @@ namespace Network
         #region NetRoutine
         private void RecieveLogin()
         {
-
+            string message = inc.ReadString();
+            Console.WriteLine("Login message: " + message);
         }
 
         private void ReceiveMessage()
@@ -77,8 +76,22 @@ namespace Network
             if (inc.MessageType != NetIncomingMessageType.Data)
                 return;
 
-            
-            this.ReceiveMessage();
+            PacketType packet = (PacketType)inc.ReadByte();
+
+            if (packet == PacketType.Login)
+            {
+                this.RecieveLogin();
+                this.loginReplyReceived = true;
+            }
+
+            if (!this.loginReplyReceived)
+                return;
+
+            switch (packet)
+            {
+
+            }
+
         }
         #endregion
     }

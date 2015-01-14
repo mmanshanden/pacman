@@ -85,6 +85,7 @@
     <Compile Include="States\StateDemo.cs" />
     <Compile Include="States\Menus\MenuMultiplayer.cs" />
     <Compile Include="States\StateHost.cs" />
+    <Compile Include="States\StateJoin.cs" />
     <Compile Include="Tiles\GhostHouseEntry.cs" />
     <Compile Include="Tiles\Ground.cs" />
     <Compile Include="Tiles\InvisibleWall.cs" />
