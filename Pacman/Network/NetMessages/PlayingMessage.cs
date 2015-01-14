@@ -14,18 +14,14 @@ namespace Network
 
             public void WriteMessage(NetOutgoingMessage msg)
             {
-                msg.Write(this.Position.X);
-                msg.Write(this.Position.Y);
-                msg.Write(this.Direction.X);
-                msg.Write(this.Direction.Y);
+                MessageParser.WriteVector2(this.Position, msg);
+                MessageParser.WriteVector2(this.Direction, msg);
                 msg.Write(Speed);
             }
             public void ReadMessage(NetIncomingMessage msg)
             {
-                this.Position.X = msg.ReadFloat();
-                this.Position.Y = msg.ReadFloat();
-                this.Direction.X = msg.ReadFloat();
-                this.Direction.Y = msg.ReadFloat();
+                this.Position = MessageParser.ReadVector2(msg);
+                this.Direction = MessageParser.ReadVector2(msg);
                 this.Speed = msg.ReadFloat();
             }
             public override string ToString()
@@ -47,24 +43,17 @@ namespace Network
 
             public void WriteMessage(NetOutgoingMessage msg)
             {
-                msg.Write(this.Position.X);
-                msg.Write(this.Position.Y);
-                msg.Write(this.Direction.X);
-                msg.Write(this.Direction.Y);
+                MessageParser.WriteVector2(this.Position, msg);
+                MessageParser.WriteVector2(this.Direction, msg);
                 msg.Write(Speed);
-                msg.Write(this.Target.X);
-                msg.Write(this.Target.Y);
+                MessageParser.WriteVector2(this.Target, msg);
             }
-
             public void ReadMessage(NetIncomingMessage msg)
             {
-                this.Position.X = msg.ReadFloat();
-                this.Position.Y = msg.ReadFloat();
-                this.Direction.X = msg.ReadFloat();
-                this.Direction.Y = msg.ReadFloat();
+                this.Position = MessageParser.ReadVector2(msg);
+                this.Direction = MessageParser.ReadVector2(msg);
                 this.Speed = msg.ReadFloat();
-                this.Target.X = msg.ReadFloat();
-                this.Target.Y = msg.ReadFloat();
+                this.Target = MessageParser.ReadVector2(msg);
             }
         }
 
