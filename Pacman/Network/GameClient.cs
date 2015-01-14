@@ -9,6 +9,7 @@ namespace Network
     {
         const float UpdateTimer = 3f;
 
+        private int clientConnectionId;
         private int clientUpdateCount;
         private bool loginReplyReceived;
         private float timer;
@@ -18,6 +19,11 @@ namespace Network
 
         private NetMessage receivedData;
         private NetMessage sendData;
+
+        public int ConnectionID
+        {
+            get { return this.clientConnectionId; }
+        }
 
         public GameClient()
         {
@@ -53,6 +59,7 @@ namespace Network
 
         public void SetData(NetMessage message)
         {
+            this.clientConnectionId = message.ConnectionId;
             this.sendData = message;
         }
 
@@ -60,6 +67,7 @@ namespace Network
         private void RecieveLogin(NetMessage message)
         {
             Console.WriteLine("Received login relpy.\n" + message.ToString());
+            this.clientConnectionId = message.ConnectionId;
         }
 
         private void ReceiveMessage(NetMessage message)
