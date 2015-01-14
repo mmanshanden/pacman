@@ -8,6 +8,7 @@ namespace Pacman
     class StateHost : IGameState
     {
         GameServer server;
+        PlayingMessage send;
 
         public StateHost()
         {
@@ -16,6 +17,8 @@ namespace Pacman
 
             Console.Clear();
             Console.WriteLine("Hosting server");
+
+            send = new PlayingMessage();
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -31,7 +34,54 @@ namespace Pacman
         public void Update(float dt)
         {
             this.server.Update(dt);
+            
+            NetMessage received;
 
+            // pull data from server
+            while ((received = this.server.GetData()) != null)
+            {
+                if (received.DataType != DataType.Playing)
+                    continue;
+
+                // convert to playingmessage
+                PlayingMessage message = new PlayingMessage();
+                NetMessage.CopyOver(received, message);
+                
+                // the player data that was sent
+                PlayingMessage.Player update = message.Players[0];
+
+                bool updated = false;
+
+                foreach (PlayingMessage.Player player in send.Players)
+                {
+                    // find player to update in list
+                    if (player.ID != message.ConnectionId)
+                        continue;
+                    
+                    player.Position = update.Position;
+                    player.Direction = update.Direction;
+                    player.Speed = update.Speed;
+
+                    Console.WriteLine("Updated player " + player.ID);
+
+                    updated = true;
+                }
+
+                // add as new player
+                if (!updated)
+                {
+                    update.ID = message.ConnectionId;
+                    send.Players.Add(update);
+                    Console.WriteLine("Added player to list:");
+                    Console.WriteLine(update.ToString());
+                }
+            }
+
+
+            // send map data to clients
+            this.server.SetData(this.send);
+
+            /* EXAMPLE
             // prepare data for clients
             PlayingMessage send = new PlayingMessage();
             
@@ -63,11 +113,12 @@ namespace Pacman
                 Console.WriteLine(received.ToString());
                 Console.WriteLine("");
             }
+            */
         }
 
         public void Draw(DrawHelper drawHelper)
         {
-            
+
         }
 
     }

@@ -50,6 +50,9 @@ namespace Network
             to.inc = from.inc;
             to.inc.Position = 0;
             to.ReadMessage(to.inc);
+
+            // critical
+            to.ConnectionId = from.ConnectionId;
         }
 
     }
