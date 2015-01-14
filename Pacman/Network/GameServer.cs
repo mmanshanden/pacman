@@ -9,198 +9,140 @@ namespace Network
 {
     public class GameServer
     {
-        NetServer server;
-        NetPeerConfiguration config;
-        List<NetPlayer> players;
+        const float UpdateTimer = 3f;
+        const int ServerPort = 1000;
 
-        NetIncomingMessage inc;
-        DateTime time;
-        // Create timespan of 30ms
-        TimeSpan timetopass = new TimeSpan(0, 0, 0, 3, 30);
+        private Thread serverThread;
+        private bool serverRunning;
+        private bool serverStarted;
+        private float timer;
 
-        Thread serverThread;
-
-        bool started = false;
-        bool running = true;
+        private NetServer server;
+        private NetIncomingMessage inc;
 
         public GameServer()
         {
-            config = new NetPeerConfiguration("game");
-            config.Port = 1000;
-            config.MaximumConnections = 100;
+            this.serverRunning = false;
+            this.serverStarted = false;
+            this.timer = UpdateTimer;
+            
+
+            NetPeerConfiguration config = new NetPeerConfiguration("game");
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
-            config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
             config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
+            config.MaximumConnections = 8;
+            config.Port = ServerPort;
 
-            server = new NetServer(config);
+            this.server = new NetServer(config);
+        }
 
-            server.Start();
 
-            Console.WriteLine("SERVER | server started");
-
-            this.players = new List<NetPlayer>();
-
-            time = DateTime.Now;
+        public void StartSimple()
+        {
+            this.server.Start();
+            this.serverStarted = true;
         }
 
         #region Threading
         public void Start()
         {
-            if (this.started)
-                return;
+            if (this.serverStarted)
+                throw new Exception("Cannot start server more than once.");
 
-            this.started = true;
+            this.server.Start();
+
+            // allow start up time
+            Thread.Sleep(200);
+
             this.serverThread = new Thread(new ThreadStart(Run));
             this.serverThread.IsBackground = true;
             this.serverThread.Start();
         }
 
+        public void Stop()
+        {
+            if (!this.serverStarted)
+                return;
+
+            this.server.Shutdown("server stopped");
+            this.serverRunning = false;
+        }
+
         private void Run()
         {
-            while (running)
-                Update();
-        }
-        #endregion
-
-
-        private void StatusChanged(NetIncomingMessage inc)
-        {
-            Console.WriteLine("SERVER | " + inc.SenderConnection.ToString() + " status changed. " + (NetConnectionStatus)inc.SenderConnection.Status);
-            if (inc.SenderConnection.Status == NetConnectionStatus.Disconnected ||
-                inc.SenderConnection.Status == NetConnectionStatus.Disconnecting)
+            DateTime time = DateTime.Now;
+            while (this.serverRunning)
             {
-                // Find disconnected character and set it's connected status to false!
-                foreach (NetPlayer netPlayer in players)
-                {
-                    if (netPlayer.Connection == inc.SenderConnection)
-                    {
-                        if (!netPlayer.IsHost) // For Testing purposes this is currently set to the client that is not Host! ###
-                            running = false;
-                        netPlayer.Connected = false;
-                        Console.WriteLine("SERVER | " + netPlayer.ID + " just went away, so set his status to Disconnected!");
-                        break;
-                    }
-                }
+                DateTime now = DateTime.Now;
+                float dt = (float)(now - time).TotalSeconds;
+                time = now;
+
+                this.Update(dt);
             }
         }
+        
+        #endregion
 
-        #region NetRoutine
-        private void ReceiveLogin(NetIncomingMessage inc)
+        private void ReceiveDiscoveryRequest()
         {
-            Console.WriteLine("SERVER | New connection incoming...");
+            NetOutgoingMessage respone = this.server.CreateMessage();
+            respone.Write("");
+            respone.Write(server.Connections.Count);
 
+            server.SendDiscoveryResponse(respone, inc.SenderEndpoint);
+        }
+
+        private void ReceiveLogin()
+        {
             // Approve connection (critical)
             inc.SenderConnection.Approve();
 
-            // add player to list
-            NetPlayer player = new NetPlayer();
-            player.ID = inc.SenderConnection.GetHashCode();
-            player.IsHost = (this.players.Count == 0);
-            this.players.Add(player);
-
-            // debug
-            Console.WriteLine("SERVER | New player connected: \n" + player.ToString());
-
             // reply
             NetOutgoingMessage outmsg = server.CreateMessage();
-            outmsg.Write((byte)PacketType.Login);
-            outmsg.Write(player.ID);
-            outmsg.Write(player.IsHost);
+            outmsg.Write("test");
 
-            // allow start-up time
-            Thread.Sleep(200);
-
+            // send reply
             server.SendMessage(outmsg, inc.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
-            Console.WriteLine("SERVER | Replied with id hash");
+        }
+
+        private void ReceiveMessage()
+        {
 
         }
 
-
-        private void ReceivePacket(PacketType type)
+        public void Update(float dt)
         {
-            switch (type)
+            this.timer -= dt;
+            if (this.timer < 0)
             {
-                case PacketType.WorldState:
-                    int incomingId = inc.SenderConnection.GetHashCode();
-                    NetPlayer np = MessageParser.ReadNetPlayerList(inc)[0];
-
-                    foreach (NetPlayer player in this.players)
-                    {
-                        if (player.ID != incomingId)
-                            continue;
-
-                        player.Position = np.Position;
-                        player.Direction = np.Direction;
-                        player.Speed = np.Speed;
-                        player.Time = np.Time;
-
-                        Console.WriteLine("SERVER | Update player: \n" + player.ToString());
-                    }
-                    break;
+                this.timer = UpdateTimer;
             }
-        }
 
-        private void SendWorldState()
-        {
-            int connections = server.ConnectionsCount;
-
-            Console.WriteLine("SERVER | # Of connections: " + connections);
-
-            if (connections == 0)
-                return;
-
-            NetOutgoingMessage msg = server.CreateMessage();
-            MessageParser.WritePacketType(msg, PacketType.WorldState);
-            MessageParser.WriteNetPlayerList(msg, this.players);
-
-            server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);
-
-            Console.WriteLine("SERVER | Sent a gameworld update to all clients " + DateTime.Now);
-        }
-
-        public void Update()
-        {
-            inc = server.ReadMessage();
-
-            // gameworld update every *30* milliseconds 
-            if ((time + timetopass) < DateTime.Now)
-            {
-                SendWorldState();
-                time = DateTime.Now;
-            }
+            this.inc = server.ReadMessage();
 
             if (inc == null)
                 return;
 
             switch (inc.MessageType)
             {
+                case NetIncomingMessageType.DiscoveryRequest:
+                    this.ReceiveDiscoveryRequest();
+                    break;
                 case NetIncomingMessageType.ConnectionApproval:
-                    if (inc.ReadByte() == (byte)PacketType.Login)
-                    {
-                        ReceiveLogin(inc);
-                    }
-
+                    this.ReceiveLogin();
                     break;
-
                 case NetIncomingMessageType.Data:
-                    PacketType datamessage = (PacketType)inc.ReadByte();
-                    this.ReceivePacket(datamessage);
-                    break;
-
-
-                case NetIncomingMessageType.StatusChanged:
-                    StatusChanged(inc);
-                    break;
-
-                //discovery request ###
-
-                default:
-                    // in case there is another kind of message 
-                    Console.WriteLine("SERVER | Received a status update message but didn't have anything for it.");
+                    this.ReceiveMessage();
                     break;
             }
 
+            if (inc.MessageType == NetIncomingMessageType.ConnectionApproval)
+                this.ReceiveLogin();
+
+            if (inc.MessageType != NetIncomingMessageType.Data)
+                return;
+
+            // do stuff with message
         }
-        #endregion
     }
 }
