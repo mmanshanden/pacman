@@ -148,6 +148,8 @@ namespace Network
 
             // message has been send, dont send again
             this.sendData = null;
+
+            Console.WriteLine("Message sent to connected clients");
         }
 
         private void ReceiveMessage(NetMessage message)

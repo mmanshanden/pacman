@@ -59,7 +59,7 @@ namespace Network
 
         public void SetData(NetMessage message)
         {
-            this.clientConnectionId = message.ConnectionId;
+            message.Time = this.clientUpdateCount;
             this.sendData = message;
         }
 
@@ -84,9 +84,12 @@ namespace Network
             this.sendData.WriteMessage(msg);
 
             this.client.SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
-            this.sendData = null;
 
-            Console.WriteLine("message send to server");
+            Console.WriteLine("Message sent to server: ");
+            Console.WriteLine(sendData.ToString());
+            Console.WriteLine("");
+
+            this.sendData = null;
         }
 
         public void Update(float dt)
@@ -95,8 +98,8 @@ namespace Network
             if (this.timer < 0)
             {
                 this.SendMessage();
-                this.clientUpdateCount++;
                 this.timer = UpdateTimer;
+                this.clientUpdateCount++;
             }
             
             this.inc = this.client.ReadMessage();

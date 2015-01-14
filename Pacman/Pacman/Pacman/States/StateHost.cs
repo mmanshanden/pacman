@@ -32,18 +32,36 @@ namespace Pacman
         {
             this.server.Update(dt);
 
-            PlayingMessage message = new PlayingMessage();
+            // prepare data for clients
+            PlayingMessage send = new PlayingMessage();
+            
+            // begin arbitrary data
             PlayingMessage.Player player = new PlayingMessage.Player();
-            player.Position = new Vector2(10, 12);
-            message.Players.Add(player);
-            message.Players.Add(player);
-            this.server.SetData(message);
+            player.Position = new Vector2(0.02134f, 12.12403f);
+            player.Speed = 9001;
+            send.Players.Add(player);
 
+            PlayingMessage.Ghost ghost = new PlayingMessage.Ghost();
+            ghost.Direction = new Vector2(1, 0);
+            ghost.Target = new Vector2(6, 9);
+            send.Ghosts.Add(ghost);
             // read all messages from server
-            NetMessage msg;
-            while((msg = this.server.GetData()) != null) 
+
+            // tell server to send it when its timer elapses
+            this.server.SetData(send);
+
+            
+            // get data that was sent back to server
+            // i.e. the data the server received;
+            NetMessage received;
+
+            // pull messages until theres none left
+            while((received = this.server.GetData()) != null) 
             {
-                Console.WriteLine(msg.ToString());
+                // this is the message that was received by the server;
+                Console.WriteLine("Message received from client:");
+                Console.WriteLine(received.ToString());
+                Console.WriteLine("");
             }
         }
 
