@@ -32,8 +32,10 @@ namespace Pacman
         {
             this.server.Update(dt);
 
-            NetMessage message = new NetMessage();
-            message.Type = DataType.Lobby;
+            PlayingMessage message = new PlayingMessage();
+            PlayingMessage.Player player = new PlayingMessage.Player();
+            player.Position = new Vector2(10, 12);
+            message.Players.Add(player);
             this.server.SetData(message);
         }
 

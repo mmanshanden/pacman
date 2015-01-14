@@ -16,6 +16,9 @@ namespace Network
         private NetClient client;
         private NetIncomingMessage inc;
 
+        private NetMessage receivedData;
+        private NetMessage sendData;
+
         public GameClient()
         {
             this.loginReplyReceived = false;
@@ -41,6 +44,18 @@ namespace Network
             this.client.Disconnect("leaving");
         }
 
+        public NetMessage GetData()
+        {
+            NetMessage message = this.receivedData;
+            this.receivedData = null;
+            return message;
+        }
+
+        public void SetData(NetMessage message)
+        {
+            this.sendData = message;
+        }
+
         #region NetRoutine
         private void RecieveLogin()
         {
@@ -50,12 +65,20 @@ namespace Network
 
         private void ReceiveMessage()
         {
-            Console.WriteLine("message received");
+            this.receivedData = new NetMessage();
+            this.receivedData.Parse(inc);
+            Console.WriteLine(this.receivedData.ToString());
         }
 
         private void SendMessage()
         {
-            
+            if (this.sendData == null)
+                return;
+
+            NetOutgoingMessage msg = this.client.CreateMessage();
+            this.sendData.WriteMessage(msg);
+            this.client.SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
+            this.sendData = null;
         }
 
         public void Update(float dt)

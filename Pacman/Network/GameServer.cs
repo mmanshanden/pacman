@@ -152,7 +152,7 @@ namespace Network
         private void ReceiveMessage()
         {
             NetMessage msg = new NetMessage();
-            msg.ReadMessage(inc);
+            msg.Parse(inc);
 
             this.receivedData.Add(msg);
         }

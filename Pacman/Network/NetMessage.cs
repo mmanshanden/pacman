@@ -4,6 +4,7 @@ namespace Network
 {
     public class NetMessage
     {
+        NetIncomingMessage inc;
         public DataType Type;
 
         public NetMessage()
@@ -11,12 +12,12 @@ namespace Network
 
         }
 
-        public void ReadMessage(NetIncomingMessage msg)
+        public virtual void ReadMessage(NetIncomingMessage msg)
         {
             this.Type = (DataType)msg.ReadByte();
         }
 
-        public void WriteMessage(NetOutgoingMessage msg)
+        public virtual void WriteMessage(NetOutgoingMessage msg)
         {
             msg.Write((byte)this.Type);
         }
