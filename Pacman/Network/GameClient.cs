@@ -33,9 +33,12 @@ namespace Network
 
         public void ConnectToServer(string endpoint)
         {
-            NetOutgoingMessage msg = MessageParser.CreateMessageType(client, PacketType.Login);
+            NetOutgoingMessage msg = this.client.CreateMessage();
+            msg.Write((byte)0);
+
             this.client.Connect(endpoint, 1000, msg);
         }
+
         public void Disconnect()
         {
             this.client.Disconnect("leaving");
@@ -44,35 +47,17 @@ namespace Network
         #region NetRoutine
         private void RecieveLogin()
         {
-            this.clientNetworkId = inc.ReadInt32();
+
         }
 
-        private void ReceiveMessage(PacketType type)
+        private void ReceiveMessage()
         {
-            switch (type)
-            {
-                case PacketType.WorldState:
-                    this.receivedData = MessageParser.ReadNetPlayerList(inc);
-                    break;
-            }
+            
         }
 
         private void SendWorldState()
         {
-            if (sendData == null)
-                return;
-
-            // prepare message
-            NetOutgoingMessage msg = client.CreateMessage();
-            MessageParser.WritePacketType(msg, PacketType.WorldState);
-            MessageParser.WriteNetPlayerList(msg, this.sendData);
-
-            // send message
-            Console.WriteLine("CLIENT | Sending WorldState!");
-            this.client.SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
-
-            // update count
-            this.clientUpdateCount++;
+            
         }
 
         public void Update(float dt)
@@ -92,22 +77,8 @@ namespace Network
             if (inc.MessageType != NetIncomingMessageType.Data)
                 return;
 
-            PacketType type = (PacketType)inc.ReadByte();
-
-            if (type == PacketType.Login)
-            {
-                this.RecieveLogin();
-                this.loginReplyReceived = true;
-                return;
-            }
-
-            if (!this.loginReplyReceived)
-                return;
-
-            this.ReceiveMessage(type);
-
             
-            this.sendData = null;
+            this.ReceiveMessage();
         }
         #endregion
     }

@@ -65,7 +65,6 @@
     <Compile Include="DiscoveryClient.cs" />
     <Compile Include="GameClient.cs" />
     <Compile Include="GameServer.cs" />
-    <Compile Include="MessageParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
