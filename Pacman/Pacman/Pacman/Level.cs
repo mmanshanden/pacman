@@ -7,7 +7,8 @@ namespace Pacman
 {
     class Level : GameWorld
     {
-        Pacman pacman;
+        public Pacman Pacman { get; private set; }
+        public GhostHouse GhostHouse { get; private set; }
 
         public Level()
         {
@@ -16,7 +17,7 @@ namespace Pacman
 
         public void HandleInput(InputHelper inputHelper)
         {
-            this.pacman.Direction = inputHelper.GetDirectionalInput();
+            this.Pacman.Direction = inputHelper.GetDirectionalInput();
         }
 
         public void LoadLevel(string path)
@@ -55,17 +56,17 @@ namespace Pacman
                 }
             }
 
-            this.pacman = new Pacman();
-            pacman.Position = level.ReadVector("pacman");
-            this.Add(pacman);
+            this.Pacman = new Pacman();
+            Pacman.Position = level.ReadVector("pacman");
+            this.Add(Pacman);
 
-            GhostHouse ghosthouse = new GhostHouse();
-            this.Add(ghosthouse);
+            GhostHouse = new GhostHouse();
+            this.Add(GhostHouse);
 
-            Blinky blinky = new Blinky(pacman);
+            Blinky blinky = new Blinky(Pacman);
             blinky.Position = level.ReadVector("blinky");
             blinky.Direction = Vector2.UnitX;
-            ghosthouse.Add(blinky);
+            GhostHouse.Add(blinky);
             
         }
     }
