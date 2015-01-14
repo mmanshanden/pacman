@@ -8,6 +8,7 @@ namespace Pacman
     class StateJoin : IGameState
     {
         GameClient client;
+        Level level;
 
         public StateJoin(string endpoint)
         {
@@ -16,11 +17,14 @@ namespace Pacman
 
             Console.Clear();
             Console.WriteLine("Joining server " + endpoint);
+
+            this.level = new Level();
+            this.level.LoadLevel("Content/level1.txt");
         }
 
         public void HandleInput(InputHelper inputHelper)
         {
-
+            this.level.HandleInput(inputHelper);
         }
 
         public IGameState TransitionTo()
@@ -30,6 +34,8 @@ namespace Pacman
 
         public void Update(float dt)
         {
+            this.level.Update(dt);
+
             this.client.Update(dt);
 
             // lets send some data to the server
@@ -73,7 +79,9 @@ namespace Pacman
 
         public void Draw(DrawHelper drawHelper)
         {
-            
+            drawHelper.Scale(14, 14);
+            this.level.Draw(drawHelper);
+            drawHelper.Scale(1 / 14f, 1 / 14f);
         }
 
     }
