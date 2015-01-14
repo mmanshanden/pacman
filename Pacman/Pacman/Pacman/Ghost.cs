@@ -20,7 +20,7 @@ namespace Pacman
         public States State
         {
             get;
-            private set;
+            set;
         }
 
         public Ghost()

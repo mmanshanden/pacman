@@ -47,6 +47,11 @@ namespace Pacman
                             b.Position = new Vector2(x, y);
                             this.Add(b);
                             break;
+                        case '@':
+                            Powerup p = new Powerup();
+                            p.Position = new Vector2(x, y);
+                            this.Add(p);
+                            break;
                         default:
                             tile = new Ground();
                             break;
