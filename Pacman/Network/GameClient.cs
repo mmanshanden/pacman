@@ -9,7 +9,6 @@ namespace Network
     {
         const float UpdateTimer = 3f;
 
-        private int clientNetworkId;
         private int clientUpdateCount;
         private bool loginReplyReceived;
         private float timer;
@@ -51,10 +50,10 @@ namespace Network
 
         private void ReceiveMessage()
         {
-            
+            Console.WriteLine("message received");
         }
 
-        private void SendWorldState()
+        private void SendMessage()
         {
             
         }
@@ -64,7 +63,8 @@ namespace Network
             this.timer -= dt;
             if (this.timer < 0)
             {
-                this.SendWorldState();
+                this.SendMessage();
+                this.clientUpdateCount++;
                 this.timer = UpdateTimer;
             }
             
@@ -89,7 +89,9 @@ namespace Network
 
             switch (packet)
             {
-
+                case PacketType.WorldState:
+                    this.ReceiveMessage();
+                    break;
             }
 
         }

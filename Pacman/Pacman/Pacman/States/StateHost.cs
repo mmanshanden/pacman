@@ -31,6 +31,10 @@ namespace Pacman
         public void Update(float dt)
         {
             this.server.Update(dt);
+
+            NetMessage message = new NetMessage();
+            message.Type = DataType.Lobby;
+            this.server.SetData(message);
         }
 
         public void Draw(DrawHelper drawHelper)

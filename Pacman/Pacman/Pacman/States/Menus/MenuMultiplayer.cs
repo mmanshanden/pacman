@@ -13,6 +13,7 @@ namespace Pacman
         public MenuMultiplayer()
         {
             this.client = new DiscoveryClient();
+            this.client.Discover();
         }
 
         public void HandleInput(InputHelper inputHelper)

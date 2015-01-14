@@ -20,6 +20,9 @@ namespace Network
         private NetServer server;
         private NetIncomingMessage inc;
 
+        private NetMessage sendData;
+        private List<NetMessage> receivedData;
+
         public GameServer()
         {
             this.serverRunning = false;
@@ -34,13 +37,28 @@ namespace Network
             config.Port = ServerPort;
 
             this.server = new NetServer(config);
+
+            this.receivedData = new List<NetMessage>();
         }
-
-
+        
         public void StartSimple()
         {
             this.server.Start();
             this.serverStarted = true;
+        }
+
+        public void SetData(NetMessage netMessage)
+        {
+            this.sendData = netMessage;
+        }
+        public NetMessage GetData()
+        {
+            if (this.receivedData.Count == 0)
+                return null;
+
+            NetMessage msg = this.receivedData[0];
+            this.receivedData.Remove(msg);
+            return msg;
         }
 
         #region Threading
@@ -110,9 +128,33 @@ namespace Network
             Console.WriteLine("Login reply send back to " + inc.SenderEndpoint.Address.ToString());
         }
 
+        private void SendMessage()
+        {
+            if (this.sendData == null)
+                return;
+
+            if (this.server.Connections.Count == 0)
+                return;
+
+            Console.WriteLine("Sending " + this.sendData.ToString());
+
+            // message
+            NetOutgoingMessage msg = this.server.CreateMessage();
+            msg.Write((byte)PacketType.WorldState);
+            this.sendData.WriteMessage(msg);
+
+            // send
+            this.server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);
+
+            // message has been send, dont send again
+            this.sendData = null;
+        }
         private void ReceiveMessage()
         {
+            NetMessage msg = new NetMessage();
+            msg.ReadMessage(inc);
 
+            this.receivedData.Add(msg);
         }
 
         public void Update(float dt)
@@ -120,6 +162,7 @@ namespace Network
             this.timer -= dt;
             if (this.timer < 0)
             {
+                this.SendMessage();
                 this.timer = UpdateTimer;
             }
 
@@ -137,7 +180,9 @@ namespace Network
                     this.ReceiveLogin();
                     break;
                 case NetIncomingMessageType.Data:
-                    this.ReceiveMessage();
+                    if ((PacketType)inc.ReadByte() == PacketType.WorldState)
+                        this.ReceiveMessage();
+
                     break;
             }
         }
