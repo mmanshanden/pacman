@@ -86,7 +86,7 @@ namespace Network
         private void ReceiveDiscoveryRequest()
         {
             NetOutgoingMessage respone = this.server.CreateMessage();
-            respone.Write("");
+            respone.Write("server");
             respone.Write(server.Connections.Count);
 
             server.SendDiscoveryResponse(respone, inc.SenderEndpoint);

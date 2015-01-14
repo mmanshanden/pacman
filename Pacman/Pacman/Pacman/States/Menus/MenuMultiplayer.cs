@@ -43,7 +43,12 @@ namespace Pacman
 
             foreach(DiscoveryClient.DiscoveryReply server in this.client.Replies)
             {
-                Console.WriteLine(server.Endpoint + " " + server.Name + ". " + server.Connections + " connections.");
+                string line = "";
+                line += server.Endpoint + ": ";
+                line += server.Name + ". ";
+                line += server.Connections + " connections.";
+
+                Console.WriteLine(line);
             }
 
             Console.WriteLine("\n\nPress r to refresh list.");
