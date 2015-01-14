@@ -31,6 +31,20 @@ namespace Pacman
         public void Update(float dt)
         {
             this.client.Update(dt);
+
+            NetMessage message = this.client.GetData();
+            if (message == null)
+                return;
+
+            switch (message.Type)
+            {
+                case DataType.Playing:
+                    PlayingMessage msg = message as PlayingMessage;
+                    Console.WriteLine(msg.Players.Count + " players were sent");
+                    Console.WriteLine(msg.Players[0].Position.ToString());
+                    break;
+            }
+
         }
 
         public void Draw(DrawHelper drawHelper)

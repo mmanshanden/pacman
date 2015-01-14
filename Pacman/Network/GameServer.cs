@@ -20,6 +20,7 @@ namespace Network
         private NetServer server;
         private NetIncomingMessage inc;
 
+        private DataType dataType;
         private NetMessage sendData;
         private List<NetMessage> receivedData;
 
@@ -47,8 +48,9 @@ namespace Network
             this.serverStarted = true;
         }
 
-        public void SetData(NetMessage netMessage)
+        public void SetData(DataType dataType, NetMessage netMessage)
         {
+            this.dataType = dataType;
             this.sendData = netMessage;
         }
         public NetMessage GetData()
@@ -141,6 +143,7 @@ namespace Network
             // message
             NetOutgoingMessage msg = this.server.CreateMessage();
             msg.Write((byte)PacketType.WorldState);
+            msg.Write((byte)this.dataType);
             this.sendData.WriteMessage(msg);
 
             // send

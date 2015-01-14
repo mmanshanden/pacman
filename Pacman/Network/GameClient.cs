@@ -16,6 +16,7 @@ namespace Network
         private NetClient client;
         private NetIncomingMessage inc;
 
+        private DataType dataType;
         private NetMessage receivedData;
         private NetMessage sendData;
 
@@ -51,8 +52,9 @@ namespace Network
             return message;
         }
 
-        public void SetData(NetMessage message)
+        public void SetData(DataType dataType, NetMessage message)
         {
+            this.dataType = dataType;
             this.sendData = message;
         }
 
@@ -63,11 +65,20 @@ namespace Network
             Console.WriteLine("Login message: " + message);
         }
 
-        private void ReceiveMessage()
+        private void ReceiveMessage(DataType type)
         {
             this.receivedData = new NetMessage();
+
+            switch (type)
+            {
+                case DataType.Playing:
+                    Console.WriteLine("Received PlayingMessage");
+                    this.receivedData = new PlayingMessage();
+                    break;
+            }
+
             this.receivedData.ReadMessage(inc);
-            Console.WriteLine(this.receivedData.ToString());
+
         }
 
         private void SendMessage()
@@ -76,7 +87,11 @@ namespace Network
                 return;
 
             NetOutgoingMessage msg = this.client.CreateMessage();
+            msg.Write((byte)PacketType.WorldState);
+            msg.Write((byte)this.dataType);
+
             this.sendData.WriteMessage(msg);
+
             this.client.SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
             this.sendData = null;
         }
@@ -113,7 +128,8 @@ namespace Network
             switch (packet)
             {
                 case PacketType.WorldState:
-                    this.ReceiveMessage();
+                    DataType dataType = (DataType)inc.ReadByte();
+                    this.ReceiveMessage(dataType);
                     break;
             }
 

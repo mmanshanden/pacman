@@ -36,7 +36,8 @@ namespace Pacman
             PlayingMessage.Player player = new PlayingMessage.Player();
             player.Position = new Vector2(10, 12);
             message.Players.Add(player);
-            this.server.SetData(message);
+            message.Players.Add(player);
+            this.server.SetData(DataType.Playing, message);
         }
 
         public void Draw(DrawHelper drawHelper)
