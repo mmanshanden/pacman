@@ -1,34 +1,40 @@
 ﻿using Base;
+using Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace Pacman
 {
-    class StateDefault : IGameState
+    class StateHost : IGameState
     {
-        public StateDefault()
-        {
+        GameServer server;
 
+        public StateHost()
+        {
+            this.server = new GameServer();
+            this.server.StartSimple();
         }
 
         public void HandleInput(InputHelper inputHelper)
         {
-            
+
         }
 
         public IGameState TransitionTo()
         {
-            return new MenuMultiplayer();
+            return this;
         }
 
         public void Update(float dt)
         {
-
+            this.server.Update(dt);
         }
 
         public void Draw(DrawHelper drawHelper)
         {
-
+            Console.Visible = true;
+            Console.Clear();
+            Console.WriteLine("Hosting server");
         }
 
     }
