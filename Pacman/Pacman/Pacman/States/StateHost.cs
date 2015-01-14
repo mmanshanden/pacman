@@ -9,6 +9,7 @@ namespace Pacman
     {
         GameServer server;
         PlayingMessage send;
+        Level level;
 
         public StateHost()
         {
@@ -18,12 +19,18 @@ namespace Pacman
             Console.Clear();
             Console.WriteLine("Hosting server");
 
-            send = new PlayingMessage();
+            this.send = new PlayingMessage();
+
+            this.level = new Level();
+            this.level.LoadLevel("Content/level1.txt");
+
+            // adding self to send message
+            this.send.Players.Add(new PlayingMessage.Player());
         }
 
         public void HandleInput(InputHelper inputHelper)
         {
-
+            this.level.HandleInput(inputHelper);
         }
 
         public IGameState TransitionTo()
@@ -33,6 +40,7 @@ namespace Pacman
 
         public void Update(float dt)
         {
+            this.level.Update(dt);
             this.server.Update(dt);
             
             NetMessage received;
@@ -118,7 +126,9 @@ namespace Pacman
 
         public void Draw(DrawHelper drawHelper)
         {
-
+            drawHelper.Scale(14, 14);
+            this.level.Draw(drawHelper);
+            drawHelper.Scale(1 / 14f, 1 / 14f);
         }
 
     }
