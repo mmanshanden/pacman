@@ -9,12 +9,13 @@ using Microsoft.Xna.Framework;
 
 public class Console
 {
-    const int lineCount = 21;
+    const int lineHeight = 13;
 
     static GraphicsDevice graphicsDevice;
     static SpriteBatch spriteBatch;
     static Rectangle background;
     static SpriteFont consoleFont;
+    static int lineCount;
     static List<string> textLines;
     static Texture2D pixel;
         
@@ -27,9 +28,11 @@ public class Console
         textLines = new List<string>();
 
         background.Width = graphics.Viewport.Width;
-        background.Height = graphics.Viewport.Height / 2;
+        background.Height = graphics.Viewport.Height;
 
         consoleFont = content.Load<SpriteFont>("font");
+
+        lineCount = background.Height / lineHeight;
 
         pixel = new Texture2D(graphics, 1, 1);
         pixel.SetData(new Color[] { Color.White });
@@ -38,6 +41,11 @@ public class Console
 
         Console.WriteLine("Console loaded");
         Console.WriteLine("----------------------------");
+
+        for (int x = 0; x < 100; x++)
+        {
+            Console.WriteLine("lineOOOO." + x);
+        }
     }
 
     public static void WriteLine(string line) 
@@ -49,9 +57,7 @@ public class Console
         lines = line.Split('\n');
 
         for (int i = 0; i < lines.Count(); i++)
-        {
             textLines.Add(lines[i]);
-        }
     }
 
     public static void Clear()
@@ -67,14 +73,13 @@ public class Console
 
         spriteBatch.Begin();
 
-        spriteBatch.Draw(pixel, background, Color.Black * 0.8f);
+        spriteBatch.Draw(pixel, background, Color.Black * 0.85f);
 
         Vector2 position = new Vector2(5, 0);
-
         foreach (string line in textLines)
         {
             spriteBatch.DrawString(consoleFont, line, position, Color.White);
-            position.Y += 11;
+            position.Y += lineHeight;
         }
 
         spriteBatch.End();
