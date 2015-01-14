@@ -73,15 +73,8 @@ namespace Network
 
         public PlayingMessage()
         {
-            this.Type = DataType.Playing;
-
-            this.Players = new List<Player>();
-            this.Ghosts = new List<Ghost>();
-        }
-        public PlayingMessage(NetMessage msg)
-            : base(msg)
-        {
-            this.Type = DataType.Playing;
+            base.PacketType = PacketType.WorldState;
+            base.DataType = DataType.Playing;
 
             this.Players = new List<Player>();
             this.Ghosts = new List<Ghost>();
@@ -100,9 +93,10 @@ namespace Network
                 ghost.WriteMessage(msg);
         }
 
-        public override void Parse()
+
+        public override void ReadMessage(NetIncomingMessage msg)
         {
-            base.Parse();
+            base.ReadMessage(msg);
 
             int playercount = inc.ReadInt32();
             for (int i = 0; i < playercount; i++)

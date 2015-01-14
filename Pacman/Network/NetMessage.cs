@@ -5,39 +5,39 @@ namespace Network
     public class NetMessage
     {
         protected NetIncomingMessage inc;
-        public DataType Type;
+
+        public PacketType PacketType;
+        public DataType DataType;
 
         public NetMessage()
         {
 
         }
-        public NetMessage(NetIncomingMessage inc)
+   
+        public virtual void ReadMessage(NetIncomingMessage msg)
         {
-            this.inc = inc;
-        }
-        public NetMessage(NetMessage msg)
-        {
-            this.inc = msg.inc;
-        }
+            this.inc = msg;
 
-        public void ReadHeaders()
-        {
-            this.Type = (DataType)this.inc.ReadByte();
-        }
-
-        public virtual void Parse()
-        {
-
+            this.PacketType = (PacketType)msg.ReadByte();
+            this.DataType = (DataType)msg.ReadByte();
         }
 
         public virtual void WriteMessage(NetOutgoingMessage msg)
         {
-            msg.Write((byte)this.Type);
+            msg.Write((byte)this.PacketType);
+            msg.Write((byte)this.DataType);
         }
 
         public override string ToString()
         {
-            return this.Type.ToString();
+            return this.DataType.ToString();
+        }
+
+        public static void CopyOver(NetMessage from, NetMessage to)
+        {
+            to.inc = from.inc;
+            to.inc.Position = 0;
+            to.ReadMessage(to.inc);
         }
 
     }

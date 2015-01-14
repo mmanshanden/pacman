@@ -116,15 +116,17 @@ namespace Network
             inc.SenderConnection.Approve();
 
             // reply
-            NetOutgoingMessage msg = server.CreateMessage();
-            msg.Write((byte)PacketType.Login);
-            msg.Write("Connection approved");
+            NetOutgoingMessage outmsg = server.CreateMessage();
+            NetMessage message = new NetMessage();
+            message.PacketType = PacketType.Login;
+            message.DataType = DataType.Lobby;
+            message.WriteMessage(outmsg);
 
             // allow start up time
             Thread.Sleep(200);
 
             // send reply
-            server.SendMessage(msg, inc.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+            server.SendMessage(outmsg, inc.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
             Console.WriteLine("Login reply send back to " + inc.SenderEndpoint.Address.ToString());
         }
 
@@ -140,7 +142,6 @@ namespace Network
 
             // message
             NetOutgoingMessage msg = this.server.CreateMessage();
-            msg.Write((byte)PacketType.WorldState);
             this.sendData.WriteMessage(msg);
 
             // send
@@ -151,7 +152,8 @@ namespace Network
         }
         private void ReceiveMessage()
         {
-            NetMessage msg = new NetMessage(this.inc);
+            NetMessage msg = new NetMessage();
+            msg.ReadMessage(inc);
             this.receivedData.Add(msg);
         }
 

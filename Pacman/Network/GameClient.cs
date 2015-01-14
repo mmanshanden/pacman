@@ -57,16 +57,14 @@ namespace Network
         }
 
         #region NetRoutine
-        private void RecieveLogin()
+        private void RecieveLogin(NetMessage message)
         {
-            string message = inc.ReadString();
-            Console.WriteLine("Login message: " + message);
+            Console.WriteLine("Received login relpy.");
         }
 
-        private void ReceiveMessage()
+        private void ReceiveMessage(NetMessage message)
         {
-            this.receivedData = new NetMessage(inc);
-            this.receivedData.ReadHeaders();
+            this.receivedData = message;
         }
 
         private void SendMessage()
@@ -101,21 +99,22 @@ namespace Network
             if (inc.MessageType != NetIncomingMessageType.Data)
                 return;
 
-            PacketType packet = (PacketType)inc.ReadByte();
+            NetMessage msg = new NetMessage();
+            msg.ReadMessage(inc);
 
-            if (packet == PacketType.Login)
+            if (msg.PacketType == PacketType.Login)
             {
-                this.RecieveLogin();
+                this.RecieveLogin(msg);
                 this.loginReplyReceived = true;
             }
 
             if (!this.loginReplyReceived)
                 return;
 
-            switch (packet)
+            switch (msg.PacketType)
             {
                 case PacketType.WorldState:
-                    this.ReceiveMessage();
+                    this.ReceiveMessage(msg);
                     break;
             }
 

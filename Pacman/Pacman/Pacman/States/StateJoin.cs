@@ -32,19 +32,17 @@ namespace Pacman
         {
             this.client.Update(dt);
 
-            NetMessage message = this.client.GetData();
+            NetMessage baremsg = this.client.GetData();
 
-            if (message == null)
+            if (baremsg == null)
                 return;
-   
-            switch (message.Type)
+
+            switch (baremsg.DataType)
             {
                 case DataType.Playing:
-                    PlayingMessage msg = new PlayingMessage(message);
-                    msg.Parse();
-
-                    Console.WriteLine(msg.ToString());
-
+                    PlayingMessage playermsg = new PlayingMessage();
+                    NetMessage.CopyOver(baremsg, playermsg);
+                    Console.WriteLine(playermsg.ToString());
                     break;
             }
 
