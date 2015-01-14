@@ -8,18 +8,21 @@ namespace Network
     {
         public class Player
         {
+            public int ID;
             public Vector2 Position;
             public Vector2 Direction;
             public float Speed;
 
             public void WriteMessage(NetOutgoingMessage msg)
             {
+                msg.Write(this.ID);
                 MessageParser.WriteVector2(this.Position, msg);
                 MessageParser.WriteVector2(this.Direction, msg);
                 msg.Write(Speed);
             }
             public void ReadMessage(NetIncomingMessage msg)
             {
+                this.ID = msg.ReadInt32();
                 this.Position = MessageParser.ReadVector2(msg);
                 this.Direction = MessageParser.ReadVector2(msg);
                 this.Speed = msg.ReadFloat();
@@ -27,6 +30,7 @@ namespace Network
             public override string ToString()
             {
                 string result = "";
+                result += "ID: " + ID.ToString() + '\n';
                 result += "Position: " + Position.ToString() + '\n';
                 result += "Direction: " + Direction.ToString() + '\n';
                 result += "Speed: " + Speed.ToString() + '\n';

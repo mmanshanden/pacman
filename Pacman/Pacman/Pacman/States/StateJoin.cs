@@ -38,6 +38,20 @@ namespace Pacman
 
             this.client.Update(dt);
 
+            PlayingMessage.Player self = new PlayingMessage.Player();
+            self.ID = this.client.ConnectionID;
+            self.Position = this.level.Pacman.Position;
+            self.Direction = this.level.Pacman.Direction;
+            self.Speed = this.level.Pacman.Speed;
+
+            PlayingMessage send = new PlayingMessage();
+            send.Players.Add(self);
+
+            this.client.SetData(send);
+
+
+
+            /* EXAMPLE
             // lets send some data to the server
             NetMessage send = new NetMessage();
             send.PacketType = PacketType.WorldState;
@@ -72,9 +86,7 @@ namespace Pacman
                     Console.WriteLine("Message received from server:");
                     Console.WriteLine(message.ToString());
                     break;
-            }
-            
-
+            }*/
         }
 
         public void Draw(DrawHelper drawHelper)
