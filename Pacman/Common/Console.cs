@@ -41,23 +41,21 @@ public class Console
 
         Console.WriteLine("Console loaded");
         Console.WriteLine("----------------------------");
-
-        for (int x = 0; x < 100; x++)
-        {
-            Console.WriteLine("lineOOOO." + x);
-        }
     }
 
     public static void WriteLine(string line) 
     {
-        if (textLines.Count == lineCount)
-            textLines.RemoveAt(0);
-
         string[] lines;
         lines = line.Split('\n');
+        
+        for (int i = 0; i < lines.Length; i++)
+        {
+            if (textLines.Count == lineCount)
+                textLines.RemoveAt(0);
 
-        for (int i = 0; i < lines.Count(); i++)
             textLines.Add(lines[i]);
+        }
+        
     }
 
     public static void Clear()
