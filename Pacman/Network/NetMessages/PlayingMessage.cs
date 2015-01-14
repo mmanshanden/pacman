@@ -120,7 +120,7 @@ namespace Network
         {
             string result = base.ToString();
 
-            result += "\nPlayers:\n==============================\n";
+            result += "Players:\n";
             foreach (Player player in this.Players)
                 result += player.ToString();
 

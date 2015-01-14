@@ -8,6 +8,7 @@ namespace Network
 
         public PacketType PacketType;
         public DataType DataType;
+        public int ConnectionId;
 
         public NetMessage()
         {
@@ -20,17 +21,24 @@ namespace Network
 
             this.PacketType = (PacketType)msg.ReadByte();
             this.DataType = (DataType)msg.ReadByte();
+            this.ConnectionId = msg.ReadInt32();
         }
 
         public virtual void WriteMessage(NetOutgoingMessage msg)
         {
             msg.Write((byte)this.PacketType);
             msg.Write((byte)this.DataType);
+            msg.Write(this.ConnectionId);
         }
 
         public override string ToString()
         {
-            return this.DataType.ToString();
+            string result = "";
+            result += "PacketType: " + this.PacketType.ToString() + '\n';
+            result += "DataType: " + this.DataType.ToString() + '\n';
+            result += "ConnectionId: " + this.ConnectionId.ToString() + '\n';
+
+            return result;
         }
 
         public static void CopyOver(NetMessage from, NetMessage to)

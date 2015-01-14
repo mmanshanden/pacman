@@ -120,6 +120,7 @@ namespace Network
             NetMessage message = new NetMessage();
             message.PacketType = PacketType.Login;
             message.DataType = DataType.Lobby;
+            message.ConnectionId = inc.GetHashCode();
             message.WriteMessage(outmsg);
 
             // allow start up time

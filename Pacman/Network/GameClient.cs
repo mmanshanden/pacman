@@ -59,7 +59,7 @@ namespace Network
         #region NetRoutine
         private void RecieveLogin(NetMessage message)
         {
-            Console.WriteLine("Received login relpy.");
+            Console.WriteLine("Received login relpy.\n" + message.ToString());
         }
 
         private void ReceiveMessage(NetMessage message)
