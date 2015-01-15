@@ -21,8 +21,15 @@ namespace Pacman
 
             this.send = new PlayingMessage();
 
+            FileReader levelFile = new FileReader("Content/Levels/level1.txt");
+            
             this.level = new Level();
-            this.level.LoadLevel("Content/level1.txt");
+            this.level.LoadGameBoard(levelFile.ReadGrid("level"));
+            this.level.LoadGameBoardObjects(levelFile.ReadGrid("level"));
+
+            Player player = new Player();
+            player.Position = levelFile.ReadVector("player_position");
+            this.level.Add(player);
 
             // adding self to send message
             this.send.Players.Add(new PlayingMessage.Player());
@@ -85,6 +92,16 @@ namespace Pacman
                 }
             }
 
+            // update self in map data
+            foreach(PlayingMessage.Player player in this.send.Players)
+            {
+                if (player.ID != 0)
+                    continue;
+
+                player.Position = this.level.Player.Position;
+                player.Direction = this.level.Player.Direction;
+                player.Speed = this.level.Player.Speed;
+            }
 
             // send map data to clients
             this.server.SetData(this.send);

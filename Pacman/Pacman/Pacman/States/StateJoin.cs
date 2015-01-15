@@ -18,8 +18,14 @@ namespace Pacman
             Console.Clear();
             Console.WriteLine("Joining server " + endpoint);
 
+            FileReader levelFile = new FileReader("Content/Levels/level1.txt");
+
             this.level = new Level();
-            this.level.LoadLevel("Content/level1.txt");
+            this.level.LoadGameBoard(levelFile.ReadGrid("level"));
+
+            Player player = new Player();
+            player.Position = levelFile.ReadVector("player_position");
+            this.level.Add(player);
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -40,9 +46,9 @@ namespace Pacman
 
             PlayingMessage.Player self = new PlayingMessage.Player();
             self.ID = this.client.ConnectionID;
-            self.Position = this.level.Pacman.Position;
-            self.Direction = this.level.Pacman.Direction;
-            self.Speed = this.level.Pacman.Speed;
+            self.Position = this.level.Player.Position;
+            self.Direction = this.level.Player.Direction;
+            self.Speed = this.level.Player.Speed;
 
             PlayingMessage send = new PlayingMessage();
             send.Players.Add(self);
