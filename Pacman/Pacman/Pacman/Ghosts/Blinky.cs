@@ -5,14 +5,6 @@ namespace Pacman
 {
     class Blinky : Ghost
     {
-        private Pacman pacman;
-
-        public Blinky(Pacman pacman)
-            : base()
-        {
-            this.pacman = pacman;
-        }
-
         public override void Update(float dt)
         {
             base.Update(dt);
@@ -21,7 +13,7 @@ namespace Pacman
         public override Vector2 GetTarget(Ghost.States state)
         {
             if (state == States.Chase)
-                return this.Target = pacman.Position + Vector2.One * 0.5f;
+                return this.Target = this.GhostHouse.GetPacman().Center;
 
             return base.GetTarget(state);
         }

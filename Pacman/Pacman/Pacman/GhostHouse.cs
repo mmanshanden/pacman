@@ -9,7 +9,16 @@ namespace Pacman
 {
     class GhostHouse : GameObject
     {
-        public Level Level
+        public enum AiModes
+        {
+            First,
+            Random,
+            Nearby,
+        }
+
+        private List<Pacman> pacmans;
+
+        protected Level Level
         {
             get
             {
@@ -17,20 +26,19 @@ namespace Pacman
             }
         }
 
-        public Vector2 Entry
-        {
-            get;
-            set;
-        }
+        public AiModes AiMode { get; set; }
 
-        public Blinky Blinky { get; set; }
-        public Inky Inky { get; set; }
-        public Pinky Pinky { get; set; }
-        public Clyde Clyde { get; set; }
+        public Vector2 Entry { get; set; }
+        public Vector2 Center { get; set; }
+        
+        public Blinky Blinky { get; private set; }
+        public Inky Inky { get; private set; }
+        public Pinky Pinky { get; private set; }
+        public Clyde Clyde { get; private set; }
 
         public GhostHouse()
-            : base()
         {
+            this.pacmans = new List<Pacman>();
         }
 
         #region Ghost Adding
@@ -64,6 +72,25 @@ namespace Pacman
             ghost.GhostHouse = this;
         }
         #endregion
+
+        public void AddPacman(Pacman pacman)
+        {
+            this.pacmans.Add(pacman);
+        }
+
+        public Pacman GetPacman()
+        {
+            switch (this.AiMode)
+            {
+                case AiModes.Random:
+                    int index = Game.Random.Next(this.pacmans.Count);
+                    return this.pacmans[index];
+
+                default:
+                    this.AiMode = AiModes.Random;
+                    return GetPacman();
+            }
+        }
 
         public override void Update(float dt)
         {
