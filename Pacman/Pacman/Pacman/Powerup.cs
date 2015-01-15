@@ -20,7 +20,10 @@ namespace Pacman
                 gameObjectList.Remove(this);
 
                 Level level = (Level)this.Parent;
-                level.GhostHouse.Blinky.Frighten(); 
+                level.GhostHouse.Blinky.Frighten();
+                level.GhostHouse.Pinky.Frighten();
+                level.GhostHouse.Clyde.Frighten();
+                level.GhostHouse.Inky.Frighten(); 
 
             }
 

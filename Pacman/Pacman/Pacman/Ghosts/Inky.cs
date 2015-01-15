@@ -6,11 +6,13 @@ namespace Pacman
     class Inky : Ghost
     {
         private Pacman pacman;
+        private Blinky blinky;
 
-        public Inky(Pacman pacman)
+        public Inky(Pacman pacman, Blinky blinky)
             : base()
         {
             this.pacman = pacman;
+            this.blinky = blinky; 
         }
 
         public override void Update(float dt)
@@ -21,7 +23,11 @@ namespace Pacman
         public override Vector2 GetTarget(Ghost.States state)
         {
             if (state == States.Chase)
-                return this.Target = pacman.Position + Vector2.One * 0.5f;
+            {
+                Vector2 pacmanOffset = pacman.Center + pacman.Direction *2;
+                Vector2 blinkyVector = (pacmanOffset - blinky.Center) * 2;
+                return this.Target = blinkyVector; 
+            }
 
             return base.GetTarget(state);
         }
@@ -30,7 +36,10 @@ namespace Pacman
         public override void Draw(DrawHelper drawHelper)
         {
             if (this.State != States.Chase && this.State != States.Scatter)
+            {
                 base.Draw(drawHelper);
+                return;
+            }
 
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Cyan);

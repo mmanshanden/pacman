@@ -29,6 +29,20 @@ namespace Pacman
             blinky.Direction = new Vector2(0, 1);
             ghostHouse.Add(blinky);
 
+            Pinky pinky = new Pinky(player);
+            pinky.Position = this.levelFile.ReadVector("blinky_position");
+            pinky.Direction = new Vector2(1, 0);
+            ghostHouse.Add(pinky);
+
+            Inky inky = new Inky(player, ghostHouse.Blinky);
+            inky.Position = this.levelFile.ReadVector("blinky_position");
+            inky.Direction = new Vector2(1, 0);
+            ghostHouse.Add(inky);
+
+            Clyde clyde = new Clyde(player);
+            clyde.Position = this.levelFile.ReadVector("blinky_position");
+            clyde.Direction = new Vector2(0, 1);
+            ghostHouse.Add(clyde); 
         }
 
         public void HandleInput(InputHelper inputHelper)

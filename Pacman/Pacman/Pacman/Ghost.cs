@@ -153,7 +153,6 @@ namespace Pacman
         public States ScatterSwitch(float dt)
         {
             scatterTimer -= dt;
-            Console.WriteLine(scatterTimer.ToString()); 
 
             if (scatterTimer <= 0) 
             {

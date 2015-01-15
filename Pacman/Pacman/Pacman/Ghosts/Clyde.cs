@@ -21,7 +21,13 @@ namespace Pacman
         public override Vector2 GetTarget(Ghost.States state)
         {
             if (state == States.Chase)
-                return this.Target = pacman.Position + Vector2.One * 0.5f;
+            {
+                if (Vector2.Distance(this.Center, pacman.Center) > 5)
+                    return this.Target = pacman.Center;
+                else
+                    
+                    return this.Target = new Vector2(1, 30); // SET TO SCATTER TILE
+            }
 
             return base.GetTarget(state);
         }
@@ -30,7 +36,10 @@ namespace Pacman
         public override void Draw(DrawHelper drawHelper)
         {
             if (this.State != States.Chase && this.State != States.Scatter)
+            {
                 base.Draw(drawHelper);
+                return;
+            }
 
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Orange);
