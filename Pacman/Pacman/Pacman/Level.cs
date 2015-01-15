@@ -7,31 +7,52 @@ namespace Pacman
 {
     class Level : GameWorld
     {
-        public Pacman Pacman { get; private set; }
+        private FileReader levelFile;
+        public Player Player { get; private set; }
         public GhostHouse GhostHouse { get; private set; }
 
-        public Level()
+        public Level(string filePath)
         {
-        
+            this.levelFile = new FileReader(filePath);
+        }
+
+
+        public void Add(GameObject gameObject, string levelFileKey)
+        {
+            gameObject.Position = this.levelFile.ReadVector(levelFileKey);
+            base.Add(gameObject);
+        }
+
+        public void Add(Player player, string levelFileKey = "")
+        {
+            this.Player = player;
+
+            if (levelFileKey == "")
+                base.Add(player);
+            else
+                this.Add(player as GameObject, levelFileKey);
         }
 
         public void HandleInput(InputHelper inputHelper)
         {
-            this.Pacman.Direction = inputHelper.GetDirectionalInput();
+            this.Player.Direction = inputHelper.GetDirectionalInput();
         }
 
-        public void LoadLevel(string path)
+        public void LoadGameBoard(string levelFileKey)
         {
-            FileReader level = new FileReader("Content/level1.txt");
+            // get level grid from file
+            char[,] levelGrid = levelFile.ReadGrid("level");
 
-            char[,] levelGrid = level.ReadGrid("level");
+            // initialize gameboard and add board to level
             GameBoard gameBoard = GameBoard.CopyDimensions(levelGrid);
             this.Add(gameBoard);
+
 
             for (int x = 0; x < gameBoard.Size.X; x++)
             {
                 for (int y = 0; y < gameBoard.Size.Y; y++)
                 {
+                    // standard ground tile
                     GameTile tile = new Ground();
 
                     switch (levelGrid[x, y])
@@ -59,20 +80,7 @@ namespace Pacman
 
                     gameBoard.Add(tile, x, y);
                 }
-            }
-
-            this.Pacman = new Pacman();
-            Pacman.Position = level.ReadVector("pacman");
-            this.Add(Pacman);
-
-            GhostHouse = new GhostHouse();
-            this.Add(GhostHouse);
-
-            Blinky blinky = new Blinky(Pacman);
-            blinky.Position = level.ReadVector("blinky");
-            blinky.Direction = Vector2.UnitX;
-            GhostHouse.Add(blinky);
-            
+            }           
         }
     }
 }

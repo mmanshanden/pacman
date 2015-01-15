@@ -10,8 +10,11 @@ namespace Pacman
 
         public StateDemo()
         {
-            this.gameWorld = new Level();
-            this.gameWorld.LoadLevel("Content/level1.txt");
+            this.gameWorld = new Level("Content/level1.txt");
+            this.gameWorld.LoadGameBoard("level");
+
+            Player player = new Player();
+            this.gameWorld.Add(player, "player_position");
         }
 
         public void HandleInput(InputHelper inputHelper)
