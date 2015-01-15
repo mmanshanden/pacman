@@ -10,6 +10,8 @@ namespace Pacman
         GameClient client;
         Level level;
 
+        PlayingMessage draw = new PlayingMessage();
+
         public StateJoin(string endpoint)
         {
             this.client = new GameClient();
@@ -55,6 +57,20 @@ namespace Pacman
 
             this.client.SetData(send);
 
+            // get last received server message
+            NetMessage received = this.client.GetData();
+            
+            if (received == null)
+                return;
+
+            if (received.DataType != DataType.Playing)
+                return;
+
+            // convert to playing state message
+            PlayingMessage worldstate = new PlayingMessage();
+            NetMessage.CopyOver(received, worldstate);
+            draw = worldstate;
+            
 
 
             /* EXAMPLE
@@ -99,6 +115,15 @@ namespace Pacman
         {
             drawHelper.Scale(14, 14);
             this.level.Draw(drawHelper);
+
+
+            foreach (PlayingMessage.Player netplayer in draw.Players)
+            {
+                drawHelper.Translate(netplayer.Position);
+                drawHelper.DrawBox(Color.Gold);
+                drawHelper.Translate(-netplayer.Position);
+            }
+
             drawHelper.Scale(1 / 14f, 1 / 14f);
         }
 
