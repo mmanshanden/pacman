@@ -31,6 +31,14 @@ namespace Pacman
             player.Position = levelFile.ReadVector("player_position");
             this.level.Add(player);
 
+            GhostHouse ghostHouse = new GhostHouse();
+            this.level.Add(ghostHouse);
+
+            Blinky blinky = new Blinky(player);
+            blinky.Position = levelFile.ReadVector("blinky_position");
+            blinky.Direction = Vector2.UnitX;
+            ghostHouse.Add(blinky);
+
             // adding self to send message
             this.send.Players.Add(new PlayingMessage.Player());
         }
