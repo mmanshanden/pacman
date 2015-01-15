@@ -22,6 +22,8 @@ namespace Pacman
             }
         }
 
+
+
         public static Random Random
         {
             get;
@@ -41,11 +43,12 @@ namespace Pacman
         }
 
         private float frightenedTimer;
+        private int scatterCount;
 
         public Ghost()
         {
             this.State = States.Chase;
-            Ghost.Random = new Random(); 
+            Ghost.Random = new Random();
         }
 
         #region Collision Events
@@ -84,6 +87,10 @@ namespace Pacman
         }
         public virtual void Collision_Target(GameBoard board, GameTile tile)
         {
+            if (this.Position == GhostHouse.Entry && this.State == States.Dead)
+            {
+                this.State = States.Chase;
+            }
 
         }
         #endregion
@@ -137,6 +144,28 @@ namespace Pacman
             this.frightenedTimer = 6;
         }
 
+        public States ScatterSwitch(float dt)
+        {
+            float scattertimer;
+
+            switch (scatterCount)
+            {
+                case 0:
+                case 2:
+                    scattertimer = 7;
+                    scatterCount++;
+                    return States.Scatter;
+                case 1:
+                case 3:
+                    scattertimer = 20;
+                    scatterCount++;
+                    return States.Chase;
+
+                default:
+                    return States.Chase;
+            }
+        }
+
         public virtual Vector2 GetTarget(States state)
         {
             Level level = (Level)this.Parent.Parent; 
@@ -144,14 +173,15 @@ namespace Pacman
             switch (state)
             {
                 case States.Dead:
-                    return new Vector2(level.GameBoard.Respawn); 
+                    // set t
+                    return level.GhostHouse.Entry; 
                 case States.Frightened:
                     return new Vector2(Random.Next((int)level.GameBoard.Size.X), Random.Next((int)level.GameBoard.Size.Y));
                 case States.Scatter:
                     return new Vector2(2, 2); // have to chance this later
             }
 
-            return Vector2.One; 
+            return Vector2.Zero; 
 
         }
 
@@ -180,6 +210,14 @@ namespace Pacman
                 this.State = States.Chase;
 
             this.Target = GetTarget(this.State);
+
+            if (this.State != States.Frightened || this.State != States.Dead)
+            {
+                this.State = ScatterSwitch(dt); 
+            }
+
+
+
 
             base.Update(dt);
         }
