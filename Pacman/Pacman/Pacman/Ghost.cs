@@ -26,12 +26,6 @@ namespace Pacman
             set;
         }
 
-        public static Random Random
-        {
-            get;
-            private set;
-        }
-
         public Vector2 Target
         {
             get;
@@ -51,7 +45,6 @@ namespace Pacman
         public Ghost()
         {
             this.State = States.Chase;
-            Ghost.Random = new Random();
             this.scatterTimer = 0; 
         }
 
@@ -185,15 +178,20 @@ namespace Pacman
 
         public virtual Vector2 GetTarget(States state)
         {
-            Level level = (Level)this.Parent; 
-
             switch (state)
             {
                 case States.Dead:
                     // set t
-                    return level.GhostHouse.Entry; 
+                    return this.GhostHouse.Entry; 
+
                 case States.Frightened:
-                    return new Vector2(Random.Next((int)level.GameBoard.Size.X), Random.Next((int)level.GameBoard.Size.Y));
+                    Vector2 size = this.World.GameBoard.Size;
+                    Vector2 random = new Vector2();
+
+                    random.X = Game.Random.Next((int)size.X);
+                    random.Y = Game.Random.Next((int)size.Y);
+                    return random;
+
                 case States.Scatter:
                     return new Vector2(2, 2); // have to chance this later
             }

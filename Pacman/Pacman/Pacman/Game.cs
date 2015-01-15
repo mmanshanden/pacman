@@ -2,6 +2,7 @@ using Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Pacman
 {
@@ -19,12 +20,19 @@ namespace Pacman
             get;
             private set;
         }
+        public static Random Random
+        {
+            get;
+            private set;
+        }
 
         public Game()
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
             this.gameState = new StateDefault();
+
+            Game.Random = new Random();
         }
 
         protected override void LoadContent()
