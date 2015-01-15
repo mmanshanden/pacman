@@ -20,7 +20,7 @@ namespace Pacman
                 gameObjectList.Remove(this);
 
                 Level level = (Level)this.Parent;
-                level.GhostHouse.Blinky.State = Ghost.States.Scatter;
+                level.GhostHouse.Blinky.Frighten(); 
 
             }
 
