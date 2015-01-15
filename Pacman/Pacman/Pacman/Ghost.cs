@@ -11,6 +11,14 @@ namespace Pacman
             Dead,
         }
 
+        public GhostHouse GhostHouse
+        {
+            get
+            {
+                return this.Parent as GhostHouse;
+            }
+        }
+
         public Vector2 Target
         {
             get;
@@ -20,7 +28,7 @@ namespace Pacman
         public States State
         {
             get;
-            private set;
+            set;
         }
 
         public Ghost()

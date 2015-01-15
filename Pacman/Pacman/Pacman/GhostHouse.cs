@@ -31,16 +31,14 @@ namespace Pacman
         public void Add(Blinky blinky)
         {
             this.Blinky = blinky;
-            this.Add(blinky as GameObject);
+            base.Add(blinky);
         }
+
 
         public override void Draw(DrawHelper drawHelper)
         {
-            this.Blinky.Draw(drawHelper);
-
-
+            base.Draw(drawHelper);
         }
 
-        
     }
 }

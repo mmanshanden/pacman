@@ -7,45 +7,50 @@ namespace Pacman
 {
     class Level : GameWorld
     {
-        public Pacman Pacman { get; private set; }
+        public Player Player { get; private set; }
         public GhostHouse GhostHouse { get; private set; }
 
         public Level()
         {
-        
+
+        }
+
+        public void Add(Player player)
+        {
+            this.Player = player;
+            base.Add(player);            
+        }
+
+        public void Add(GhostHouse ghostHouse)
+        {
+            this.GhostHouse = ghostHouse;
+            base.Add(GhostHouse);
         }
 
         public void HandleInput(InputHelper inputHelper)
         {
-            this.Pacman.Direction = inputHelper.GetDirectionalInput();
+            this.Player.Direction = inputHelper.GetDirectionalInput();
         }
 
-        public void LoadLevel(string path)
+        public void LoadGameBoard(char[,] grid)
         {
-            FileReader level = new FileReader("Content/level1.txt");
-
-            char[,] levelGrid = level.ReadGrid("level");
-            GameBoard gameBoard = GameBoard.CopyDimensions(levelGrid);
-            this.Add(gameBoard);
+            // initialize gameboard and add board to level
+            GameBoard gameBoard = GameBoard.CopyDimensions(grid);
 
             for (int x = 0; x < gameBoard.Size.X; x++)
             {
                 for (int y = 0; y < gameBoard.Size.Y; y++)
                 {
+                    // standard ground tile
                     GameTile tile = new Ground();
 
-                    switch (levelGrid[x, y])
+                    switch (grid[x, y])
                     {
                         case '#':
                             tile = new Wall();
                             break;
                         case 'o':
                             tile = new InvisibleWall();
-                            break;
-                        case '.':
-                            Bubble b = new Bubble();
-                            b.Position = new Vector2(x, y);
-                            this.Add(b);
                             break;
                         default:
                             tile = new Ground();
@@ -56,18 +61,35 @@ namespace Pacman
                 }
             }
 
-            this.Pacman = new Pacman();
-            Pacman.Position = level.ReadVector("pacman");
-            this.Add(Pacman);
+            this.Add(gameBoard);
+        }
 
-            GhostHouse = new GhostHouse();
-            this.Add(GhostHouse);
+        public void LoadGameBoardObjects(char[,] grid)
+        {
+            for (int x = 0; x < grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.GetLength(1); y++)
+                {
+                    GameObject gameObject = null;
 
-            Blinky blinky = new Blinky(Pacman);
-            blinky.Position = level.ReadVector("blinky");
-            blinky.Direction = Vector2.UnitX;
-            GhostHouse.Add(blinky);
-            
+                    switch (grid[x, y])
+                    {
+                        case '@':
+                            gameObject = new Powerup();
+                            break;
+                        case '.':
+                            gameObject = new Bubble();
+                            break;
+                    }
+
+                    if (gameObject == null)
+                        continue;
+
+                    gameObject.Position = new Vector2(x, y);
+                    this.Add(gameObject);
+
+                }
+            }
         }
     }
 }

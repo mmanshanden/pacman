@@ -5,54 +5,9 @@ namespace Pacman
 {
     class Pacman : GameCharacter
     {
-        private Vector2 direction;
-        private Vector2 queued;
-
-        public override Vector2 Direction
-        {
-            get
-            {
-                return this.direction;
-            }
-            set
-            {
-                if (this.direction.X == 0 && this.direction.Y == 0)
-                {
-                    this.direction = value;
-                }
-
-                if (value.X == 0 && value.Y == 0)
-                {
-                    this.queued = this.direction;
-                    return;
-                }
-
-                this.queued = value;
-
-                if (this.queued * -1 == this.direction)
-                {
-                    this.direction = queued;
-                }
-            }
-        }
-
-
         public Pacman()
         {
 
-        }
-
-        public override void Collision_InvalidDirection(GameBoard gameBoard, GameTile tile)
-        {
-            this.direction = Vector2.Zero;
-        }
-
-        public override void Collision_Junction(GameBoard gameBoard, GameTile tile)
-        {
-            Vector2 p = this.Position + this.queued;
-
-            if (!gameBoard.GetTile(p).IsCollidable(this))
-                this.direction = queued;
         }
 
         public override void Draw(DrawHelper drawHelper)

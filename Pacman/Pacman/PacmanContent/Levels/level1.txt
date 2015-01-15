@@ -32,5 +32,5 @@ level=
 ############################
 ghosthouse_location=11.5;10
 ghosthouse_entry=13.5;11
-pacman=13.5;17
-blinky=13.5;11
+player_position=13.5;17
+blinky_position=13.5;11
