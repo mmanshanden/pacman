@@ -14,15 +14,17 @@ namespace Pacman
             Frightened
         }
 
-        public GhostHouse GhostHouse
+        public Level Level
         {
-            get
-            {
-                return this.Parent as GhostHouse;
-            }
+            get;
+            set;
         }
 
-
+        public GhostHouse GhostHouse
+        {
+            get;
+            set;
+        }
 
         public static Random Random
         {
@@ -184,7 +186,7 @@ namespace Pacman
 
         public virtual Vector2 GetTarget(States state)
         {
-            Level level = (Level)this.Parent.Parent; 
+            Level level = (Level)this.Parent; 
 
             switch (state)
             {
@@ -202,8 +204,7 @@ namespace Pacman
         }
 
         public override void Update(float dt)
-        {
-            
+        {           
 
             switch (this.State)
             {
@@ -235,6 +236,24 @@ namespace Pacman
 
 
             base.Update(dt);
+        }
+
+        public override void Draw(DrawHelper drawHelper)
+        {
+            drawHelper.Translate(this.Position);
+
+            switch(this.State)
+            {
+                case States.Dead:
+                    drawHelper.DrawBox(Color.DarkBlue);
+                    break;
+                case States.Frightened:
+                    // TODO: blink white-blue when frighten almost ends
+                    drawHelper.DrawBox(Color.DarkBlue);
+                    break;
+            }
+
+            drawHelper.Translate(-this.Position);
         }
     }
 }

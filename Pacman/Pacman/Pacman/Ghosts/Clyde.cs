@@ -3,11 +3,11 @@ using Microsoft.Xna.Framework;
 
 namespace Pacman
 {
-    class Blinky : Ghost
+    class Clyde : Ghost
     {
         private Pacman pacman;
 
-        public Blinky(Pacman pacman)
+        public Clyde(Pacman pacman)
             : base()
         {
             this.pacman = pacman;
@@ -26,23 +26,14 @@ namespace Pacman
             return base.GetTarget(state);
         }
 
-        public override void Collision_GameObject(GameObject gameObject)
-        {
-            // we have collision!
-        }
-
 
         public override void Draw(DrawHelper drawHelper)
         {
-            if (this.State != States.Chase && 
-                this.State != States.Scatter)
-            {
+            if (this.State != States.Chase && this.State != States.Scatter)
                 base.Draw(drawHelper);
-                return;
-            }
 
             drawHelper.Translate(this.Position);
-            drawHelper.DrawBox(Color.Red);
+            drawHelper.DrawBox(Color.Orange);
             drawHelper.Translate(-this.Position);
         }
     }
