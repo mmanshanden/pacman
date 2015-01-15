@@ -42,13 +42,15 @@ namespace Pacman
             set;
         }
 
-        private float frightenedTimer;
+        private float frightenedTimer, scatterTimer;
         private int scatterCount;
+        States storedState;
 
         public Ghost()
         {
             this.State = States.Chase;
             Ghost.Random = new Random();
+            this.scatterTimer = 0; 
         }
 
         #region Collision Events
@@ -140,30 +142,44 @@ namespace Pacman
 
         public void Frighten()
         {
+            storedState = this.State; 
             this.State = States.Frightened;
             this.frightenedTimer = 6;
         }
 
+
         public States ScatterSwitch(float dt)
         {
-            float scattertimer;
+            scatterTimer -= dt;
+            Console.WriteLine(scatterTimer.ToString()); 
 
-            switch (scatterCount)
+            if (scatterTimer <= 0) 
             {
-                case 0:
-                case 2:
-                    scattertimer = 7;
-                    scatterCount++;
-                    return States.Scatter;
-                case 1:
-                case 3:
-                    scattertimer = 20;
-                    scatterCount++;
-                    return States.Chase;
+                switch (scatterCount)
+                {
+                    case 0:
+                    case 2:
+                        scatterTimer = 7;
+                        scatterCount++;
+                        return States.Scatter;
+                    case 4:
+                    case 6:
+                        scatterTimer = 5;
+                        scatterCount++;
+                        return States.Scatter;
+                    case 1:
+                    case 3:
+                    case 5:
+                        scatterTimer = 20;
+                        scatterCount++;
+                        return States.Chase;
 
-                default:
-                    return States.Chase;
+                    default:
+                        return States.Chase;
+                }
             }
+
+            return this.State; 
         }
 
         public virtual Vector2 GetTarget(States state)
@@ -206,15 +222,14 @@ namespace Pacman
             if (this.State == States.Frightened)
                 frightenedTimer -= dt;
 
-            if (this.frightenedTimer < 0)
-                this.State = States.Chase;
+            if (this.frightenedTimer < 0 && this.State == States.Frightened)
+                this.State = storedState;  
 
             this.Target = GetTarget(this.State);
 
-            if (this.State != States.Frightened || this.State != States.Dead)
-            {
+            if (this.State != States.Frightened && this.State != States.Dead)
                 this.State = ScatterSwitch(dt); 
-            }
+            
 
 
 
