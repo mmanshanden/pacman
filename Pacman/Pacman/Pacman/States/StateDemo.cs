@@ -6,20 +6,34 @@ namespace Pacman
 {
     class StateDemo : IGameState
     {
-        Level gameWorld;
+        FileReader levelFile;
+        Level level;
 
         public StateDemo()
         {
-            this.gameWorld = new Level("Content/level1.txt");
-            this.gameWorld.LoadGameBoard("level");
+            this.levelFile = new FileReader("Content/Levels/level1.txt");
+            this.level = new Level();
+
+            this.level.LoadGameBoard(levelFile.ReadGrid("level"));
+            this.level.LoadGameBoardObjects(levelFile.ReadGrid("level"));
 
             Player player = new Player();
-            this.gameWorld.Add(player, "player_position");
+            player.Position = this.levelFile.ReadVector("player_position");
+            this.level.Add(player);
+
+            GhostHouse ghostHouse = new GhostHouse();
+            this.level.Add(ghostHouse);
+
+            Blinky blinky = new Blinky(player);
+            blinky.Position = this.levelFile.ReadVector("blinky_position");
+            blinky.Direction = new Vector2(0, 1);
+            ghostHouse.Add(blinky);
+
         }
 
         public void HandleInput(InputHelper inputHelper)
         {
-            this.gameWorld.HandleInput(inputHelper);
+            this.level.HandleInput(inputHelper);
         }
 
         public IGameState TransitionTo()
@@ -29,14 +43,14 @@ namespace Pacman
 
         public void Update(float dt)
         {
-            this.gameWorld.Update(dt);
+            this.level.Update(dt);
         }
 
         public void Draw(DrawHelper drawHelper)
         {
             drawHelper.Scale(13, 13);
-            this.gameWorld.Draw(drawHelper);
-            drawHelper.Scale(1/13f, 1/13f);
+            this.level.Draw(drawHelper);
+            drawHelper.Scale(1 / 13f, 1 / 13f);
         }
 
     }

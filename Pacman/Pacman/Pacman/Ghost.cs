@@ -11,6 +11,14 @@ namespace Pacman
             Dead,
         }
 
+        public GhostHouse GhostHouse
+        {
+            get
+            {
+                return this.Parent as GhostHouse;
+            }
+        }
+
         public Vector2 Target
         {
             get;
