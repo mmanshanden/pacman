@@ -2,6 +2,7 @@
 using Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Pacman
 {
@@ -10,7 +11,7 @@ namespace Pacman
         GameClient client;
         Level level;
 
-        PlayingMessage draw = new PlayingMessage();
+        List<Pacman> players;
 
         public StateJoin(string endpoint)
         {
@@ -28,6 +29,8 @@ namespace Pacman
             Player player = new Player();
             player.Position = levelFile.ReadVector("player_position");
             this.level.Add(player);
+
+            this.players = new List<Pacman>();
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -46,13 +49,12 @@ namespace Pacman
 
             this.client.Update(dt);
 
-            PlayingMessage.Player self = new PlayingMessage.Player();
-            self.ID = this.client.ConnectionID;
+            NetPlayState.Player self = new NetPlayState.Player();
             self.Position = this.level.Player.Position;
             self.Direction = this.level.Player.Direction;
             self.Speed = this.level.Player.Speed;
 
-            PlayingMessage send = new PlayingMessage();
+            NetPlayState send = new NetPlayState();
             send.Players.Add(self);
 
             this.client.SetData(send);
@@ -67,63 +69,60 @@ namespace Pacman
                 return;
 
             // convert to playing state message
-            PlayingMessage worldstate = new PlayingMessage();
+            NetPlayState worldstate = new NetPlayState();
             NetMessage.CopyOver(received, worldstate);
-            draw = worldstate;
-            
 
-
-            /* EXAMPLE
-            // lets send some data to the server
-            NetMessage send = new NetMessage();
-            send.PacketType = PacketType.WorldState;
-            send.DataType = DataType.Playing;
-            // we don't have to worry about connection id or time
-            // time is added by the client and the server acquires
-            // our connection id by itself.
-
-            // now we tell te client to send this data
-            // this will not be sent immediately however.
-            // the client will send the message once the
-            // sendtime is over.
-            this.client.SetData(send);
-
-            // lets see if the server sent us some data
-            NetMessage received = this.client.GetData();
-
-            if (received == null)
-                return; // no data. we can stop here
-
-            // lets see what type of data the server sent us
-            switch(received.DataType)
+            foreach (NetPlayState.Player update in worldstate.Players)
             {
-                case DataType.Playing:
-                    // We now know the NetMessage was originally 
-                    // a playingmessage. So we can convert it to
-                    // a playingmessage;
-                    PlayingMessage message = new PlayingMessage();
-                    NetMessage.CopyOver(received, message);
+                if (update.ID == this.client.ConnectionID)
+                    continue;
 
-                    // this is the data we received from the server:
-                    Console.WriteLine("Message received from server:");
-                    Console.WriteLine(message.ToString());
-                    break;
-            }*/
+                bool updated = false;
+
+                foreach(Pacman netplayer in this.players)
+                {
+                    if (update.ID != netplayer.NetData.ID)
+                        continue;
+
+                    updated = true;
+
+                    if (update.Time <= netplayer.NetData.Time)
+                        continue;
+
+                    netplayer.NetData = update;
+
+                    netplayer.Position = update.Position;
+                    netplayer.Direction = update.Direction;
+                    netplayer.Speed = update.Speed;
+
+                    // setting updated to true here in incorrect
+                    // this will create a new player if the time
+                    // was not updated
+                    // updated = true;
+                }
+
+                // new player
+                if (!updated)
+                {
+                    Pacman newplayer = new Pacman();
+                    newplayer.Position = update.Position;
+                    newplayer.Direction = update.Direction;
+                    newplayer.Speed = update.Speed;
+                    newplayer.NetData = update;
+
+                    this.players.Add(newplayer);
+                    this.level.Add(newplayer);
+                    Console.WriteLine("New player added");
+                }
+
+            }
+
         }
 
         public void Draw(DrawHelper drawHelper)
         {
             drawHelper.Scale(14, 14);
             this.level.Draw(drawHelper);
-
-
-            foreach (PlayingMessage.Player netplayer in draw.Players)
-            {
-                drawHelper.Translate(netplayer.Position);
-                drawHelper.DrawBox(Color.Gold);
-                drawHelper.Translate(-netplayer.Position);
-            }
-
             drawHelper.Scale(1 / 14f, 1 / 14f);
         }
 

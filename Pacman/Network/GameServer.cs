@@ -9,7 +9,7 @@ namespace Network
 {
     public class GameServer
     {
-        const float UpdateTimer = 3f;
+        const float UpdateTimer = 0.05f;
         const int ServerPort = 1000;
 
         private Thread serverThread;

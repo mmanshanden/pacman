@@ -7,7 +7,7 @@ namespace Network
 {
     public class GameClient
     {
-        const float UpdateTimer = 3f;
+        const float UpdateTimer = 0.03f;
 
         private int clientConnectionId;
         private int clientUpdateCount;

@@ -1,10 +1,13 @@
 ﻿using Base;
+using Network;
 using Microsoft.Xna.Framework;
 
 namespace Pacman
 {
     class Pacman : GameCharacter
     {
+        public NetPlayState.Player NetData { get; set; }
+
         public Pacman()
         {
 

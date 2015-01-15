@@ -8,7 +8,7 @@ namespace Pacman
     class StateHost : IGameState
     {
         GameServer server;
-        PlayingMessage send;
+        NetPlayState send;
         Level level;
 
         public StateHost()
@@ -19,7 +19,7 @@ namespace Pacman
             Console.Clear();
             Console.WriteLine("Hosting server");
 
-            this.send = new PlayingMessage();
+            this.send = new NetPlayState();
 
             FileReader levelFile = new FileReader("Content/Levels/level1.txt");
             
@@ -40,7 +40,7 @@ namespace Pacman
             ghostHouse.Add(blinky);
 
             // adding self to send message
-            this.send.Players.Add(new PlayingMessage.Player());
+            this.send.Players.Add(new NetPlayState.Player());
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -67,20 +67,24 @@ namespace Pacman
                     continue;
 
                 // convert to playingmessage
-                PlayingMessage message = new PlayingMessage();
+                NetPlayState message = new NetPlayState();
                 NetMessage.CopyOver(received, message);
+
+                Console.WriteLine("Received data: ");
+                Console.WriteLine(message.ToString());
                 
                 // the player data that was sent
-                PlayingMessage.Player update = message.Players[0];
+                NetPlayState.Player update = message.Players[0];
 
                 bool updated = false;
 
-                foreach (PlayingMessage.Player player in send.Players)
+                foreach (NetPlayState.Player player in send.Players)
                 {
                     // find player to update in list
                     if (player.ID != message.ConnectionId)
                         continue;
-                    
+
+                    player.Time = message.Time;
                     player.Position = update.Position;
                     player.Direction = update.Direction;
                     player.Speed = update.Speed;
@@ -94,6 +98,7 @@ namespace Pacman
                 if (!updated)
                 {
                     update.ID = message.ConnectionId;
+                    update.Time = message.Time;
                     send.Players.Add(update);
                     Console.WriteLine("Added player to list:");
                     Console.WriteLine(update.ToString());
@@ -101,7 +106,7 @@ namespace Pacman
             }
 
             // update self in map data
-            foreach(PlayingMessage.Player player in this.send.Players)
+            foreach(NetPlayState.Player player in this.send.Players)
             {
                 if (player.ID != 0)
                     continue;
@@ -109,44 +114,13 @@ namespace Pacman
                 player.Position = this.level.Player.Position;
                 player.Direction = this.level.Player.Direction;
                 player.Speed = this.level.Player.Speed;
+                player.Time++;
             }
 
             // send map data to clients
             this.server.SetData(this.send);
 
-            /* EXAMPLE
-            // prepare data for clients
-            PlayingMessage send = new PlayingMessage();
-            
-            // begin arbitrary data
-            PlayingMessage.Player player = new PlayingMessage.Player();
-            player.Position = new Vector2(0.02134f, 12.12403f);
-            player.Speed = 9001;
-            send.Players.Add(player);
 
-            PlayingMessage.Ghost ghost = new PlayingMessage.Ghost();
-            ghost.Direction = new Vector2(1, 0);
-            ghost.Target = new Vector2(6, 9);
-            send.Ghosts.Add(ghost);
-            // read all messages from server
-
-            // tell server to send it when its timer elapses
-            this.server.SetData(send);
-
-            
-            // get data that was sent back to server
-            // i.e. the data the server received;
-            NetMessage received;
-
-            // pull messages until theres none left
-            while((received = this.server.GetData()) != null) 
-            {
-                // this is the message that was received by the server;
-                Console.WriteLine("Message received from client:");
-                Console.WriteLine(received.ToString());
-                Console.WriteLine("");
-            }
-            */
         }
 
         public void Draw(DrawHelper drawHelper)
