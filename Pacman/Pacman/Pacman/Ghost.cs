@@ -86,7 +86,7 @@ namespace Pacman
         }
         public virtual void Collision_Target(GameBoard board, GameTile tile)
         {
-            if (this.Position == GhostHouse.Entry && this.State == States.Dead)
+            if (this.Center == GhostHouse.Entry && this.State == States.Dead)
             {
                 this.State = States.Chase;
             }
