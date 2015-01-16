@@ -30,7 +30,7 @@ namespace Pacman
         public static Blinky LoadBlinky(FileReader file)
         {
             Blinky blinky = new Blinky();
-            blinky.Position = file.ReadVector("blinky_position");
+            blinky.Spawn = file.ReadVector("blinky_position");
             blinky.Scatter = file.ReadVector("blinky_scatter");
             blinky.Direction = Vector2.UnitY;
 

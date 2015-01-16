@@ -25,6 +25,18 @@ namespace Pacman
             set;
         }
 
+        private Vector2 spawn;
+
+        public Vector2 Spawn
+        {
+            get { return this.spawn; }
+            set
+            {
+                this.Position = value;
+                this.spawn = value;
+            }
+        }
+
         public Vector2 Scatter
         {
             get;
