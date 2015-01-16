@@ -141,7 +141,8 @@ namespace Pacman
 
         public void Frighten()
         {
-            storedState = this.State; 
+            if (this.State != States.Frightened)
+                storedState = this.State; 
             this.State = States.Frightened;
             this.frightenedTimer = 6;
         }
