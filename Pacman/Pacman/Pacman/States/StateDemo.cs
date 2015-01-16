@@ -22,13 +22,18 @@ namespace Pacman
             this.level.Add(player);
 
             GhostHouse ghostHouse = new GhostHouse();
+            ghostHouse.AddPacman(player);
             this.level.Add(ghostHouse);
 
-            Blinky blinky = new Blinky(player);
-            blinky.Position = this.levelFile.ReadVector("blinky_position");
-            blinky.Direction = new Vector2(0, 1);
-            ghostHouse.Add(blinky);
+            Blinky blinky = Blinky.LoadBlinky(levelFile);
+            Pinky pinky = Pinky.LoadPinky(levelFile);
+            Inky inky = Inky.LoadInky(levelFile);
+            Clyde clyde = Clyde.LoadClyde(levelFile);
 
+            ghostHouse.Add(blinky);
+            ghostHouse.Add(clyde);
+            ghostHouse.Add(inky);
+            ghostHouse.Add(pinky);
         }
 
         public void HandleInput(InputHelper inputHelper)

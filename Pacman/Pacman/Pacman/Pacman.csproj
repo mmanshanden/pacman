@@ -76,6 +76,9 @@
     <Compile Include="GhostHouse.cs" />
     <Compile Include="Ghosts\Blinky.cs" />
     <Compile Include="Ghost.cs" />
+    <Compile Include="Ghosts\Clyde.cs" />
+    <Compile Include="Ghosts\Inky.cs" />
+    <Compile Include="Ghosts\Pinky.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Pacman.cs" />
     <Compile Include="Player.cs" />

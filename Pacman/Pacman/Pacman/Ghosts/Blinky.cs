@@ -1,27 +1,46 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Base;
+using Microsoft.Xna.Framework;
+
 namespace Pacman
 {
     class Blinky : Ghost
     {
-        private Pacman pacman;
-
-        public Blinky(Pacman pacman)
-            : base()
+        public override Vector2 GetTarget(Ghost.States state)
         {
-            this.pacman = pacman;
+            if (state == States.Chase)
+                return this.GhostHouse.GetPacman().Center;
+
+            return base.GetTarget(state);
         }
 
-        public override void Update(float dt)
+        public override void Collision_GameObject(GameObject gameObject)
         {
-            this.Target = pacman.Position + Vector2.One * 0.5f;
-            base.Update(dt);
+            // we have collision!
         }
 
-        public override void Draw(Base.DrawHelper drawHelper)
+
+        public override void Draw(DrawHelper drawHelper)
         {
+            if (this.State != States.Chase && 
+                this.State != States.Scatter)
+            {
+                base.Draw(drawHelper);
+                return;
+            }
+
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Red);
             drawHelper.Translate(-this.Position);
+        }
+
+        public static Blinky LoadBlinky(FileReader file)
+        {
+            Blinky blinky = new Blinky();
+            blinky.Position = file.ReadVector("blinky_position");
+            blinky.Scatter = file.ReadVector("blinky_scatter");
+            blinky.Direction = Vector2.UnitY;
+
+            return blinky;
         }
     }
 }

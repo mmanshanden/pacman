@@ -1,5 +1,7 @@
 ﻿using Base;
 using Microsoft.Xna.Framework;
+using System;
+
 namespace Pacman
 {
     class Ghost : GameCharacter
@@ -9,16 +11,24 @@ namespace Pacman
             Chase,
             Scatter,
             Dead,
+            Frightened
         }
 
+        public Vector2 Scatter
+        {
+            get;
+            set;
+        }
+        public Level Level
+        {
+            get;
+            set;
+        }
         public GhostHouse GhostHouse
         {
-            get
-            {
-                return this.Parent as GhostHouse;
-            }
+            get;
+            set;
         }
-
         public Vector2 Target
         {
             get;
@@ -31,9 +41,14 @@ namespace Pacman
             set;
         }
 
+        private float frightenedTimer, scatterTimer;
+        private int scatterCount;
+        States storedState;
+
         public Ghost()
         {
             this.State = States.Chase;
+            this.scatterTimer = 0; 
         }
 
         #region Collision Events
@@ -72,10 +87,15 @@ namespace Pacman
         }
         public virtual void Collision_Target(GameBoard board, GameTile tile)
         {
+            if (this.Position == GhostHouse.Entry && this.State == States.Dead)
+            {
+                this.State = States.Chase;
+            }
 
         }
         #endregion
 
+        #region Move - Don't touch
         protected override void Move(GameBoard board, GameTile tile, float dt)
         {
             float v, j, p;
@@ -116,6 +136,125 @@ namespace Pacman
             this.Collision_Target(board, tile);
             Console.WriteLine("Target event");
             base.Move(board, tile, dt - t);
+        }
+        #endregion
+
+        public void Frighten()
+        {
+            storedState = this.State; 
+            this.State = States.Frightened;
+            this.frightenedTimer = 6;
+        }
+
+
+        public States ScatterSwitch(float dt)
+        {
+            scatterTimer -= dt;
+
+            if (scatterTimer <= 0) 
+            {
+                switch (scatterCount)
+                {
+                    case 0:
+                    case 2:
+                        scatterTimer = 7;
+                        scatterCount++;
+                        return States.Scatter;
+                    case 4:
+                    case 6:
+                        scatterTimer = 5;
+                        scatterCount++;
+                        return States.Scatter;
+                    case 1:
+                    case 3:
+                    case 5:
+                        scatterTimer = 20;
+                        scatterCount++;
+                        return States.Chase;
+
+                    default:
+                        return States.Chase;
+                }
+            }
+
+            return this.State; 
+        }
+
+        public virtual Vector2 GetTarget(States state)
+        {
+            switch (state)
+            {
+                case States.Dead:
+                    // set t
+                    return this.GhostHouse.Entry; 
+
+                case States.Frightened:
+                    Vector2 size = this.World.GameBoard.Size;
+                    Vector2 random = new Vector2();
+
+                    random.X = Game.Random.Next((int)size.X);
+                    random.Y = Game.Random.Next((int)size.Y);
+                    return random;
+
+                case States.Scatter:
+                    return this.Scatter;
+            }
+
+            return Vector2.Zero; 
+
+        }
+
+        public override void Update(float dt)
+        {           
+
+            switch (this.State)
+            {
+                case States.Chase:
+                case States.Scatter:
+                    this.Speed = 6;
+                    break;
+                case States.Frightened:
+                    this.Speed = 4;
+                    break;
+                case States.Dead:
+                    this.Speed = 20;
+                    break;
+            }
+
+            if (this.State == States.Frightened)
+                frightenedTimer -= dt;
+
+            if (this.frightenedTimer < 0 && this.State == States.Frightened)
+                this.State = storedState;  
+
+            this.Target = GetTarget(this.State);
+
+            if (this.State != States.Frightened && this.State != States.Dead)
+                this.State = ScatterSwitch(dt); 
+            
+
+
+
+
+            base.Update(dt);
+        }
+
+        public override void Draw(DrawHelper drawHelper)
+        {
+            drawHelper.Translate(this.Position);
+
+            switch(this.State)
+            {
+                case States.Dead:
+                    drawHelper.DrawBox(Color.DarkBlue);
+                    break;
+                case States.Frightened:
+                    // TODO: blink white-blue when frighten almost ends
+                    drawHelper.DrawBox(Color.DarkBlue);
+                    break;
+            }
+
+            drawHelper.Translate(-this.Position);
         }
     }
 }

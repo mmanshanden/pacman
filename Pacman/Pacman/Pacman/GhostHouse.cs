@@ -7,38 +7,94 @@ using System.Text;
 
 namespace Pacman
 {
-    class GhostHouse : GameWorld
+    class GhostHouse : GameObject
     {
-        public Vector2 Entry
+        public enum AiModes
         {
-            get;
-            set;
+            First,
+            Random,
+            Nearby,
         }
 
-        public Blinky Blinky
+        private List<Pacman> pacmans;
+
+        protected Level Level
         {
-            get;
-            set;
+            get
+            {
+                return this.Parent as Level;
+            }
         }
 
+        public AiModes AiMode { get; set; }
+
+        public Vector2 Entry { get; set; }
+        public Vector2 Center { get; set; }
+        
+        public Blinky Blinky { get; private set; }
+        public Inky Inky { get; private set; }
+        public Pinky Pinky { get; private set; }
+        public Clyde Clyde { get; private set; }
 
         public GhostHouse()
-            : base()
         {
-
+            this.pacmans = new List<Pacman>();
         }
 
+        #region Ghost Adding
         public void Add(Blinky blinky)
         {
             this.Blinky = blinky;
-            base.Add(blinky);
+            this.Add(blinky as Ghost);
         }
 
-
-        public override void Draw(DrawHelper drawHelper)
+        public void Add(Clyde clyde)
         {
-            base.Draw(drawHelper);
+            this.Clyde = clyde;
+            this.Add(clyde as Ghost);
+        }
+       
+        public void Add(Inky inky)
+        {
+            this.Inky = inky;
+            this.Add(inky as Ghost);
         }
 
+        public void Add(Pinky pinky)
+        {
+            this.Pinky = pinky;
+            this.Add(pinky as Ghost);
+        }
+
+        public void Add(Ghost ghost)
+        {
+            this.Level.Add(ghost);
+            ghost.GhostHouse = this;
+        }
+        #endregion
+
+        public void AddPacman(Pacman pacman)
+        {
+            this.pacmans.Add(pacman);
+        }
+
+        public Pacman GetPacman()
+        {
+            switch (this.AiMode)
+            {
+                case AiModes.Random:
+                    int index = Game.Random.Next(this.pacmans.Count);
+                    return this.pacmans[index];
+
+                default:
+                    this.AiMode = AiModes.Random;
+                    return GetPacman();
+            }
+        }
+
+        public override void Update(float dt)
+        {
+            // perhaps do something with ghosts here...
+        }
     }
 }
