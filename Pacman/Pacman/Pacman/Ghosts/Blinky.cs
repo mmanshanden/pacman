@@ -5,15 +5,10 @@ namespace Pacman
 {
     class Blinky : Ghost
     {
-        public override void Update(float dt)
-        {
-            base.Update(dt);
-        }
-
         public override Vector2 GetTarget(Ghost.States state)
         {
             if (state == States.Chase)
-                return this.Target = this.GhostHouse.GetPacman().Center;
+                return this.GhostHouse.GetPacman().Center;
 
             return base.GetTarget(state);
         }
@@ -36,6 +31,16 @@ namespace Pacman
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Red);
             drawHelper.Translate(-this.Position);
+        }
+
+        public static Blinky LoadBlinky(FileReader file)
+        {
+            Blinky blinky = new Blinky();
+            blinky.Position = file.ReadVector("blinky_position");
+            blinky.Scatter = file.ReadVector("blinky_scatter");
+            blinky.Direction = Vector2.UnitY;
+
+            return blinky;
         }
     }
 }

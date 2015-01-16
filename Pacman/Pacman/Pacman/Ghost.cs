@@ -14,18 +14,21 @@ namespace Pacman
             Frightened
         }
 
+        public Vector2 Scatter
+        {
+            get;
+            set;
+        }
         public Level Level
         {
             get;
             set;
         }
-
         public GhostHouse GhostHouse
         {
             get;
             set;
         }
-
         public Vector2 Target
         {
             get;
@@ -92,6 +95,7 @@ namespace Pacman
         }
         #endregion
 
+        #region Move - Don't touch
         protected override void Move(GameBoard board, GameTile tile, float dt)
         {
             float v, j, p;
@@ -133,7 +137,7 @@ namespace Pacman
             Console.WriteLine("Target event");
             base.Move(board, tile, dt - t);
         }
-
+        #endregion
 
         public void Frighten()
         {
@@ -193,7 +197,7 @@ namespace Pacman
                     return random;
 
                 case States.Scatter:
-                    return new Vector2(2, 2); // have to chance this later
+                    return this.Scatter;
             }
 
             return Vector2.Zero; 
