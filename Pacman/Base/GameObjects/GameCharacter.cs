@@ -91,6 +91,12 @@ namespace Base
                     next = tile.Top;
             }
 
+            if (next == null)
+            {
+                this.Position += this.Velocity * dt;
+                return;
+            }
+
             float t = Collision.SolveForX(v, p, j);
 
             // will we cross junction?
