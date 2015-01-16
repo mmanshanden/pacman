@@ -47,6 +47,7 @@ namespace Base
         {
             return new Point((int)vector.X, (int)vector.Y);
         }
+
         public static Vector2 ToVector(Point point)
         {
             return new Vector2(point.X, point.Y);
@@ -56,31 +57,39 @@ namespace Base
         {
             return (y - b) / a;
         }
-        public static Vector2 ModuloVector(Vector2 vector, float modulo)
-        {
-            vector.X %= modulo;
-            vector.Y %= modulo;
-            return vector;
-        }
-        // axis seperated!
-        public static Vector2 IntersectionTime(Vector2 p, Vector2 v, Vector2 j)
-        {
-            Vector2 result = new Vector2();
-            result.X = SolveForX(v.X, p.X, j.X);
-            result.Y = SolveForX(v.Y, p.Y, j.Y);
-            return result;
-        }
-        public static float GetSmallestPositive(float a, float b)
-        {
-            float smallest = float.PositiveInfinity;
 
-            if (a >= 0 && a < smallest)
-                smallest = a;
+        public static Vector2 ToDirectionVector(Vector2 vector)
+        {
+            if (vector.Length() < 0.2f)
+                return Vector2.Zero;
 
-            if (b >= 0 && b < smallest)
-                smallest = b;
+            float qc = (float)Math.Sin(MathHelper.PiOver4);
 
-            return smallest;
+            vector.Normalize();
+
+            if (vector.Y > 0)
+            {
+                if (vector.X > qc)
+                    return Right;
+
+                if (vector.X < -qc)
+                    return Left;
+
+                return Up;
+
+            }
+            else
+            {
+                if (vector.X > qc)
+                    return Right;
+
+                if (vector.X < -qc)
+                    return Left;
+
+                return Down;
+            }
+            
         }
+
     }
 }
