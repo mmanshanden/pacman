@@ -22,6 +22,7 @@ namespace Pacman
             this.level.Add(player);
 
             GhostHouse ghostHouse = new GhostHouse();
+            ghostHouse.Entry = this.levelFile.ReadVector("ghosthouse_entry");
             ghostHouse.AddPacman(player);
             this.level.Add(ghostHouse);
 

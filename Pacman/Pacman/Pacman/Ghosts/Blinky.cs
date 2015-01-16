@@ -13,12 +13,6 @@ namespace Pacman
             return base.GetTarget(state);
         }
 
-        public override void Collision_GameObject(GameObject gameObject)
-        {
-            // we have collision!
-        }
-
-
         public override void Draw(DrawHelper drawHelper)
         {
             if (this.State != States.Chase && 
@@ -36,7 +30,7 @@ namespace Pacman
         public static Blinky LoadBlinky(FileReader file)
         {
             Blinky blinky = new Blinky();
-            blinky.Position = file.ReadVector("blinky_position");
+            blinky.Spawn = file.ReadVector("blinky_position");
             blinky.Scatter = file.ReadVector("blinky_scatter");
             blinky.Direction = Vector2.UnitY;
 

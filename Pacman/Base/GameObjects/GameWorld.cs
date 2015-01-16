@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,26 @@ namespace Base
                         gameObject.Collision_GameObject(character);
                     }
                 }
+
+                if (this.GameBoard.Size == null)
+                    continue;
+
+                // gameobject leaving right side
+                if (character.Position.X > this.GameBoard.Size.X)
+                    character.Position -= Vector2.UnitX * this.GameBoard.Size.X;
+
+                // ... leaving left side
+                if (character.Position.X < -1)
+                    character.Position += Vector2.UnitX * this.GameBoard.Size.X;
+                
+                // ... top side
+                if (character.Position.Y > this.GameBoard.Size.Y)
+                    character.Position -= Vector2.UnitY * this.GameBoard.Size.Y;
+
+                // and bottom
+                if (character.Position.Y < -1)
+                    character.Position += Vector2.UnitY * this.GameBoard.Size.Y;
+                
             }
 
             base.Update(dt);

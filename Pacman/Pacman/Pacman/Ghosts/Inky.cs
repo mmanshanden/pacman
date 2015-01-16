@@ -37,7 +37,7 @@ namespace Pacman
         public static Inky LoadInky(FileReader file)
         {
             Inky inky = new Inky();
-            inky.Position = file.ReadVector("inky_position");
+            inky.Spawn = file.ReadVector("inky_position");
             inky.Scatter = file.ReadVector("inky_scatter");
             inky.Direction = Vector2.UnitY;
 

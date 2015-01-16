@@ -21,6 +21,9 @@ namespace Pacman
             }
             set
             {
+                // limit value to up, down, left and right
+                value = Collision.ToDirectionVector(value);
+
                 // immediately overwrite if our direction is 0
                 if (this.direction.X == 0 && this.direction.Y == 0)
                     this.direction = value;
