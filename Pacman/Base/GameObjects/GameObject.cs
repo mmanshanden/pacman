@@ -75,7 +75,12 @@ namespace Base
 
         public virtual bool CollidesWith(GameObject gameObject)
         {
-            return (gameObject.Tile == this.Tile);
+            return (
+              this.Position.X < gameObject.Position.X + 1 &&
+              this.Position.X + 1 > gameObject.Position.X &&
+              this.Position.Y < gameObject.Position.Y + 1 &&
+              this.Position.Y + 1 > gameObject.Position.Y
+            );
         }
 
         public virtual void Update(float dt)
