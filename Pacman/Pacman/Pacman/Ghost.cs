@@ -93,6 +93,12 @@ namespace Pacman
         }
         #endregion
 
+        public override void Collision_GameObject(GameObject gameObject)
+        {
+            if (this.State == States.Frightened && gameObject is Pacman)
+                this.State = States.Dead;
+        }
+
         #region Move - Don't touch
         protected override void Move(GameBoard board, GameTile tile, float dt)
         {
