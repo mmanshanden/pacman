@@ -13,12 +13,6 @@ namespace Pacman
             return base.GetTarget(state);
         }
 
-        public override void Collision_GameObject(GameObject gameObject)
-        {
-            // we have collision!
-        }
-
-
         public override void Draw(DrawHelper drawHelper)
         {
             if (this.State != States.Chase && 
