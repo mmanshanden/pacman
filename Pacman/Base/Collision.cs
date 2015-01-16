@@ -5,6 +5,8 @@ namespace Base
 {
     public class Collision
     {
+        private const float QuarterCircle = 0.70710678118f;
+
         #region Vector presets
         public static Vector2 HalfVector
         {
@@ -62,31 +64,29 @@ namespace Base
         {
             if (vector.Length() < 0.2f)
                 return Vector2.Zero;
-
-            float qc = (float)Math.Sin(MathHelper.PiOver4);
-
+                     
             vector.Normalize();
 
             if (vector.Y > 0)
             {
-                if (vector.X > qc)
+                if (vector.X > QuarterCircle)
                     return Right;
 
-                if (vector.X < -qc)
+                if (vector.X < -QuarterCircle)
                     return Left;
 
-                return Up;
+                return Down;
 
             }
             else
             {
-                if (vector.X > qc)
+                if (vector.X > QuarterCircle)
                     return Right;
 
-                if (vector.X < -qc)
+                if (vector.X < -QuarterCircle)
                     return Left;
 
-                return Down;
+                return Up;
             }
             
         }

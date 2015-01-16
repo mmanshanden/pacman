@@ -6,10 +6,15 @@ namespace Base
     public class GameCharacter : GameObject
     {
         #region Movement
+        private Vector2 direction;
+
         public virtual Vector2 Direction
         {
-            get;
-            set;
+            get { return this.direction; }
+            set
+            {
+                this.direction = Collision.ToDirectionVector(value);
+            }
         }
         public float Speed
         {
@@ -30,13 +35,9 @@ namespace Base
         {
             get
             {
-                foreach (GameObject gameObject in this.GetTree())
-                {
-                    GameWorld world = gameObject as GameWorld;
-
-                    if (world != null && world.GameBoard != null)
-                        return world.GameBoard;
-                }
+                GameWorld world = this.World;
+                if (this.World != null && this.World.GameBoard != null)
+                    return this.World.GameBoard;
 
                 return null;
             }

@@ -80,7 +80,7 @@ namespace Base
 
             Vector2 stick = new Vector2();
             stick.X = gsCurrent.ThumbSticks.Left.X;
-            stick.Y = gsCurrent.ThumbSticks.Left.Y;
+            stick.Y = gsCurrent.ThumbSticks.Left.Y * -1;
 
             return stick;
         }
@@ -91,7 +91,7 @@ namespace Base
 
             Vector2 stick = new Vector2();
             stick.X = gsCurrent.ThumbSticks.Right.X;
-            stick.Y = gsCurrent.ThumbSticks.Right.Y;
+            stick.Y = gsCurrent.ThumbSticks.Right.Y * -1;
 
             return stick;
         }
