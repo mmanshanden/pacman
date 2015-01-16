@@ -14,17 +14,18 @@ namespace Pacman
             Frightened
         }
 
-        public Vector2 Scatter
-        {
-            get;
-            set;
-        }
         public Level Level
         {
             get;
             set;
         }
         public GhostHouse GhostHouse
+        {
+            get;
+            set;
+        }
+
+        public Vector2 Scatter
         {
             get;
             set;
@@ -41,14 +42,12 @@ namespace Pacman
             set;
         }
 
-        private float frightenedTimer, scatterTimer;
-        private int scatterCount;
-        States storedState;
+        public float totalTime;
+        public float frightenedTime;
 
         public Ghost()
         {
             this.State = States.Chase;
-            this.scatterTimer = 0; 
         }
 
         #region Collision Events
@@ -91,7 +90,6 @@ namespace Pacman
             {
                 this.State = States.Chase;
             }
-
         }
         #endregion
 
@@ -141,52 +139,15 @@ namespace Pacman
 
         public void Frighten()
         {
-            if (this.State != States.Frightened)
-                storedState = this.State; 
             this.State = States.Frightened;
-            this.frightenedTimer = 6;
+            this.frightenedTime = 6;
         }
-
-
-        public States ScatterSwitch(float dt)
-        {
-            scatterTimer -= dt;
-
-            if (scatterTimer <= 0) 
-            {
-                switch (scatterCount)
-                {
-                    case 0:
-                    case 2:
-                        scatterTimer = 7;
-                        scatterCount++;
-                        return States.Scatter;
-                    case 4:
-                    case 6:
-                        scatterTimer = 5;
-                        scatterCount++;
-                        return States.Scatter;
-                    case 1:
-                    case 3:
-                    case 5:
-                        scatterTimer = 20;
-                        scatterCount++;
-                        return States.Chase;
-
-                    default:
-                        return States.Chase;
-                }
-            }
-
-            return this.State; 
-        }
-
+    
         public virtual Vector2 GetTarget(States state)
         {
             switch (state)
             {
                 case States.Dead:
-                    // set t
                     return this.GhostHouse.Entry; 
 
                 case States.Frightened:
@@ -223,19 +184,47 @@ namespace Pacman
             }
 
             if (this.State == States.Frightened)
-                frightenedTimer -= dt;
+            {
+                this.frightenedTime -= dt;
 
-            if (this.frightenedTimer < 0 && this.State == States.Frightened)
-                this.State = storedState;  
+                if (frightenedTime < 0)
+                    this.State = States.Scatter;
+            }
 
-            this.Target = GetTarget(this.State);
+            // switch between scatter and chase
+            if (this.State == States.Chase || this.State == States.Scatter)
+            {
+                // 84 is the number of seconds after which the chase
+                // state will be indefinite
+                if (this.totalTime <= 84)
+                    this.totalTime += dt;
 
-            if (this.State != States.Frightened && this.State != States.Dead)
-                this.State = ScatterSwitch(dt); 
-            
+                // start with scatter
+                this.State = States.Scatter;
 
+                if (this.totalTime > 7)
+                    this.State = States.Chase;
 
+                if (this.totalTime > 27)
+                    this.State = States.Scatter;
 
+                if (this.totalTime > 34)
+                    this.State = States.Chase;
+
+                if (this.totalTime > 54)
+                    this.State = States.Scatter;
+
+                if (this.totalTime > 59)
+                    this.State = States.Chase;
+
+                if (this.totalTime > 79)
+                    this.State = States.Scatter;
+
+                if (this.totalTime > 84)
+                    this.State = States.Chase;
+            }
+
+            this.Target = this.GetTarget(this.State);
 
             base.Update(dt);
         }
@@ -249,9 +238,17 @@ namespace Pacman
                 case States.Dead:
                     drawHelper.DrawBox(Color.DarkBlue);
                     break;
+
                 case States.Frightened:
-                    // TODO: blink white-blue when frighten almost ends
-                    drawHelper.DrawBox(Color.DarkBlue);
+                    Color color = Color.DarkBlue;
+
+                    if (this.frightenedTime < 2 &&
+                        this.frightenedTime % 0.4f < 0.2f)
+                    {
+                        color = Color.White;
+                    }
+
+                    drawHelper.DrawBox(color);
                     break;
             }
 

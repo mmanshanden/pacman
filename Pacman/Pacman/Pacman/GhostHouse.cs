@@ -29,7 +29,6 @@ namespace Pacman
         public AiModes AiMode { get; set; }
 
         public Vector2 Entry { get; set; }
-        public Vector2 Center { get; set; }
         
         public Blinky Blinky { get; private set; }
         public Inky Inky { get; private set; }
