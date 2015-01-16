@@ -22,8 +22,8 @@ namespace Pacman
             this.send = new NetPlayState();
 
             FileReader levelFile = new FileReader("Content/Levels/level1.txt");
-            
             this.level = new Level();
+
             this.level.LoadGameBoard(levelFile.ReadGrid("level"));
             this.level.LoadGameBoardObjects(levelFile.ReadGrid("level"));
 
@@ -32,12 +32,18 @@ namespace Pacman
             this.level.Add(player);
 
             GhostHouse ghostHouse = new GhostHouse();
+            ghostHouse.AddPacman(player);
             this.level.Add(ghostHouse);
 
-            Blinky blinky = new Blinky(player);
-            blinky.Position = levelFile.ReadVector("blinky_position");
-            blinky.Direction = Vector2.UnitX;
+            Blinky blinky = Blinky.LoadBlinky(levelFile);
+            Pinky pinky = Pinky.LoadPinky(levelFile);
+            Inky inky = Inky.LoadInky(levelFile);
+            Clyde clyde = Clyde.LoadClyde(levelFile);
+
             ghostHouse.Add(blinky);
+            ghostHouse.Add(clyde);
+            ghostHouse.Add(inky);
+            ghostHouse.Add(pinky);
 
             // adding self to send message
             this.send.Players.Add(new NetPlayState.Player());
