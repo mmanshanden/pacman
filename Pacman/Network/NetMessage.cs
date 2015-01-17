@@ -1,58 +1,87 @@
 ﻿using Lidgren.Network;
+using System.Collections.Generic;
 
 namespace Network
 {
+    public enum PacketType
+    {
+        Login,
+        WorldState
+    }
+
     public class NetMessage
     {
-        protected NetIncomingMessage inc;
+        private int index = 0;
 
-        public PacketType PacketType;
-        public DataType DataType;
+        public PacketType Type;
         public int ConnectionId;
         public int Time;
 
+        List<NetMessageContent> content;
+
         public NetMessage()
         {
-
+            this.content = new List<NetMessageContent>();
         }
    
         public virtual void ReadMessage(NetIncomingMessage msg)
-        {
-            this.inc = msg;
-
-            this.PacketType = (PacketType)msg.ReadByte();
-            this.DataType = (DataType)msg.ReadByte();
+        {            
+            this.Type = (PacketType)msg.ReadByte();
             this.ConnectionId = msg.ReadInt32();
             this.Time = msg.ReadInt32();
-        }
 
+            while(msg.Position != msg.LengthBits)
+            {
+                DataType type = (DataType)msg.ReadByte();
+                NetMessageContent c = new NetMessageContent();
+
+                // content reads byte again
+                msg.Position -= 8;
+
+                switch (type)
+                {
+                    case DataType.Pacman:
+                        c = new PlayerMessage();
+                        break;
+                }
+
+                c.ReadMessage(msg);
+                this.content.Add(c);
+            }
+        }
         public virtual void WriteMessage(NetOutgoingMessage msg)
         {
-            msg.Write((byte)this.PacketType);
-            msg.Write((byte)this.DataType);
+            msg.Write((byte)this.Type);
             msg.Write(this.ConnectionId);
             msg.Write(this.Time);
+
+            foreach (NetMessageContent cmsg in this.content) 
+            {
+                cmsg.WriteMessage(msg);
+            }
+        }
+
+        public NetMessageContent GetData()
+        {
+            if (index >= this.content.Count)
+                return null;
+
+            return this.content[index];
+        }
+        public void SetData(NetMessageContent cmsg)
+        {
+            this.content.Add(cmsg);
         }
 
         public override string ToString()
         {
             string result = "";
-            result += "PacketType: " + this.PacketType.ToString() + '\n';
-            result += "DataType: " + this.DataType.ToString() + '\n';
+            result += "PacketType: " + this.Type.ToString() + '\n';
+            result += "DataType: " + this.Type.ToString() + '\n';
             result += "ConnectionId: " + this.ConnectionId.ToString() + '\n';
             result += "Time: " + this.Time.ToString() + '\n';
 
             return result;
-        }
-
-        public static void CopyOver(NetMessage from, NetMessage to)
-        {
-            to.inc = from.inc;
-            to.inc.Position = 0;
-            to.ReadMessage(to.inc);
-
-            // critical
-            to.ConnectionId = from.ConnectionId;
         }
 
     }

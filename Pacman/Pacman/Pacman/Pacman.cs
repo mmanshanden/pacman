@@ -6,8 +6,6 @@ namespace Pacman
 {
     class Pacman : GameCharacter
     {
-        public NetPlayState.Player NetData { get; set; }
-
         public Pacman()
         {
 

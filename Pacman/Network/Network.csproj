@@ -65,9 +65,10 @@
     <Compile Include="DiscoveryClient.cs" />
     <Compile Include="GameClient.cs" />
     <Compile Include="GameServer.cs" />
+    <Compile Include="MessageContent\PlayerMessage.cs" />
     <Compile Include="MessageParser.cs" />
     <Compile Include="NetMessage.cs" />
-    <Compile Include="NetMessages\PlayingMessage.cs" />
+    <Compile Include="NetMessageContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

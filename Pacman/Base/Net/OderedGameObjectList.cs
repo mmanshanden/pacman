@@ -10,7 +10,7 @@ namespace Base.Net
     /// Stores gameobjects and updates their netdata in 
     /// the same order they were added.
     /// </summary>
-    class OderedGameObjectList
+    class OderedGameObjectList : GameObject
     {
         
         private int index;

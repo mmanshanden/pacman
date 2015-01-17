@@ -46,76 +46,28 @@ namespace Pacman
         public void Update(float dt)
         {
             this.level.Update(dt);
-
             this.client.Update(dt);
 
-            NetPlayState.Player self = new NetPlayState.Player();
-            self.Position = this.level.Player.Position;
-            self.Direction = this.level.Player.Direction;
-            self.Speed = this.level.Player.Speed;
-
-            NetPlayState send = new NetPlayState();
-            send.Players.Add(self);
-
-            this.client.SetData(send);
-
-            // get last received server message
             NetMessage received = this.client.GetData();
-            
-            if (received == null)
-                return;
+            if (received != null)
+                this.ReceiveData(received);
+        }
 
-            if (received.DataType != DataType.Playing)
-                return;
+        public void ReceiveData(NetMessage message)
+        {
+            NetMessageContent c = message.GetData();
 
-            // convert to playing state message
-            NetPlayState worldstate = new NetPlayState();
-            NetMessage.CopyOver(received, worldstate);
-
-            foreach (NetPlayState.Player update in worldstate.Players)
+            switch (c.Type)
             {
-                if (update.ID == this.client.ConnectionID)
-                    continue;
-
-                bool updated = false;
-
-                foreach(Pacman netplayer in this.players)
-                {
-                    if (update.ID != netplayer.NetData.ID)
-                        continue;
-
-                    updated = true;
-
-                    if (update.Time <= netplayer.NetData.Time)
-                        continue;
-
-                    netplayer.NetData = update;
-
-                    netplayer.Position = update.Position;
-                    netplayer.Direction = update.Direction;
-                    netplayer.Speed = update.Speed;
-
-                    // setting updated to true here in incorrect
-                    // this will create a new player if the time
-                    // was not updated
-                    // updated = true;
-                }
-
-                // new player
-                if (!updated)
-                {
-                    Pacman newplayer = new Pacman();
-                    newplayer.Position = update.Position;
-                    newplayer.Direction = update.Direction;
-                    newplayer.Speed = update.Speed;
-                    newplayer.NetData = update;
-
-                    this.players.Add(newplayer);
-                    this.level.Add(newplayer);
-                    Console.WriteLine("New player added");
-                }
-
+                case DataType.Pacman:
+                    PlayerMessage pm = (PlayerMessage)c;
+                    Console.WriteLine(pm.Position.ToString());
+                    break;
             }
+        }
+
+        public void SendData()
+        {
 
         }
 
