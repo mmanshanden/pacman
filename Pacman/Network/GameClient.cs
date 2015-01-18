@@ -7,7 +7,7 @@ namespace Network
 {
     public class GameClient
     {
-        const float UpdateTimer = 0.1f;
+        const float UpdateTimer = 1 / 28f;
 
         private int clientConnectionId;
         private int clientUpdateCount;
@@ -23,6 +23,11 @@ namespace Network
         public int ConnectionID
         {
             get { return this.clientConnectionId; }
+        }
+
+        public bool Connected
+        {
+            get { return this.client.ConnectionStatus != NetConnectionStatus.Disconnected; }
         }
 
         public GameClient()
