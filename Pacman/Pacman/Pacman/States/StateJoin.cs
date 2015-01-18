@@ -65,7 +65,6 @@ namespace Pacman
             NetMessageContent cmsg;
 
 
-            int ghostcount = this.ghosts.Count;
             int updatecount = 0;
 
             // read all messages
@@ -89,7 +88,7 @@ namespace Pacman
                         break;
                     
                     case DataType.Ghost:
-                        if (updatecount == ghostcount)
+                        if (updatecount == this.ghosts.Count)
                         {
                             Ghost ghost;
 
@@ -111,6 +110,7 @@ namespace Pacman
 
                             this.level.Add(ghost);
                             this.ghosts.Add(ghost);
+                            updatecount++;
                         }
 
                         this.ghosts.UpdateObject(cmsg);
@@ -119,6 +119,8 @@ namespace Pacman
                 }
     
             }
+
+            this.ghosts.Restart();
         }
 
         public void SendData(NetMessage message)

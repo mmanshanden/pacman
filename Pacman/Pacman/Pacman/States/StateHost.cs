@@ -9,6 +9,7 @@ namespace Pacman
     {
         GameServer server;
         Level level;
+        GhostHouse ghostHouse;
 
         IndexedGameObjectList players = new IndexedGameObjectList();
         OrderedGameObjectList ghosts = new OrderedGameObjectList();
@@ -31,7 +32,7 @@ namespace Pacman
             player.Position = levelFile.ReadVector("player_position");
             this.level.Add(player);
 
-            GhostHouse ghostHouse = new GhostHouse();
+            ghostHouse = new GhostHouse();
             ghostHouse.Entry = levelFile.ReadVector("ghosthouse_entry");
             ghostHouse.AddPacman(player);
             this.level.Add(ghostHouse);
@@ -100,6 +101,7 @@ namespace Pacman
                         Pacman pacman = new Pacman();
 
                         this.level.Add(pacman);
+                        this.ghostHouse.AddPacman(pacman);
                         this.players.Add(cmsg.Id, pacman);
                     }
 
