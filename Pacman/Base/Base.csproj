@@ -72,6 +72,7 @@
     <Compile Include="Helpers\InputHelper.cs" />
     <Compile Include="Interfaces\IGameState.cs" />
     <Compile Include="Interfaces\ILoopMember.cs" />
+    <Compile Include="Net\GameObject.cs" />
     <Compile Include="Net\IndexedGameObjectList.cs" />
     <Compile Include="Net\OderedGameObjectList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,7 +7,7 @@ namespace Network
 {
     public class GameClient
     {
-        const float UpdateTimer = 0.03f;
+        const float UpdateTimer = 3f;
 
         private int clientConnectionId;
         private int clientUpdateCount;
@@ -90,6 +90,12 @@ namespace Network
             Console.WriteLine("");
 
             this.sendData = null;
+        }
+
+        public void WriteHeaders(NetMessageContent cmsg)
+        {
+            cmsg.Id = this.clientConnectionId;
+            cmsg.Time = this.clientUpdateCount;
         }
 
         public void Update(float dt)

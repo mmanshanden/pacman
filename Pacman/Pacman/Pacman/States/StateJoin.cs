@@ -29,8 +29,6 @@ namespace Pacman
             Player player = new Player();
             player.Position = levelFile.ReadVector("player_position");
             this.level.Add(player);
-
-            this.players = new List<Pacman>();
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -51,6 +49,10 @@ namespace Pacman
             NetMessage received = this.client.GetData();
             if (received != null)
                 this.ReceiveData(received);
+
+            NetMessage send = new NetMessage();
+            send.Type = PacketType.WorldState;
+            this.SendData(send);
         }
 
         public void ReceiveData(NetMessage message)
@@ -66,9 +68,16 @@ namespace Pacman
             }
         }
 
-        public void SendData()
+        public void SendData(NetMessage message)
         {
+            PlayerMessage pmsg = new PlayerMessage();
+            this.client.WriteHeaders(pmsg);
 
+            this.level.Player.UpdateMessage(pmsg);
+
+            message.SetData(pmsg);
+
+            this.client.SetData(message);
         }
 
         public void Draw(DrawHelper drawHelper)

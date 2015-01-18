@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Base
 {
-    public class GameObject
+    public partial class GameObject
     {
         #region Tree
         public GameObject Parent

@@ -66,7 +66,10 @@ namespace Network
             if (index >= this.content.Count)
                 return null;
 
-            return this.content[index];
+            NetMessageContent cmsg = this.content[index];
+            this.index++;
+
+            return cmsg;
         }
         public void SetData(NetMessageContent cmsg)
         {

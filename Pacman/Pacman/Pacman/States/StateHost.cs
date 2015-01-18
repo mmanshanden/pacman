@@ -59,26 +59,34 @@ namespace Pacman
         {
             this.level.Update(dt);
 
+            NetMessage received;
 
-            this.SendData();
+            // pull messages from server
+            while((received = this.server.GetData()) != null)
+            {
+                this.ReceiveData(received);
+            }
+
+            NetMessage send = new NetMessage();
+            send.Type = PacketType.WorldState;
+
+            this.SendData(send);
         }
 
-        public void ReceiveData()
+        public void ReceiveData(NetMessage message)
         {
+            NetMessageContent cmsg;
 
+            while((cmsg = message.GetData()) != null)
+            {
+                PlayerMessage pmsg = cmsg as PlayerMessage;
+                Console.WriteLine(pmsg.Position.ToString());
+            }
         }
 
-        public void SendData()
+        public void SendData(NetMessage message)
         {
-            NetMessage msg = new NetMessage();
-            msg.Type = PacketType.WorldState;
 
-            PlayerMessage cmsg = new PlayerMessage();
-            cmsg.Position = new Vector2(12, 23);
-
-            msg.SetData(cmsg);
-
-            this.server.SetData(msg);
         }
 
         public void Draw(DrawHelper drawHelper)
