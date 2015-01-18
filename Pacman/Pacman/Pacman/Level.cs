@@ -15,6 +15,32 @@ namespace Pacman
 
         }
 
+        public List<Vector2> GetBubbles()
+        {
+            List<Vector2> result = new List<Vector2>();
+
+            foreach (GameObject gameObject in this.gameObjects)
+            {
+                if (gameObject is Bubble)
+                    result.Add(gameObject.Position);
+            }
+
+            return result;
+        }
+
+        public List<Vector2> GetPowerUps()
+        {
+            List<Vector2> result = new List<Vector2>();
+
+            foreach (GameObject gameObject in this.gameObjects)
+            {
+                if (gameObject is Powerup)
+                    result.Add(gameObject.Position);
+            }
+
+            return result;
+        }
+
         public void Add(Player player)
         {
             this.Player = player;
