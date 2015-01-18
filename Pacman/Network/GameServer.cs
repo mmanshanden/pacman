@@ -178,9 +178,23 @@ namespace Network
                 case NetIncomingMessageType.DiscoveryRequest:
                     this.ReceiveDiscoveryRequest();
                     break;
+
                 case NetIncomingMessageType.ConnectionApproval:
                     this.ReceiveLogin();
                     break;
+
+                case NetIncomingMessageType.StatusChanged:
+                    if (inc.SenderConnection.Status != NetConnectionStatus.Disconnected &&
+                        inc.SenderConnection.Status != NetConnectionStatus.Disconnecting)
+                        break;
+
+                    NetMessage dcMessage = new NetMessage();
+                    dcMessage.ConnectionId = inc.SenderConnection.GetHashCode();
+                    dcMessage.Type = PacketType.Disconnected;
+
+                    this.receivedData.Add(dcMessage);
+                    break;
+
                 case NetIncomingMessageType.Data:
                     NetMessage message = new NetMessage();
                     message.ReadMessage(inc);

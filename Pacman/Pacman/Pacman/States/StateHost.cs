@@ -77,7 +77,21 @@ namespace Pacman
             // pull messages from server
             while((received = this.server.GetData()) != null)
             {
-                this.ReceiveData(received);
+                if (received.Type == PacketType.WorldState)
+                {
+                    this.ReceiveData(received);
+                    continue;
+                }
+
+                PlayerMessage pmsg = new PlayerMessage();
+                pmsg.Time = int.MaxValue;
+                pmsg.Position = new Vector2(20, 20);
+                pmsg.Lives = 0;
+                pmsg.Speed = 0;
+
+                Console.WriteLine(received.ConnectionId + " Disconnected");
+
+                this.players.UpdateObject(received.ConnectionId, pmsg);
             }
 
             NetMessage send = new NetMessage();

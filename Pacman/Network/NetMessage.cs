@@ -6,7 +6,8 @@ namespace Network
     public enum PacketType
     {
         Login,
-        WorldState
+        WorldState,
+        Disconnected
     }
 
     public class NetMessage
