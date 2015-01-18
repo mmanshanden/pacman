@@ -16,7 +16,6 @@ namespace Network
 
         public PacketType Type;
         public int ConnectionId;
-        public int Time;
 
         List<NetMessageContent> content;
 
@@ -29,7 +28,6 @@ namespace Network
         {            
             this.Type = (PacketType)msg.ReadByte();
             this.ConnectionId = msg.ReadInt32();
-            this.Time = msg.ReadInt32();
 
             while(msg.Position != msg.LengthBits)
             {
@@ -60,7 +58,6 @@ namespace Network
         {
             msg.Write((byte)this.Type);
             msg.Write(this.ConnectionId);
-            msg.Write(this.Time);
 
             foreach (NetMessageContent cmsg in this.content) 
             {
@@ -89,7 +86,6 @@ namespace Network
             result += "PacketType: " + this.Type.ToString() + '\n';
             result += "DataType: " + this.Type.ToString() + '\n';
             result += "ConnectionId: " + this.ConnectionId.ToString() + '\n';
-            result += "Time: " + this.Time.ToString() + '\n';
             result += "Contents: " + this.content.Count.ToString() + '\n';
 
             return result;

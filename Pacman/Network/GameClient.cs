@@ -7,10 +7,9 @@ namespace Network
 {
     public class GameClient
     {
-        const float UpdateTimer = 1 / 28f;
+        const float UpdateTimer = 1 / 32f;
 
         private int clientConnectionId;
-        private int clientUpdateCount;
         private int loginReplyRetries;
         private bool loginReplyReceived;
         private float timer;
@@ -35,7 +34,6 @@ namespace Network
         public GameClient()
         {
             this.loginReplyReceived = false;
-            this.clientUpdateCount = 0;
             this.loginReplyRetries = 0;
             this.timer = UpdateTimer;
 
@@ -70,7 +68,6 @@ namespace Network
 
         public void SetData(NetMessage message)
         {
-            message.Time = this.clientUpdateCount;
             this.sendData = message;
         }
 
@@ -107,7 +104,6 @@ namespace Network
         {
             NetMessageContent cmsg = new NetMessageContent();
             cmsg.Id = this.clientConnectionId;
-            cmsg.Time = this.clientUpdateCount;
 
             return cmsg;
         }
@@ -119,7 +115,6 @@ namespace Network
             {
                 this.SendMessage();
                 this.timer = UpdateTimer;
-                this.clientUpdateCount++;
             }
             
             this.inc = this.client.ReadMessage();
