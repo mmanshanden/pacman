@@ -70,9 +70,7 @@ namespace Network
                 throw new Exception("Cannot start server more than once.");
 
             this.server.Start();
-
-            // allow start up time
-            Thread.Sleep(200);
+            this.serverRunning = true;
 
             this.serverThread = new Thread(new ThreadStart(Run));
             this.serverThread.IsBackground = true;
