@@ -55,6 +55,7 @@ namespace Pacman
             NetMessage send = new NetMessage();
             send.Type = PacketType.WorldState;
             this.SendData(send);
+            this.client.SetData(send);
         }
 
         public void ReceiveData(NetMessage message)
@@ -64,30 +65,32 @@ namespace Pacman
             // read all messages
             while((cmsg = message.GetData()) != null)
             {
-                if (cmsg.Id == this.client.ConnectionID)
-                    continue;
-
-                if (!this.players.Contains(cmsg.Id))
+                switch(cmsg.Type)
                 {
-                    Pacman pacman = new Pacman();
-                    this.level.Add(pacman);
-                    this.players.Add(cmsg.Id, pacman);
-                }
+                    case DataType.Pacman:
+                        if (cmsg.Id == this.client.ConnectionID)
+                            continue;
 
-                this.players.UpdateObject(cmsg.Id, cmsg);
+                        // new player
+                        if (!this.players.Contains(cmsg.Id))
+                        {
+                            Pacman pacman = new Pacman();
+                            this.level.Add(pacman);
+                            this.players.Add(cmsg.Id, pacman);
+                        }
+
+                        this.players.UpdateObject(cmsg.Id, cmsg);
+                        break;
+
+                }
+    
             }
         }
 
         public void SendData(NetMessage message)
         {
-            PlayerMessage pmsg = new PlayerMessage();
-            this.client.WriteHeaders(pmsg);
-
-            NetMessageContent cmsg = this.level.Player.UpdateMessage(pmsg);
-
-            message.SetData(cmsg);
-
-            this.client.SetData(message);
+            NetMessageContent cmsg = this.client.ConstructContentMessage();
+            message.SetData(this.level.Player.UpdateMessage(cmsg));
         }
 
         public void Draw(DrawHelper drawHelper)

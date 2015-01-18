@@ -92,10 +92,13 @@ namespace Network
             this.sendData = null;
         }
 
-        public void WriteHeaders(NetMessageContent cmsg)
+        public NetMessageContent ConstructContentMessage()
         {
+            NetMessageContent cmsg = new NetMessageContent();
             cmsg.Id = this.clientConnectionId;
             cmsg.Time = this.clientUpdateCount;
+
+            return cmsg;
         }
 
         public void Update(float dt)
