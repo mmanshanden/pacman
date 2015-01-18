@@ -18,7 +18,7 @@ namespace Pacman
             this.level.LoadGameBoardObjects(levelFile.ReadGrid("level"));
 
             Player player = new Player();
-            player.Position = this.levelFile.ReadVector("player_position");
+            player.Spawn = this.levelFile.ReadVector("player_position");
             this.level.Add(player);
 
             GhostHouse ghostHouse = new GhostHouse();

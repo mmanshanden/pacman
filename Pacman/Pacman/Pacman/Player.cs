@@ -59,6 +59,12 @@ namespace Pacman
                 this.direction = queued;
         }
 
+        public override void Dead()
+        {
+            this.direction = Vector2.Zero;
+            base.Dead();
+        }
+
 
         public void HandleInput(InputHelper inputHelper)
         {

@@ -192,7 +192,6 @@ namespace Pacman
 
         }
 
-
         public override NetMessageContent UpdateMessage(NetMessageContent cmsg)
         {
             GhostMessage gmsg = new GhostMessage();
@@ -216,6 +215,12 @@ namespace Pacman
             
         }
 
+        public void Respawn()
+        {
+            this.Position = this.Spawn;
+            this.totalTime = 0;
+        }
+        
         public override void Update(float dt)
         {   
             // non ai ghost
