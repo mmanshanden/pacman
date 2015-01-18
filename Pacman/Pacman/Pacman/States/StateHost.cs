@@ -10,6 +10,8 @@ namespace Pacman
         GameServer server;
         Level level;
 
+        IndexedGameObjectList players = new IndexedGameObjectList();
+
         public StateHost()
         {
             this.server = new GameServer();
@@ -17,7 +19,6 @@ namespace Pacman
 
             Console.Clear();
             Console.WriteLine("Hosting server");
-
           
             FileReader levelFile = new FileReader("Content/Levels/level1.txt");
             this.level = new Level();
@@ -43,6 +44,9 @@ namespace Pacman
             ghostHouse.Add(clyde);
             ghostHouse.Add(inky);
             ghostHouse.Add(pinky);
+
+            this.players = new IndexedGameObjectList();
+            this.players.Add(0, this.level.Player);
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -71,6 +75,7 @@ namespace Pacman
             send.Type = PacketType.WorldState;
 
             this.SendData(send);
+            this.server.SetData(send);
         }
 
         public void ReceiveData(NetMessage message)
@@ -79,13 +84,38 @@ namespace Pacman
 
             while((cmsg = message.GetData()) != null)
             {
-                PlayerMessage pmsg = cmsg as PlayerMessage;
-                Console.WriteLine(pmsg.Position.ToString());
+                if (cmsg.Type == DataType.Pacman)
+                {
+                    if (!this.players.Contains(cmsg.Id))
+                    {
+                        // new pacman
+                        Pacman pacman = new Pacman();
+
+                        this.level.Add(pacman);
+                        this.players.Add(cmsg.Id, pacman);
+                    }
+
+                    this.players.UpdateObject(cmsg.Id, cmsg);
+                }
             }
         }
 
         public void SendData(NetMessage message)
         {
+            PlayerMessage test = new PlayerMessage();
+            test.Position = Vector2.One;
+            test.Direction = Vector2.UnitX;
+            test.Speed = 4;
+
+            message.SetData(test);
+
+            PlayerMessage test2 = new PlayerMessage();
+            test2.Id = 2;
+            test2.Position = Vector2.One;
+            test2.Direction = Vector2.UnitY;
+            test2.Speed = 4;
+
+            message.SetData(test2);            
 
         }
 

@@ -11,7 +11,7 @@ namespace Pacman
         GameClient client;
         Level level;
 
-        List<Pacman> players;
+        IndexedGameObjectList players;
 
         public StateJoin(string endpoint)
         {
@@ -29,6 +29,8 @@ namespace Pacman
             Player player = new Player();
             player.Position = levelFile.ReadVector("player_position");
             this.level.Add(player);
+
+            this.players = new IndexedGameObjectList();
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -57,14 +59,19 @@ namespace Pacman
 
         public void ReceiveData(NetMessage message)
         {
-            NetMessageContent c = message.GetData();
+            NetMessageContent cmsg;
 
-            switch (c.Type)
+            // read all messages
+            while((cmsg = message.GetData()) != null)
             {
-                case DataType.Pacman:
-                    PlayerMessage pm = (PlayerMessage)c;
-                    Console.WriteLine(pm.Position.ToString());
-                    break;
+                if (!this.players.Contains(cmsg.Id))
+                {
+                    Pacman pacman = new Pacman();
+                    this.level.Add(pacman);
+                    this.players.Add(cmsg.Id, pacman);
+                }
+
+                this.players.UpdateObject(cmsg.Id, cmsg);
             }
         }
 

@@ -6,18 +6,21 @@ using Network;
 
 namespace Base
 {
-    class IndexedGameObjectList : GameObject
+    public class IndexedGameObjectList : GameObject
     {
         Dictionary<int, GameObject> gameObjects;
+        Dictionary<int, NetMessageContent> messages;
 
         public IndexedGameObjectList()
         {
-
+            this.gameObjects = new Dictionary<int, GameObject>();
+            this.messages = new Dictionary<int, NetMessageContent>();
         }
 
         public void Add(int id, GameObject gameObject)
         {
             this.gameObjects[id] = gameObject;
+            this.messages[id] = new NetMessageContent();
         }
 
         public bool Contains(int id)
@@ -25,15 +28,22 @@ namespace Base
             return this.gameObjects.ContainsKey(id);
         }
 
-        public void OverwriteGameObject(int id, NetMessage message)
-        {
-            // do stuff
-        }
-        public NetMessage CopyToMessage(int id)
-        {
-            // do stuff
 
-            return new NetMessage();
+        public void UpdateObject(int id, NetMessageContent cmsg)
+        {
+            this.messages[id] = cmsg;
+            this.gameObjects[id].UpdateObject(cmsg);
+        }
+        public void UpdateMessage(int id, NetMessageContent cmsg)
+        {
+            this.gameObjects[id].UpdateMessage(cmsg);
+            this.messages[id] = cmsg;
+        }
+
+        public void WriteAllToMessage(NetMessage msg)
+        {
+            foreach (NetMessageContent cmsg in this.messages.Values)
+                msg.SetData(cmsg);
         }
     }
 }
