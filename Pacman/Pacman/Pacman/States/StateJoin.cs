@@ -51,6 +51,9 @@ namespace Pacman
 
         public IGameState TransitionTo()
         {
+            if (!this.client.Connected)
+                return new MenuMultiplayer();
+                
             return this;
         }
 

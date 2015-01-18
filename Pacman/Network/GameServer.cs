@@ -35,6 +35,7 @@ namespace Network
             NetPeerConfiguration config = new NetPeerConfiguration("game");
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
+            config.ConnectionTimeout = 15;
             config.MaximumConnections = 8;
             config.Port = ServerPort;
 

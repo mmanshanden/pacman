@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Lidgren.Network;
+using Microsoft.Xna.Framework;
 
 namespace Network
 {
@@ -15,7 +16,7 @@ namespace Network
             this.Type = DataType.Pacman;
         }
 
-        public override void ReadMessage(Lidgren.Network.NetIncomingMessage msg)
+        public override void ReadMessage(NetIncomingMessage msg)
         {
             base.ReadMessage(msg);
 
@@ -26,7 +27,7 @@ namespace Network
             this.Score = msg.ReadInt32();
         }
 
-        public override void WriteMessage(Lidgren.Network.NetOutgoingMessage msg)
+        public override void WriteMessage(NetOutgoingMessage msg)
         {
             base.WriteMessage(msg);
 

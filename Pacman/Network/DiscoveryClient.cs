@@ -8,7 +8,7 @@ namespace Network
         const int ServerPort = 1000;
 
         private NetClient client;
-        
+                
         public struct DiscoveryReply
         {
             public string Name;

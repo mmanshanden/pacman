@@ -11,6 +11,7 @@ namespace Network
 
         private int clientConnectionId;
         private int clientUpdateCount;
+        private int loginReplyRetries;
         private bool loginReplyReceived;
         private float timer;
 
@@ -27,19 +28,24 @@ namespace Network
 
         public bool Connected
         {
-            get { return this.client.ConnectionStatus != NetConnectionStatus.Disconnected; }
+            get;
+            private set;
         }
 
         public GameClient()
         {
             this.loginReplyReceived = false;
             this.clientUpdateCount = 0;
+            this.loginReplyRetries = 0;
             this.timer = UpdateTimer;
 
             NetPeerConfiguration config = new NetPeerConfiguration("game");
+            config.ConnectionTimeout = 15;
 
             this.client = new NetClient(config);
             this.client.Start();
+
+            this.Connected = true;
         }
 
         public void ConnectToServer(string endpoint)
@@ -121,6 +127,14 @@ namespace Network
             if (inc == null)
                 return;
 
+
+            if (inc.MessageType == NetIncomingMessageType.StatusChanged)
+            {
+                NetConnectionStatus status = (NetConnectionStatus)inc.ReadByte();
+                this.Connected = (status != NetConnectionStatus.Disconnected);
+                return;
+            }
+
             if (inc.MessageType != NetIncomingMessageType.Data)
                 return;
 
@@ -134,7 +148,14 @@ namespace Network
             }
 
             if (!this.loginReplyReceived)
+            {
+                this.loginReplyRetries++;
+
+                if (this.loginReplyRetries > 20)
+                    this.Connected = false;
+
                 return;
+            }
 
             switch (msg.Type)
             {
