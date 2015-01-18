@@ -22,6 +22,7 @@ namespace Pacman
             
         }
 
+        
         public override void Draw(DrawHelper drawHelper)
         {
             drawHelper.Translate(this.Position);
