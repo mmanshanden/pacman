@@ -64,6 +64,9 @@ namespace Pacman
             // read all messages
             while((cmsg = message.GetData()) != null)
             {
+                if (cmsg.Id == this.client.ConnectionID)
+                    continue;
+
                 if (!this.players.Contains(cmsg.Id))
                 {
                     Pacman pacman = new Pacman();
@@ -80,9 +83,9 @@ namespace Pacman
             PlayerMessage pmsg = new PlayerMessage();
             this.client.WriteHeaders(pmsg);
 
-            this.level.Player.UpdateMessage(pmsg);
+            NetMessageContent cmsg = this.level.Player.UpdateMessage(pmsg);
 
-            message.SetData(pmsg);
+            message.SetData(cmsg);
 
             this.client.SetData(message);
         }

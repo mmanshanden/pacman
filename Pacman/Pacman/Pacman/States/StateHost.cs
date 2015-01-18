@@ -15,7 +15,7 @@ namespace Pacman
         public StateHost()
         {
             this.server = new GameServer();
-            this.server.Start();
+            this.server.StartSimple();
 
             Console.Clear();
             Console.WriteLine("Hosting server");
@@ -61,7 +61,11 @@ namespace Pacman
 
         public void Update(float dt)
         {
+
+            this.server.Update(dt);
+
             this.level.Update(dt);
+
 
             NetMessage received;
 
@@ -102,21 +106,8 @@ namespace Pacman
 
         public void SendData(NetMessage message)
         {
-            PlayerMessage test = new PlayerMessage();
-            test.Position = Vector2.One;
-            test.Direction = Vector2.UnitX;
-            test.Speed = 4;
-
-            message.SetData(test);
-
-            PlayerMessage test2 = new PlayerMessage();
-            test2.Id = 2;
-            test2.Position = Vector2.One;
-            test2.Direction = Vector2.UnitY;
-            test2.Speed = 4;
-
-            message.SetData(test2);            
-
+            NetMessageContent baseMessage = new NetMessageContent();
+            this.players.WriteAllToMessage(message, baseMessage);
         }
 
         public void Draw(DrawHelper drawHelper)

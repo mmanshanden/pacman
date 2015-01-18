@@ -21,7 +21,8 @@ namespace Pacman
 
         public override NetMessageContent UpdateMessage(NetMessageContent cmsg)
         {
-            PlayerMessage pmsg = (PlayerMessage)cmsg;
+            PlayerMessage pmsg = new PlayerMessage();
+            NetMessageContent.CopyOver(cmsg, pmsg);
             
             pmsg.Position = this.Position;
             pmsg.Direction = this.Direction;

@@ -9,18 +9,15 @@ namespace Base
     public class IndexedGameObjectList : GameObject
     {
         Dictionary<int, GameObject> gameObjects;
-        Dictionary<int, NetMessageContent> messages;
 
         public IndexedGameObjectList()
         {
             this.gameObjects = new Dictionary<int, GameObject>();
-            this.messages = new Dictionary<int, NetMessageContent>();
         }
 
         public void Add(int id, GameObject gameObject)
         {
             this.gameObjects[id] = gameObject;
-            this.messages[id] = new NetMessageContent();
         }
 
         public bool Contains(int id)
@@ -31,19 +28,22 @@ namespace Base
 
         public void UpdateObject(int id, NetMessageContent cmsg)
         {
-            this.messages[id] = cmsg;
             this.gameObjects[id].UpdateObject(cmsg);
         }
         public void UpdateMessage(int id, NetMessageContent cmsg)
         {
             this.gameObjects[id].UpdateMessage(cmsg);
-            this.messages[id] = cmsg;
         }
 
-        public void WriteAllToMessage(NetMessage msg)
+        public void WriteAllToMessage(NetMessage msg, NetMessageContent baseMessage)
         {
-            foreach (NetMessageContent cmsg in this.messages.Values)
+            foreach(KeyValuePair<int, GameObject> entry in this.gameObjects)
+            {
+                NetMessageContent cmsg = entry.Value.UpdateMessage(baseMessage);
+                cmsg.Id = entry.Key;
+
                 msg.SetData(cmsg);
+            }
         }
     }
 }

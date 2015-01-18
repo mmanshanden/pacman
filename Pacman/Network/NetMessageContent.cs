@@ -17,6 +17,7 @@ namespace Network
         public int Id;
         public int Time;
 
+
         public virtual void ReadMessage(NetIncomingMessage msg)
         {
             this.Type = (DataType)msg.ReadByte();
@@ -29,6 +30,13 @@ namespace Network
             msg.Write((byte)this.Type);
             msg.Write(this.Id);
             msg.Write(this.Time);
+        }
+
+        public static void CopyOver(NetMessageContent from, NetMessageContent to)
+        {
+            to.Type = from.Type;
+            to.Id = from.Id;
+            to.Time = from.Time;
         }
     }
 }
