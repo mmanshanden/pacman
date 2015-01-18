@@ -13,6 +13,7 @@ namespace Network
         const int ServerPort = 1000;
 
         private Thread serverThread;
+        private int serverUpdateCount;
         private bool serverRunning;
         private bool serverStarted;
         private float timer;
@@ -25,6 +26,7 @@ namespace Network
 
         public GameServer()
         {
+            this.serverUpdateCount = 0;
             this.serverRunning = false;
             this.serverStarted = false;
             this.timer = UpdateTimer;
@@ -164,6 +166,7 @@ namespace Network
             {
                 this.SendMessage();
                 this.timer = UpdateTimer;
+                this.serverUpdateCount++;
             }
 
             this.inc = server.ReadMessage();
