@@ -7,8 +7,7 @@ namespace Network
     {
         Pacman,
         Ghost,
-        Bubble,
-        PowerUp,
+        Map,
     }
 
     public class NetMessageContent

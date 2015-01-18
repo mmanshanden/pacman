@@ -66,6 +66,7 @@
     <Compile Include="GameClient.cs" />
     <Compile Include="GameServer.cs" />
     <Compile Include="MessageContent\GhostMessage.cs" />
+    <Compile Include="MessageContent\MapMessage.cs" />
     <Compile Include="MessageContent\PlayerMessage.cs" />
     <Compile Include="MessageParser.cs" />
     <Compile Include="NetMessage.cs" />

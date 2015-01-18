@@ -46,6 +46,9 @@ namespace Network
                     case DataType.Ghost:
                         c = new GhostMessage();
                         break;
+                    case DataType.Map:
+                        c = new MapMessage();
+                        break;
                 }
 
                 c.ReadMessage(msg);
