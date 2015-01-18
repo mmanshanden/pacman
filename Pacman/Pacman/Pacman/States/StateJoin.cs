@@ -28,7 +28,7 @@ namespace Pacman
             this.level.LoadGameBoard(levelFile.ReadGrid("level"));
 
             Player player = new Player();
-            player.Position = levelFile.ReadVector("player_position");
+            player.Spawn = levelFile.ReadVector("player_position");
             this.level.Add(player);
 
             this.players = new IndexedGameObjectList();
@@ -74,7 +74,13 @@ namespace Pacman
                 {
                     case DataType.Pacman:
                         if (cmsg.Id == this.client.ConnectionID)
+                        {
+                            PlayerMessage pmsg = cmsg as PlayerMessage;
+
+                            this.level.Player.Lives = pmsg.Lives;
+                            this.level.Player.Score = pmsg.Score;
                             continue;
+                        }
 
                         // new player
                         if (!this.players.Contains(cmsg.Id))
@@ -126,6 +132,14 @@ namespace Pacman
         public void SendData(NetMessage message)
         {
             NetMessageContent cmsg = this.client.ConstructContentMessage();
+
+            PlayerMessage pmsg = this.level.Player.UpdateMessage(cmsg) as PlayerMessage;
+            
+            // setting values to -1 lets server
+            // know to keep own values.
+            pmsg.Lives = -1;
+            pmsg.Score = -1;
+
             message.SetData(this.level.Player.UpdateMessage(cmsg));
         }
 
@@ -134,6 +148,12 @@ namespace Pacman
             drawHelper.Scale(14, 14);
             this.level.Draw(drawHelper);
             drawHelper.Scale(1 / 14f, 1 / 14f);
+
+            Console.Clear();
+            Console.WriteLine("Lives:");
+            Console.WriteLine(this.level.Player.Lives.ToString());
+            Console.WriteLine("Score:");
+            Console.WriteLine(this.level.Player.Score.ToString());
         }
 
     }

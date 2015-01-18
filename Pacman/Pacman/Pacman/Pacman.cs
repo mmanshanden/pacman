@@ -56,7 +56,9 @@ namespace Pacman
             this.Lives--;
             this.Position = this.spawn;
             Level level = (Level)this.Parent;
-            level.GhostHouse.ResetGhosts(); 
+
+            if (level.GhostHouse != null)
+                level.GhostHouse.ResetGhosts(); 
         }
 
         public override void Draw(DrawHelper drawHelper)
@@ -75,7 +77,9 @@ namespace Pacman
             pmsg.Position = this.Position;
             pmsg.Direction = this.Direction;
             pmsg.Speed = this.Speed;
-            
+            pmsg.Lives = this.Lives;
+            pmsg.Score = this.Score;
+
             return pmsg;
         }
 
@@ -86,6 +90,12 @@ namespace Pacman
             this.Position = pmsg.Position;
             this.Direction = pmsg.Direction;
             this.Speed = pmsg.Speed;
+
+            if (pmsg.Lives != -1)
+                this.Lives = pmsg.Lives;
+
+            if(pmsg.Score != -1)
+                this.Score = pmsg.Score;
         }
     }
 }

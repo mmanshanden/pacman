@@ -7,6 +7,8 @@ namespace Network
         public Vector2 Position;
         public Vector2 Direction;
         public float Speed;
+        public int Lives;
+        public int Score;
 
         public PlayerMessage()
         {
@@ -20,6 +22,8 @@ namespace Network
             this.Position = MessageParser.ReadVector2(msg);
             this.Direction = MessageParser.ReadVector2(msg);
             this.Speed = msg.ReadFloat();
+            this.Lives = msg.ReadInt32();
+            this.Score = msg.ReadInt32();
         }
 
         public override void WriteMessage(Lidgren.Network.NetOutgoingMessage msg)
@@ -29,6 +33,8 @@ namespace Network
             MessageParser.WriteVector2(this.Position, msg);
             MessageParser.WriteVector2(this.Direction, msg);
             msg.Write(Speed);
+            msg.Write(Lives);
+            msg.Write(Score);
 
         }
     }
