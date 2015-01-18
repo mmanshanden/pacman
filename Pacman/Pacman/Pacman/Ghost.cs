@@ -1,5 +1,6 @@
 ﻿using Base;
 using Microsoft.Xna.Framework;
+using Network;
 using System;
 
 namespace Pacman
@@ -114,6 +115,13 @@ namespace Pacman
         #region Move - Don't touch
         protected override void Move(GameBoard board, GameTile tile, float dt)
         {
+            // non ai ghost
+            if (this.GhostHouse == null)
+            {
+                base.Move(board, tile, dt);
+                return;
+            }
+
             float v, j, p;
 
             // set velocity, junction, position
@@ -184,8 +192,38 @@ namespace Pacman
 
         }
 
+
+        public override NetMessageContent UpdateMessage(NetMessageContent cmsg)
+        {
+            GhostMessage gmsg = new GhostMessage();
+            NetMessageContent.CopyOver(cmsg, gmsg);
+
+            gmsg.Position = this.Position;
+            gmsg.Direction = this.Direction;
+            gmsg.Speed = this.Speed;
+            gmsg.Target = this.Target;
+
+            return gmsg;
+        }
+        public override void UpdateObject(NetMessageContent cmsg)
+        {
+            GhostMessage gmsg = (GhostMessage)cmsg;
+
+            this.Position = gmsg.Position;
+            this.Direction = gmsg.Direction;
+            this.Speed = gmsg.Speed;
+            this.Target = gmsg.Target;
+            
+        }
+
         public override void Update(float dt)
-        {           
+        {   
+            // non ai ghost
+            if (this.GhostHouse == null)
+            {
+                base.Update(dt);
+                return;
+            }
 
             switch (this.State)
             {

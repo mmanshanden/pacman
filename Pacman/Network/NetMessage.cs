@@ -43,6 +43,9 @@ namespace Network
                     case DataType.Pacman:
                         c = new PlayerMessage();
                         break;
+                    case DataType.Ghost:
+                        c = new GhostMessage();
+                        break;
                 }
 
                 c.ReadMessage(msg);
@@ -83,6 +86,7 @@ namespace Network
             result += "DataType: " + this.Type.ToString() + '\n';
             result += "ConnectionId: " + this.ConnectionId.ToString() + '\n';
             result += "Time: " + this.Time.ToString() + '\n';
+            result += "Contents: " + this.content.Count.ToString() + '\n';
 
             return result;
         }

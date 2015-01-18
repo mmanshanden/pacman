@@ -74,7 +74,7 @@
     <Compile Include="Interfaces\ILoopMember.cs" />
     <Compile Include="Net\GameObject.cs" />
     <Compile Include="Net\IndexedGameObjectList.cs" />
-    <Compile Include="Net\OderedGameObjectList.cs" />
+    <Compile Include="Net\OrderedGameObjectList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

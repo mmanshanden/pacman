@@ -4,19 +4,24 @@ using System.Linq;
 using System.Text;
 using Network;
 
-namespace Base.Net
+namespace Base
 {
     /// <summary>
     /// Stores gameobjects and updates their netdata in 
     /// the same order they were added.
     /// </summary>
-    class OderedGameObjectList : GameObject
+    public class OrderedGameObjectList : GameObject
     {
         
         private int index;
         private List<GameObject> gameObjects;
 
-        public OderedGameObjectList()
+        public int Count
+        {
+            get { return this.gameObjects.Count; }
+        }
+
+        public OrderedGameObjectList()
         {
             this.index = 0;
             this.gameObjects = new List<GameObject>();
@@ -27,19 +32,15 @@ namespace Base.Net
             this.gameObjects.Add(gameObject);
         }
 
-        public void OverwriteGameObject(NetMessage netMessage)
+        public override void UpdateObject(NetMessageContent cmsg)
         {
-            // do stuff
-
+            this.gameObjects[this.index].UpdateObject(cmsg);
             this.index++;
-        }
 
-        public NetMessage CopyToMessage()
-        {
-            // do stuff
-
-            this.index++;
-            return new NetMessage();
+            if (index == this.Count)
+            {
+                index -= this.Count;
+            }
         }
 
         public void Restart()
@@ -47,9 +48,11 @@ namespace Base.Net
             this.index = 0;
         }
 
-        public override void Update(float dt)
+        public void WriteAllToMessage(NetMessage msg, NetMessageContent baseMessage)
         {
-            this.index = 0;
+            for (int i = 0; i < this.Count; i++)
+                msg.SetData(this.gameObjects[i].UpdateMessage(baseMessage));
         }
+
     }
 }

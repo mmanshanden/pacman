@@ -12,6 +12,7 @@ namespace Pacman
         Level level;
 
         IndexedGameObjectList players;
+        OrderedGameObjectList ghosts;
 
         public StateJoin(string endpoint)
         {
@@ -31,6 +32,7 @@ namespace Pacman
             this.level.Add(player);
 
             this.players = new IndexedGameObjectList();
+            this.ghosts = new OrderedGameObjectList();
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -62,6 +64,10 @@ namespace Pacman
         {
             NetMessageContent cmsg;
 
+
+            int ghostcount = this.ghosts.Count;
+            int updatecount = 0;
+
             // read all messages
             while((cmsg = message.GetData()) != null)
             {
@@ -80,6 +86,34 @@ namespace Pacman
                         }
 
                         this.players.UpdateObject(cmsg.Id, cmsg);
+                        break;
+                    
+                    case DataType.Ghost:
+                        if (updatecount == ghostcount)
+                        {
+                            Ghost ghost;
+
+                            switch(updatecount % 4)
+                            {
+                                case 1:
+                                    ghost = new Clyde();
+                                    break;
+                                case 2:
+                                    ghost = new Inky();
+                                    break;
+                                case 3:
+                                    ghost = new Pinky();
+                                    break;
+                                default:
+                                    ghost = new Blinky();
+                                    break;
+                            }
+
+                            this.level.Add(ghost);
+                            this.ghosts.Add(ghost);
+                        }
+
+                        this.ghosts.UpdateObject(cmsg);
                         break;
 
                 }

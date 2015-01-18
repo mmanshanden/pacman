@@ -34,7 +34,6 @@ namespace Network
 
         public static void CopyOver(NetMessageContent from, NetMessageContent to)
         {
-            to.Type = from.Type;
             to.Id = from.Id;
             to.Time = from.Time;
         }

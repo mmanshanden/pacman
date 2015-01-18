@@ -11,6 +11,7 @@ namespace Pacman
         Level level;
 
         IndexedGameObjectList players = new IndexedGameObjectList();
+        OrderedGameObjectList ghosts = new OrderedGameObjectList();
 
         public StateHost()
         {
@@ -41,9 +42,13 @@ namespace Pacman
             Clyde clyde = Clyde.LoadClyde(levelFile);
 
             ghostHouse.Add(blinky);
+            ghosts.Add(blinky);
             ghostHouse.Add(clyde);
+            ghosts.Add(clyde);
             ghostHouse.Add(inky);
+            ghosts.Add(inky);
             ghostHouse.Add(pinky);
+            ghosts.Add(pinky);
 
             this.players = new IndexedGameObjectList();
             this.players.Add(0, this.level.Player);
@@ -61,7 +66,6 @@ namespace Pacman
 
         public void Update(float dt)
         {
-
             this.server.Update(dt);
 
             this.level.Update(dt);
@@ -108,6 +112,9 @@ namespace Pacman
         {
             NetMessageContent baseMessage = new NetMessageContent();
             this.players.WriteAllToMessage(message, baseMessage);
+            this.ghosts.WriteAllToMessage(message, baseMessage);
+
+            Console.WriteLine("Sending message:\n------------\n" + message.ToString());
         }
 
         public void Draw(DrawHelper drawHelper)
