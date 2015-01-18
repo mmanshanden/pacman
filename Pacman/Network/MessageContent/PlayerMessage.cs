@@ -15,6 +15,8 @@ namespace Network
 
         public override void ReadMessage(Lidgren.Network.NetIncomingMessage msg)
         {
+            base.ReadMessage(msg);
+
             this.Position = MessageParser.ReadVector2(msg);
             this.Direction = MessageParser.ReadVector2(msg);
             this.Speed = msg.ReadFloat();
@@ -22,6 +24,8 @@ namespace Network
 
         public override void WriteMessage(Lidgren.Network.NetOutgoingMessage msg)
         {
+            base.WriteMessage(msg);
+
             MessageParser.WriteVector2(this.Position, msg);
             MessageParser.WriteVector2(this.Direction, msg);
             msg.Write(Speed);
