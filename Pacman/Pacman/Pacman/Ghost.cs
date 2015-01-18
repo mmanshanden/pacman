@@ -201,6 +201,8 @@ namespace Pacman
             gmsg.Direction = this.Direction;
             gmsg.Speed = this.Speed;
             gmsg.Target = this.Target;
+            gmsg.State = (byte)this.State;
+            gmsg.FrightenTime = this.frightenedTime;
 
             return gmsg;
         }
@@ -212,7 +214,8 @@ namespace Pacman
             this.Direction = gmsg.Direction;
             this.Speed = gmsg.Speed;
             this.Target = gmsg.Target;
-            
+            this.State = (States)gmsg.State;
+            this.frightenedTime = gmsg.FrightenTime;
         }
 
         public void Respawn()

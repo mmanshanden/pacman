@@ -8,6 +8,8 @@ namespace Network
         public Vector2 Direction;
         public float Speed;
         public Vector2 Target;
+        public byte State;
+        public float FrightenTime;
 
         public GhostMessage()
         {
@@ -22,6 +24,8 @@ namespace Network
             this.Direction = MessageParser.ReadVector2(msg);
             this.Speed = msg.ReadFloat();
             this.Target = MessageParser.ReadVector2(msg);
+            this.State = msg.ReadByte();
+            this.FrightenTime = msg.ReadFloat();
         }
 
         public override void WriteMessage(Lidgren.Network.NetOutgoingMessage msg)
@@ -32,6 +36,8 @@ namespace Network
             MessageParser.WriteVector2(this.Direction, msg);
             msg.Write(Speed);
             MessageParser.WriteVector2(this.Target, msg);
+            msg.Write(State);
+            msg.Write(FrightenTime);
         }
     }
 }
