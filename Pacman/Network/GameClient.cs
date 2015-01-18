@@ -113,7 +113,7 @@ namespace Network
             NetMessage msg = new NetMessage();
             msg.ReadMessage(inc);
 
-            if (msg.PacketType == PacketType.Login)
+            if (msg.Type == PacketType.Login)
             {
                 this.RecieveLogin(msg);
                 this.loginReplyReceived = true;
@@ -122,7 +122,7 @@ namespace Network
             if (!this.loginReplyReceived)
                 return;
 
-            switch (msg.PacketType)
+            switch (msg.Type)
             {
                 case PacketType.WorldState:
                     this.ReceiveMessage(msg);

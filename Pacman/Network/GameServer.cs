@@ -118,8 +118,7 @@ namespace Network
             // reply
             NetOutgoingMessage outmsg = server.CreateMessage();
             NetMessage message = new NetMessage();
-            message.PacketType = PacketType.Login;
-            message.DataType = DataType.Lobby;
+            message.Type = PacketType.Login;
             message.ConnectionId = inc.SenderConnection.GetHashCode();
             message.WriteMessage(outmsg);
 
