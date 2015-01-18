@@ -13,7 +13,7 @@ namespace Pacman
         public StateHost()
         {
             this.server = new GameServer();
-            this.server.StartSimple();
+            this.server.Start();
 
             Console.Clear();
             Console.WriteLine("Hosting server");
@@ -58,7 +58,6 @@ namespace Pacman
         public void Update(float dt)
         {
             this.level.Update(dt);
-            this.server.Update(dt);
 
 
             this.SendData();
