@@ -14,6 +14,9 @@ namespace Pacman
         IndexedGameObjectList players;
         OrderedGameObjectList ghosts;
 
+        GameObjectList bubbles;
+        GameObjectList powerups;
+
         public StateJoin(string endpoint)
         {
             this.client = new GameClient();
@@ -33,6 +36,12 @@ namespace Pacman
 
             this.players = new IndexedGameObjectList();
             this.ghosts = new OrderedGameObjectList();
+
+            this.bubbles = new GameObjectList();
+            this.powerups = new GameObjectList();
+
+            this.level.Add(bubbles);
+            this.level.Add(powerups);
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -122,6 +131,27 @@ namespace Pacman
                         this.ghosts.UpdateObject(cmsg);
                         break;
 
+                    case DataType.Map:
+                        MapMessage mmsg = cmsg as MapMessage;
+
+                        this.bubbles.Clear();
+                        this.powerups.Clear();
+
+                        foreach (Vector2 bubble in mmsg.Bubbles)
+                        {
+                            Bubble b = new Bubble();
+                            b.Position = bubble;
+                            this.bubbles.Add(b);
+                        }
+
+                        foreach (Vector2 powerup in mmsg.PowerUps)
+                        {
+                            Powerup p = new Powerup();
+                            p.Position = powerup;
+                            this.powerups.Add(p);
+                        }
+
+                        break;
                 }
     
             }

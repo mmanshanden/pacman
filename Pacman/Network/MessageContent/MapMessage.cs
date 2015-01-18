@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Network
 {
-    class MapMessage : NetMessageContent
+    public class MapMessage : NetMessageContent
     {
         public List<Vector2> Bubbles;
         public List<Vector2> PowerUps;
@@ -12,6 +12,9 @@ namespace Network
         public MapMessage()
         {
             this.Type = DataType.Map;
+
+            this.Bubbles = new List<Vector2>();
+            this.PowerUps = new List<Vector2>();
         }
 
         public override void ReadMessage(NetIncomingMessage msg)
@@ -19,7 +22,7 @@ namespace Network
             base.ReadMessage(msg);
 
             int bcount = msg.ReadInt32();
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < bcount; i++)
             {
                 Vector2 bubble = MessageParser.ReadVector2(msg);
                 this.Bubbles.Add(bubble);
