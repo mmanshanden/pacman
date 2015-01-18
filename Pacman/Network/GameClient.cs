@@ -164,6 +164,8 @@ namespace Network
                     break;
             }
 
+            this.client.Recycle(this.inc);
+
         }
         #endregion
     }

@@ -201,6 +201,8 @@ namespace Network
                     this.ReceiveMessage(message);
                     break;
             }
+
+            this.server.Recycle(this.inc);
         }
     }
 }
