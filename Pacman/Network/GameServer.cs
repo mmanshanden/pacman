@@ -143,7 +143,7 @@ namespace Network
             this.sendData.WriteMessage(msg);
 
             // send
-            this.server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);
+            this.server.SendToAll(msg, NetDeliveryMethod.ReliableSequenced);
 
             // message has been send, dont send again
             this.sendData = null;

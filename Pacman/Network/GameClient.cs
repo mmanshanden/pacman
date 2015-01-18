@@ -88,7 +88,7 @@ namespace Network
             NetOutgoingMessage msg = this.client.CreateMessage();
             this.sendData.WriteMessage(msg);
 
-            this.client.SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
+            this.client.SendMessage(msg, NetDeliveryMethod.UnreliableSequenced);
 
             Console.WriteLine("Message sent to server: ");
             Console.WriteLine(sendData.ToString());
