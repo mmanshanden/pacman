@@ -17,6 +17,7 @@ namespace Pacman
         }
 
         private List<Pacman> pacmans;
+        private List<Ghost> ghosts; 
 
         protected Level Level
         {
@@ -38,6 +39,7 @@ namespace Pacman
         public GhostHouse()
         {
             this.pacmans = new List<Pacman>();
+            this.ghosts = new List<Ghost>();
         }
 
         #region Ghost Adding
@@ -67,6 +69,7 @@ namespace Pacman
 
         public void Add(Ghost ghost)
         {
+            this.ghosts.Add(ghost);
             this.Level.Add(ghost);
             ghost.GhostHouse = this;
         }
@@ -89,6 +92,12 @@ namespace Pacman
                     this.AiMode = AiModes.Random;
                     return GetPacman();
             }
+        }
+
+        public void ResetGhosts()
+        {
+            foreach (Ghost ghost in ghosts)
+                ghost.Respawn(); 
         }
 
         public override void Update(float dt)
