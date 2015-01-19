@@ -65,9 +65,7 @@ namespace Pacman
         public override void Load()
         {
             ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
-            mb.PrimitiveBatch.SetColor(Color.Yellow);
-            mb.PrimitiveBatch.DrawCube();
-
+            mb.BuildFromTexture("voxels/pacman", 16);
             Game.DrawManager.ModelLibrary.EndModel("pacman");
         }
 

@@ -49,7 +49,7 @@ namespace Pacman
 
             this.drawHelper.LoadTextures(Content);
 
-            Game.DrawManager = new DrawManager(GraphicsDevice);
+            Game.DrawManager = new DrawManager(GraphicsDevice, Content);
 
             Game.DrawManager.Initialize();
             Console.Initialize(GraphicsDevice, Content);

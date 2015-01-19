@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -31,11 +32,11 @@ namespace _3dgl
             private set;
         }
 
-        public DrawManager(GraphicsDevice graphicsDevice)
+        public DrawManager(GraphicsDevice graphicsDevice, ContentManager content)
         {
             this.graphicsDevice = graphicsDevice;
             this.effect = new BasicEffect(graphicsDevice);
-            this.ModelLibrary = new ModelLibrary(graphicsDevice);
+            this.ModelLibrary = new ModelLibrary(graphicsDevice, content);
             this.Camera = new Camera(this.effect);
         }
 

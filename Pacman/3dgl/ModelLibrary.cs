@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,16 @@ namespace _3dgl
     public class ModelLibrary
     {
         private GraphicsDevice graphicsDevice;
+        private ContentManager content;
 
         Dictionary<string, ModelBuilder> models;
 
         private ModelBuilder activeModel;
 
-        public ModelLibrary(GraphicsDevice graphicsDevice)
+        public ModelLibrary(GraphicsDevice graphicsDevice, ContentManager content)
         {
             this.graphicsDevice = graphicsDevice;
+            this.content = content;
 
             this.models = new Dictionary<string, ModelBuilder>();
 
@@ -29,7 +32,7 @@ namespace _3dgl
 
         public ModelBuilder BeginModel()
         {
-            this.activeModel = new ModelBuilder();
+            this.activeModel = new ModelBuilder(this.content);
             return this.activeModel;
         }
 
