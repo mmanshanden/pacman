@@ -61,11 +61,11 @@ namespace Pacman
         public void LoadGameBoard(char[,] grid)
         {
             // initialize gameboard and add board to level
-            GameBoard gameBoard = GameBoard.CopyDimensions(grid);
+            Maze maze = Maze.CopyDimensions(grid);
 
-            for (int x = 0; x < gameBoard.Size.X; x++)
+            for (int x = 0; x < maze.Size.X; x++)
             {
-                for (int y = 0; y < gameBoard.Size.Y; y++)
+                for (int y = 0; y < maze.Size.Y; y++)
                 {
                     // standard ground tile
                     GameTile tile = new Ground();
@@ -83,11 +83,11 @@ namespace Pacman
                             break;
                     }
 
-                    gameBoard.Add(tile, x, y);
+                    maze.Add(tile, x, y);
                 }
             }
 
-            this.Add(gameBoard);
+            this.Add(maze);
         }
 
         public void LoadGameBoardObjects(char[,] grid)

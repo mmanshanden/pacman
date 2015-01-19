@@ -60,11 +60,5 @@ namespace Base
         }
         #endregion
 
-        public static GameBoard CopyDimensions(char[,] grid)
-        {
-            int width = grid.GetLength(0);
-            int height = grid.GetLength(1);
-            return new GameBoard(width, height);
-        }
     }
 }
