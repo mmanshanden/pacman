@@ -65,5 +65,10 @@ namespace _3dgl
         {
             this.ModelLibrary.DrawModel(name, this.effect);
         }
+
+        public void Translate(float x, float y)
+        {
+            this.effect.World *= Matrix.CreateTranslation(x, 0, y);
+        }
     }
 }

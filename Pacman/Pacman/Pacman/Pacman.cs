@@ -67,8 +67,9 @@ namespace Pacman
             drawHelper.DrawBox(Color.Yellow);
             drawHelper.Translate(-this.Position);
 
-            Game.DrawManager.BeginDraw();
+            Game.DrawManager.Translate(this.Position.X, this.Position.Y);
             Game.DrawManager.DrawModel("block");
+            Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
         }
 
 

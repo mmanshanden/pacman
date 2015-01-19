@@ -78,6 +78,8 @@ namespace Pacman
         {
             this.GraphicsDevice.Clear(Color.White);
 
+            Game.DrawManager.BeginDraw();
+
             this.drawHelper.SpriteBatch.Begin();
             this.gameState.Draw(drawHelper);
             this.drawHelper.SpriteBatch.End();
