@@ -1,3 +1,4 @@
+using _3dgl;
 using Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,6 +13,12 @@ namespace Pacman
 
         private DrawHelper drawHelper;
         private InputHelper inputHelper;
+
+        public static DrawManager DrawManager
+        {
+            get;
+            set;
+        }
 
         protected IGameState gameState;
 
@@ -42,11 +49,16 @@ namespace Pacman
 
             this.drawHelper.LoadTextures(Content);
 
+            Game.DrawManager = new DrawManager(GraphicsDevice);
+
+            Game.DrawManager.Initialize();
             Console.Initialize(GraphicsDevice, Content);
         }
 
         protected override void Update(GameTime gameTime)
         {
+            Game.DrawManager.Camera.Update();
+
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             this.inputHelper.Update();

@@ -41,6 +41,14 @@ namespace Pacman
         public void HandleInput(InputHelper inputHelper)
         {
             this.level.HandleInput(inputHelper);
+
+            Vector2 rs = inputHelper.RightStickVector();
+
+            if (rs == Vector2.Zero)
+                return;
+
+            Game.DrawManager.Camera.Phi += rs.X * 0.1f;
+            Game.DrawManager.Camera.Rho += rs.Y * -0.1f;
         }
 
         public IGameState TransitionTo()

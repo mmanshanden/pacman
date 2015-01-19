@@ -7,13 +7,13 @@ using System.Text;
 
 namespace _3dgl
 {
-    struct Vertex : IVertexType
+    public struct Vertex : IVertexType
     {
         public Vector3 Position;
         public Vector3 Normal;
         public Color Color;
 
-        public VertexDeclaration VertexDecleration
+        public VertexDeclaration VertexDeclaration
         {
             get
             {

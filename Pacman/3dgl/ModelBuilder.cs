@@ -8,48 +8,64 @@ namespace _3dgl
 {
     public class ModelBuilder
     {
-        private GraphicsDevice graphicsDevice;
-        private PrimitiveBatch primitiveBatch;
-
-        VertexBuffer vertexBuffer;
-        IndexBuffer indexBuffer;
-
-        public ModelBuilder(GraphicsDevice graphicsDevice)
+        public PrimitiveBatch PrimitiveBatch
         {
-            this.graphicsDevice = graphicsDevice;
+            get;
+            private set;
         }
 
-        public PrimitiveBatch Begin()
+        private VertexBuffer vertexBuffer;
+        private IndexBuffer indexBuffer;
+
+        public int VertexCount { get; private set; }
+        public int PrimitiveCount { get; private set; }
+
+        private bool saved;
+
+        public ModelBuilder()
         {
-            this.primitiveBatch = new PrimitiveBatch();
-            return this.primitiveBatch;
+            this.PrimitiveBatch = new PrimitiveBatch();
+
+            this.saved = false;
         }
 
-        public void End(string name)
+        public void Save(GraphicsDevice graphicsDevice)
         {
-            Vertex[] vertices = this.primitiveBatch.GetVertexBatch();
-            short[] indices = this.primitiveBatch.GetIndexBatch();
+            Vertex[] vertices = this.PrimitiveBatch.GetVertexBatch();
+            short[] indices = this.PrimitiveBatch.GetIndexBatch();
 
             this.vertexBuffer = new VertexBuffer(
-                this.graphicsDevice, 
+                graphicsDevice, 
                 typeof(Vertex), 
                 vertices.Length, 
                 BufferUsage.None
             );
 
             this.vertexBuffer.SetData(vertices);
+            this.VertexCount = vertices.Length;
 
             this.indexBuffer = new IndexBuffer(
-                this.graphicsDevice,
+                graphicsDevice,
                 typeof(short),
                 indices.Length,
                 BufferUsage.None
             );
 
             this.indexBuffer.SetData(indices);
+            this.PrimitiveCount = indices.Length / 3;
+            this.saved = true;
             
-            // gc primitive batch
-            this.primitiveBatch = null;
+            // garbage collect primitive batch
+            this.PrimitiveBatch = null;
+        }
+
+        public void SetToDevice(GraphicsDevice device)
+        {
+            if (this.saved == false)
+                throw new Exception("Model was not saved");
+
+            device.SetVertexBuffer(this.vertexBuffer);
+            device.Indices = this.indexBuffer;
         }
 
 

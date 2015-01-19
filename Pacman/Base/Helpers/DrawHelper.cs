@@ -70,7 +70,7 @@ namespace Base
             r.Width = (int)this.scale.X;
             r.Height = (int)this.scale.Y;
 
-            this.spriteBatch.Draw(this.pixel, r, color);
+            //this.spriteBatch.Draw(this.pixel, r, color);
         }
     }
 }

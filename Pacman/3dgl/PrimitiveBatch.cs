@@ -6,7 +6,7 @@ using System.Text;
 
 namespace _3dgl
 {
-    class PrimitiveBatch
+    public class PrimitiveBatch
     {
         Matrix transformations;
         List<Vertex> vertices;
@@ -18,6 +18,7 @@ namespace _3dgl
         {
             this.transformations = Matrix.Identity;
             this.vertices = new List<Vertex>();
+            this.indices = new List<short>();
             this.color = Color.White;
         }
 
@@ -74,7 +75,7 @@ namespace _3dgl
             this.indices.Add((short)(vertexCount + 2));
             this.indices.Add((short)(vertexCount + 2));
             this.indices.Add((short)(vertexCount + 3));
-            this.indices.Add((short)(vertexCount + 1));
+            this.indices.Add((short)(vertexCount + 0));
         }
 
         public void DrawCube()
