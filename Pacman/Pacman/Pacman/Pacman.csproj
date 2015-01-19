@@ -103,6 +103,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\3dgl\3dgl.csproj">
+      <Project>{1a71ce4e-8651-49aa-85c7-68c0ddafe5c5}</Project>
+      <Name>3dgl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Base\Base.csproj">
       <Project>{b22cf147-62c7-4d28-a553-f63a4febb88a}</Project>
       <Name>Base</Name>
