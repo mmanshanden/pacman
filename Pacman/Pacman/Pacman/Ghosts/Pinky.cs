@@ -17,10 +17,11 @@ namespace Pacman
 
         public override void Draw(DrawHelper drawHelper)
         {
-            if (this.State != States.Chase && this.State != States.Scatter)
+            if (this.State == States.Dead ||
+                this.State == States.Frightened)
             {
                 base.Draw(drawHelper);
-                return; 
+                return;
             }
 
             drawHelper.Translate(this.Position);

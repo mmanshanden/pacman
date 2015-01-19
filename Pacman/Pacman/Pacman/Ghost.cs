@@ -189,11 +189,11 @@ namespace Pacman
             switch (state)
             {
                 case States.Leave:
+                case States.Dead:
                     return this.GhostHouse.Entry;
+
                 case States.Wait:
                     return this.Spawn;
-                case States.Dead:
-                    return this.GhostHouse.Entry; 
 
                 case States.Frightened:
                     Vector2 size = this.World.GameBoard.Size;
