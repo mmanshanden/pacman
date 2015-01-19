@@ -46,7 +46,7 @@ namespace _3dgl
         public Camera(BasicEffect effect)
         {
             this.effect = effect;
-            this.Zoom = 30;
+            this.Zoom = 18;
             this.Rho = 1;
         }
 

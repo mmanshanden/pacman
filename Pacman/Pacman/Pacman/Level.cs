@@ -89,8 +89,9 @@ namespace Pacman
 
             this.Add(maze);
 
-            Game.DrawManager.Camera.SetTarget(this.GameBoard.Size / 2);
+            Game.DrawManager.Camera.SetTarget((this.GameBoard.Size / 2) + Vector2.UnitY * 5);
             Game.DrawManager.Camera.SetCameraHeight(0.5f);
+            Game.DrawManager.Camera.Rho = 1.25f;
         }
 
         public void LoadGameBoardObjects(char[,] grid)
