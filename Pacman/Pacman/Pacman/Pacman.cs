@@ -7,6 +7,11 @@ namespace Pacman
 {
     class Pacman : GameCharacter
     {
+        public const float AnimationTime = 0.32f;
+
+        private float time;
+        private bool closed;
+
         public int Lives
         {
             get;
@@ -34,7 +39,10 @@ namespace Pacman
         public Pacman()
         {
             this.Lives = 3;
-            this.Score = 0; 
+            this.Score = 0;
+
+            this.time = AnimationTime;
+            this.closed = false;
         }
 
         public override void Collision_GameObject(GameObject gameObject)
@@ -62,15 +70,40 @@ namespace Pacman
                 level.GhostHouse.ResetGhosts(); 
         }
 
+        public override void Update(float dt)
+        {
+            if (this.Velocity != Vector2.Zero)
+                this.time -= dt;
+
+            this.closed = (this.time < AnimationTime / 2);
+
+            if (this.time < 0)
+                this.time = AnimationTime;
+
+            base.Update(dt);
+        }
+
         public override void Load()
         {
             ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
 
-            mb.PrimitiveBatch.Translate(Vector3.One * -0.5f);
+            mb.PrimitiveBatch.Translate(Vector3.One * 0.5f);
             mb.PrimitiveBatch.Scale(Vector3.One * 1.8f);
+            mb.PrimitiveBatch.Translate(Vector3.One * -0.5f);
 
-            mb.BuildFromTexture("voxels/pacman", 16);
-            Game.DrawManager.ModelLibrary.EndModel("pacman");
+            mb.BuildFromTexture("voxels/pacmanopen", 16);
+            Game.DrawManager.ModelLibrary.EndModel("pacman_open");
+
+            
+            
+            mb = Game.DrawManager.ModelLibrary.BeginModel();
+
+            mb.PrimitiveBatch.Translate(Vector3.One * 0.5f);
+            mb.PrimitiveBatch.Scale(Vector3.One * 1.8f);
+            mb.PrimitiveBatch.Translate(Vector3.One * -0.5f);
+
+            mb.BuildFromTexture("voxels/pacmanclosed", 16);
+            Game.DrawManager.ModelLibrary.EndModel("pacman_closed");
         }
 
         public override void Draw(DrawHelper drawHelper)
@@ -84,7 +117,12 @@ namespace Pacman
 
             Game.DrawManager.RotateOver(radians, Vector2.One * 0.5f);
             Game.DrawManager.Translate(this.Position.X, this.Position.Y);
-            Game.DrawManager.DrawModel("pacman");
+
+            if (this.closed)
+                Game.DrawManager.DrawModel("pacman_closed");
+            else
+                Game.DrawManager.DrawModel("pacman_open");
+
             Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
             Game.DrawManager.RotateOver(-radians, Vector2.One * 0.5f);
         }

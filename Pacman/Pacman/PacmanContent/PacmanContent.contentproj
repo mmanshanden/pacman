@@ -41,8 +41,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Voxels\Pacman.png">
-      <Name>Pacman</Name>
+    <Compile Include="Voxels\PacmanOpen.png">
+      <Name>PacmanOpen</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -105,6 +105,13 @@
   <ItemGroup>
     <Compile Include="Voxels\PowerUp.png">
       <Name>PowerUp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Voxels\PacmanClosed.png">
+      <Name>PacmanClosed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
