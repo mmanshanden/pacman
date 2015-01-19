@@ -66,9 +66,20 @@ namespace Pacman
 
             this.inputHelper.Update();
 
+            // move camera controller
             Vector2 rs = inputHelper.RightStickVector();
             Game.DrawManager.Camera.Phi += rs.X * 0.1f;
             Game.DrawManager.Camera.Rho += rs.Y * -0.1f;
+
+            // move camera keyboard
+            if (inputHelper.KeyDown(Keys.Up))
+                Game.DrawManager.Camera.Rho += 0.03f;
+            if (inputHelper.KeyDown(Keys.Down))
+                Game.DrawManager.Camera.Rho -= 0.03f;
+            if (inputHelper.KeyDown(Keys.Left))
+                Game.DrawManager.Camera.Phi -= 0.03f;
+            if (inputHelper.KeyDown(Keys.Right))
+                Game.DrawManager.Camera.Phi += 0.03f;
 
             if (this.inputHelper.KeyPressed(Keys.OemTilde))
                 Console.Visible = !Console.Visible;
