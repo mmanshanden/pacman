@@ -88,8 +88,6 @@ namespace Pacman
             }
 
             this.Add(gameBoard);
-
-            Game.DrawManager.Camera.SetTarget(this.GameBoard.Size / 2);
         }
 
         public void LoadGameBoardObjects(char[,] grid)
