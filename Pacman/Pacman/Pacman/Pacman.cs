@@ -58,7 +58,8 @@ namespace Pacman
             Level level = (Level)this.Parent;
 
             if (level.GhostHouse != null)
-                level.GhostHouse.ResetGhosts(); 
+                level.GhostHouse.ResetGhosts();
+            level.countdown = 3;
         }
 
         public override void Draw(DrawHelper drawHelper)
