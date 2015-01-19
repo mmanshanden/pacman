@@ -23,7 +23,7 @@ namespace Pacman
             mb.PrimitiveBatch.Translate(new Vector3(0, 1, 0));
             mb.PrimitiveBatch.RotateX(MathHelper.PiOver2);
 
-            mb.PrimitiveBatch.Translate(Vector3.One * -0.5f);
+            mb.PrimitiveBatch.Translate(Vector3.One * -0.25f);
             mb.PrimitiveBatch.Scale(Vector3.One * 1.5f);
 
             mb.BuildFromTexture("voxels/pinky", 15);
