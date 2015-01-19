@@ -62,13 +62,13 @@ namespace _3dgl
             v2.Position = Vector3.Transform(p2, this.transformations);
             v3.Position = Vector3.Transform(p3, this.transformations);
             v4.Position = Vector3.Transform(p4, this.transformations);
+            
+            int vertexCount = this.vertices.Count;
 
             this.vertices.Add(v1);
             this.vertices.Add(v2);
             this.vertices.Add(v3);
-            this.vertices.Add(v4);
-
-            int vertexCount = this.vertices.Count;
+            this.vertices.Add(v4);            
 
             this.indices.Add((short)(vertexCount + 0));
             this.indices.Add((short)(vertexCount + 1));
@@ -94,7 +94,7 @@ namespace _3dgl
             this.DrawQuad(trb, tlb, blb, brb); // back
             this.DrawQuad(tlb, tlf, blf, blb); // left
             this.DrawQuad(blf, brf, brb, blb); // bottom
-            this.DrawQuad(tlf, trf, trb, tlb); // top*/
+            this.DrawQuad(tlf, trf, trb, tlb); // top
         }
 
         public Vertex[] GetVertexBatch()
