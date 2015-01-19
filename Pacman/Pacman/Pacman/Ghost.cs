@@ -1,4 +1,5 @@
-﻿using Base;
+﻿using _3dgl;
+using Base;
 using Microsoft.Xna.Framework;
 using Network;
 using System;
@@ -294,28 +295,66 @@ namespace Pacman
             base.Update(dt);
         }
 
+        public override void Load()
+        {
+            // load scared
+            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+
+            mb.PrimitiveBatch.Translate(new Vector3(0, 1, 0));
+            mb.PrimitiveBatch.RotateX(MathHelper.PiOver2);
+
+            mb.PrimitiveBatch.Translate(Vector3.One * -0.25f);
+            mb.PrimitiveBatch.Scale(Vector3.One * 1.5f);
+
+            mb.BuildFromTexture("voxels/scared", 15);
+
+            Game.DrawManager.ModelLibrary.EndModel("scared");
+
+
+            // load scared blink
+            mb = Game.DrawManager.ModelLibrary.BeginModel();
+
+            mb.PrimitiveBatch.Translate(new Vector3(0, 1, 0));
+            mb.PrimitiveBatch.RotateX(MathHelper.PiOver2);
+
+            mb.PrimitiveBatch.Translate(Vector3.One * -0.25f);
+            mb.PrimitiveBatch.Scale(Vector3.One * 1.5f);
+
+            mb.BuildFromTexture("voxels/scaredblink", 15);
+
+            Game.DrawManager.ModelLibrary.EndModel("scared_blink");
+        }
+
         public override void Draw(DrawHelper drawHelper)
         {
-            drawHelper.Translate(this.Position);
+            float radians = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);
 
-            switch(this.State)
+            Game.DrawManager.RotateOver(radians, Vector2.One * 0.5f);
+            Game.DrawManager.Translate(this.Position.X, this.Position.Y);
+
+            switch (this.State)
             {
                 case States.Dead:
-                    drawHelper.DrawBox(Color.DarkBlue);
+                    Game.DrawManager.DrawModel("scared_blink");
                     break;
 
                 case States.Frightened:
-                    Color color = Color.DarkBlue;
-
                     if (this.frightenedTime < 2 &&
                         this.frightenedTime % 0.4f < 0.2f)
                     {
-                        color = Color.White;
+                        Game.DrawManager.DrawModel("scared_blink");
+                    }
+                    else
+                    {
+                        Game.DrawManager.DrawModel("scared");
                     }
 
-                    drawHelper.DrawBox(color);
                     break;
             }
+
+
+            Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
+            Game.DrawManager.RotateOver(-radians, Vector2.One * 0.5f);
 
             drawHelper.Translate(-this.Position);
         }

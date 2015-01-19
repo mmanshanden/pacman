@@ -16,6 +16,7 @@ namespace Pacman
         
         public override void Load()
         {
+            // load blinky
             ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
 
             mb.PrimitiveBatch.Translate(new Vector3(0, 1, 0));

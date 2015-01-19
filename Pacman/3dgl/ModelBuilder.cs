@@ -67,7 +67,7 @@ namespace _3dgl
                         
                         Color voxel = layerdata[x + y * layerbox.Width];
                         
-                        if (voxel.A > 50)
+                        if (voxel.A == 255)
                         {
                             this.PrimitiveBatch.SetColor(voxel);
                             this.PrimitiveBatch.DrawCube();

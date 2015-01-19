@@ -36,6 +36,11 @@ namespace _3dgl
             return this.activeModel;
         }
 
+        public bool Exists(string name)
+        {
+            return this.models.ContainsKey(name);
+        }
+
         public void EndModel(string name)
         {
             if (this.activeModel == null)

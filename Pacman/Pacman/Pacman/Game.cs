@@ -66,6 +66,10 @@ namespace Pacman
 
             this.inputHelper.Update();
 
+            Vector2 rs = inputHelper.RightStickVector();
+            Game.DrawManager.Camera.Phi += rs.X * 0.1f;
+            Game.DrawManager.Camera.Rho += rs.Y * -0.1f;
+
             if (this.inputHelper.KeyPressed(Keys.OemTilde))
                 Console.Visible = !Console.Visible;
 

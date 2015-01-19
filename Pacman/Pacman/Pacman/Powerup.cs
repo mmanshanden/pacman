@@ -1,4 +1,5 @@
-﻿using Base;
+﻿using _3dgl;
+using Base;
 using Microsoft.Xna.Framework;
 
 namespace Pacman
@@ -29,15 +30,30 @@ namespace Pacman
 
         }
 
+        public override void Load()
+        {
+            ModelBuilder modelBuilder = Game.DrawManager.ModelLibrary.BeginModel();
+
+            modelBuilder.PrimitiveBatch.Scale(Vector3.One * 0.4f);
+
+            modelBuilder.BuildFromTexture("voxels/powerup", 5);
+            Game.DrawManager.ModelLibrary.EndModel("powerup");
+
+        }
+
         public override void Draw(DrawHelper drawHelper)
         {
-            drawHelper.Translate(this.Position);
+            /*drawHelper.Translate(this.Position);
             drawHelper.Translate(1 / 4f, 1 / 4f);
             drawHelper.Scale(1 / 2f, 1 / 2f);
             drawHelper.DrawBox(Color.Green);
             drawHelper.Scale(2, 2);
             drawHelper.Translate(-1 / 4f, -1 / 4f);
-            drawHelper.Translate(-this.Position);
+            drawHelper.Translate(-this.Position);*/
+
+            Game.DrawManager.Translate(this.Position);
+            Game.DrawManager.DrawModel("powerup");
+            Game.DrawManager.Translate(-this.Position);
         }
     }
 }
