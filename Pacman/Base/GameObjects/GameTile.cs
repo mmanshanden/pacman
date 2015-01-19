@@ -52,6 +52,7 @@ namespace Base
 
             return result;
         }
+
         public int  GetNeighbourCount(GameObject gameObject)
         {
             return this.GetNeighbourList(gameObject).Count;
