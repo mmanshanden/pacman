@@ -13,7 +13,7 @@ namespace Pacman
 
         public Level()
         {
-            this.countdown = 3;
+            this.countdown = 0.5f;
         }
 
         public List<Vector2> GetBubbles()

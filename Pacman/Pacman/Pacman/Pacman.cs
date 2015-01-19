@@ -62,6 +62,12 @@ namespace Pacman
             level.countdown = 3;
         }
 
+        public override void Update(float dt)
+        {
+            base.Update(dt);
+            this.Speed = 6; 
+        }
+
         public override void Draw(DrawHelper drawHelper)
         {
             drawHelper.Translate(this.Position);

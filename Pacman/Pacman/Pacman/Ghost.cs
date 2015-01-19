@@ -121,6 +121,7 @@ namespace Pacman
             if (this.State == States.Frightened && gameObject is Pacman)
             {
                 this.State = States.Dead;
+                this.totalTime = 0;
             }
         }
 
