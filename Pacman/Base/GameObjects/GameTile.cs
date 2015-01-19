@@ -58,5 +58,10 @@ namespace Base
             return this.GetNeighbourList(gameObject).Count;
         }
 
+        public virtual void Load(_3dgl.ModelBuilder model)
+        {
+
+        }
+
     }
 }

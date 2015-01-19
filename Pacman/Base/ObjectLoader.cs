@@ -12,6 +12,11 @@ namespace Base
             this.gameObjects = new List<GameObject>();
         }
 
+        public void Add(GameObject gameObject)
+        {
+            this.gameObjects.Add(gameObject);
+        }
+
         public void LoadObjects()
         {
             foreach (GameObject gameObject in this.gameObjects)

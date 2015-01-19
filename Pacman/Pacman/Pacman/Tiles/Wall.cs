@@ -11,15 +11,14 @@ namespace Pacman
             return true;
         }
 
-        public override void Draw(DrawHelper drawHelper)
+        public override void Load(ModelBuilder model)
         {
-            drawHelper.Translate(this.Position);
-            drawHelper.DrawBox(Color.Blue);
-            drawHelper.Translate(-this.Position);
+            Vector3 pos = new Vector3(this.Position.X, 0, this.Position.Y);
 
-            Game.DrawManager.Translate(this.Position.X, this.Position.Y);
-            Game.DrawManager.DrawModel("block");
-            Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
+            model.PrimitiveBatch.Translate(pos);
+            model.PrimitiveBatch.SetColor(Color.Blue);
+            model.PrimitiveBatch.DrawCube();
+            model.PrimitiveBatch.Translate(-pos);
         }
     }
 }
