@@ -1,4 +1,5 @@
-﻿using Base;
+﻿using _3dgl;
+using Base;
 using Microsoft.Xna.Framework;
 
 namespace Pacman
@@ -22,6 +23,18 @@ namespace Pacman
             
         }
 
+
+        public override void Load()
+        {
+            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+
+            mb.PrimitiveBatch.Translate(Vector3.One * 0.5f);
+            mb.PrimitiveBatch.Scale(Vector3.One * 0.15f);
+            mb.PrimitiveBatch.Translate(Vector3.One * -0.5f);
+            mb.PrimitiveBatch.DrawCube();
+
+            Game.DrawManager.ModelLibrary.EndModel("bubble");
+        }
         
         public override void Draw(DrawHelper drawHelper)
         {
@@ -32,6 +45,10 @@ namespace Pacman
             drawHelper.Scale(3, 3);
             drawHelper.Translate(-1 / 3f, -1 / 3f);
             drawHelper.Translate(-this.Position);
+
+            Game.DrawManager.Translate(this.Position);
+            Game.DrawManager.DrawModel("bubble");
+            Game.DrawManager.Translate(-this.Position);
         }
     }
 }

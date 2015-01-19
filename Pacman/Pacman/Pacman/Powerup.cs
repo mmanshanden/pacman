@@ -34,7 +34,9 @@ namespace Pacman
         {
             ModelBuilder modelBuilder = Game.DrawManager.ModelLibrary.BeginModel();
 
-            modelBuilder.PrimitiveBatch.Scale(Vector3.One * 0.4f);
+            modelBuilder.PrimitiveBatch.Translate(Vector3.One * 0.5f);
+            modelBuilder.PrimitiveBatch.Scale(Vector3.One * 0.5f);
+            modelBuilder.PrimitiveBatch.Translate(Vector3.One * -0.5f);
 
             modelBuilder.BuildFromTexture("voxels/powerup", 5);
             Game.DrawManager.ModelLibrary.EndModel("powerup");
