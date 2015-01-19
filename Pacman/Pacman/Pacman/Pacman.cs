@@ -65,6 +65,10 @@ namespace Pacman
         public override void Load()
         {
             ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+
+            mb.PrimitiveBatch.Translate(Vector3.One * -0.5f);
+            mb.PrimitiveBatch.Scale(Vector3.One * 1.8f);
+
             mb.BuildFromTexture("voxels/pacman", 16);
             Game.DrawManager.ModelLibrary.EndModel("pacman");
         }
@@ -75,9 +79,14 @@ namespace Pacman
             drawHelper.DrawBox(Color.Yellow);
             drawHelper.Translate(-this.Position);
 
+
+            float radians = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);
+
+            Game.DrawManager.RotateOver(radians, Vector2.One * 0.5f);
             Game.DrawManager.Translate(this.Position.X, this.Position.Y);
             Game.DrawManager.DrawModel("pacman");
             Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
+            Game.DrawManager.RotateOver(-radians, Vector2.One * 0.5f);
         }
 
 
