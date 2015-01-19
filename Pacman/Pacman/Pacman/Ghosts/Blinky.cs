@@ -33,6 +33,8 @@ namespace Pacman
             blinky.Spawn = file.ReadVector("blinky_position");
             blinky.Scatter = file.ReadVector("blinky_scatter");
             blinky.Direction = Vector2.UnitY * -1;
+            blinky.waitTime = 0; 
+            blinky.waitTimer = 0; 
 
             return blinky;
         }

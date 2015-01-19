@@ -40,6 +40,8 @@ namespace Pacman
             inky.Spawn = file.ReadVector("inky_position");
             inky.Scatter = file.ReadVector("inky_scatter");
             inky.Direction = Vector2.UnitY * -1;
+            inky.waitTime = 8; 
+            inky.waitTimer = 8; 
 
             return inky;
         }
