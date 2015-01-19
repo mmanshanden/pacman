@@ -187,6 +187,7 @@ namespace Pacman
         public void Respawn()
         {
             this.Position = this.Spawn;
+            this.Direction = Vector2.UnitY * -1;
             this.totalTime = 0;
         }
 

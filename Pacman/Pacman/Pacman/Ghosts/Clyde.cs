@@ -39,7 +39,7 @@ namespace Pacman
             Clyde clyde = new Clyde();
             clyde.Spawn = file.ReadVector("clyde_position");
             clyde.Scatter = file.ReadVector("clyde_scatter");
-            clyde.Direction = Vector2.UnitY;
+            clyde.Direction = Vector2.UnitY * -1;
 
             return clyde;
         }

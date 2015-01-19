@@ -39,7 +39,7 @@ namespace Pacman
             Inky inky = new Inky();
             inky.Spawn = file.ReadVector("inky_position");
             inky.Scatter = file.ReadVector("inky_scatter");
-            inky.Direction = Vector2.UnitY;
+            inky.Direction = Vector2.UnitY * -1;
 
             return inky;
         }

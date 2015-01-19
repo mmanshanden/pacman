@@ -33,7 +33,7 @@ namespace Pacman
             Pinky pinky = new Pinky();
             pinky.Spawn = file.ReadVector("pinky_position");
             pinky.Scatter = file.ReadVector("pinky_scatter");
-            pinky.Direction = Vector2.UnitY;
+            pinky.Direction = Vector2.UnitY * -1;
 
             return pinky;
         }
