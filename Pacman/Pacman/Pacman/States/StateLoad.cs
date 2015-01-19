@@ -24,13 +24,14 @@ namespace Pacman
             FileReader f = new FileReader("Content/levels/level1.txt");
             l.LoadGameBoard(f.ReadGrid("level"));
 
-            loader.Add(l.GameBoard);
 
             loader.Add(new Pacman());
             loader.Add(new Blinky());
             loader.Add(new Clyde());
             loader.Add(new Inky());
             loader.Add(new Pinky());
+            loader.Add(new Wall());
+            loader.Add(new Ground());
 
             loader.LoadObjects();
 

@@ -20,15 +20,6 @@ namespace Pacman
             base.Add(gameTile, x, y);
         }
 
-        public override void Load()
-        {
-            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
-
-            foreach (GameTile tile in this.tiles)
-                tile.Load(mb);
-
-            Game.DrawManager.ModelLibrary.EndModel("maze");
-        }
 
         public static Maze CopyDimensions(char[,] grid)
         {
@@ -37,9 +28,6 @@ namespace Pacman
             return new Maze(width, height);
         }
 
-        public override void Draw(DrawHelper drawHelper)
-        {
-            Game.DrawManager.DrawModel("maze");
-        }
+
     }
 }

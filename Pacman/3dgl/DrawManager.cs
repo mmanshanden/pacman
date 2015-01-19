@@ -71,5 +71,20 @@ namespace _3dgl
         {
             this.effect.World *= Matrix.CreateTranslation(x, 0, y);
         }
+        public void Translate(Vector2 translation)
+        {
+            this.Translate(translation.X, translation.Y);
+        }
+
+        public void Rotate(float radians)
+        {
+            this.effect.World *= Matrix.CreateRotationY(radians);
+        }
+        public void RotateOver(float radians, Vector2 point)
+        {
+            this.Translate(-point);
+            this.Rotate(radians);
+            this.Translate(point);
+        }
     }
 }
