@@ -75,6 +75,7 @@
     <Compile Include="Net\GameObject.cs" />
     <Compile Include="Net\IndexedGameObjectList.cs" />
     <Compile Include="Net\OrderedGameObjectList.cs" />
+    <Compile Include="ObjectLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

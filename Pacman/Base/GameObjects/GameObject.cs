@@ -92,5 +92,10 @@ namespace Base
         {
 
         }
+
+        public virtual void Load()
+        {
+
+        }
     }
 }
