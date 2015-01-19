@@ -24,9 +24,9 @@ namespace Pacman
             mb.PrimitiveBatch.RotateX(MathHelper.PiOver2);
 
             mb.PrimitiveBatch.Translate(Vector3.One * -0.5f);
-            mb.PrimitiveBatch.Scale(Vector3.One * 1.8f);
+            mb.PrimitiveBatch.Scale(Vector3.One * 1.5f);
 
-            mb.BuildFromTexture("voxels/pinky", 16);
+            mb.BuildFromTexture("voxels/pinky", 15);
             Game.DrawManager.ModelLibrary.EndModel("pinky");
         }
 
@@ -43,9 +43,13 @@ namespace Pacman
             drawHelper.Translate(-this.Position);
 
 
+            float radians = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);
+
+            Game.DrawManager.RotateOver(radians, Vector2.One * 0.5f);
             Game.DrawManager.Translate(this.Position.X, this.Position.Y);
             Game.DrawManager.DrawModel("pinky");
             Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
+            Game.DrawManager.RotateOver(-radians, Vector2.One * 0.5f);
         }
 
         public static Pinky LoadPinky(FileReader file)

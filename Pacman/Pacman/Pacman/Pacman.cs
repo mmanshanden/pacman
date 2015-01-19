@@ -115,7 +115,7 @@ namespace Pacman
             if (pmsg.Lives == this.Lives - 1)
                 this.Lives = pmsg.Lives;
 
-            if(pmsg.Score > this.Score)
+            if (pmsg.Score > this.Score)
                 this.Score = pmsg.Score;
         }
     }
