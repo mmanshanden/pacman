@@ -45,7 +45,7 @@ namespace _3dgl
                 MathHelper.PiOver2,
                 this.graphicsDevice.Viewport.AspectRatio,
                 0.1f,
-                80f                   
+                100f                   
             );
 
             this.effect.EnableDefaultLighting();
