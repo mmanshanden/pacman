@@ -25,23 +25,23 @@ namespace _3dgl
         #region Transformations
         public void Translate(Vector3 translation)
         {
-            this.transformations *= Matrix.CreateTranslation(translation);
+            this.transformations = Matrix.CreateTranslation(translation) * this.transformations;
         }
         public void Scale(Vector3 scale)
         {
-            this.transformations *= Matrix.CreateScale(scale);
+            this.transformations = Matrix.CreateScale(scale) * this.transformations;
         }
         public void RotateX(float radians)
         {
-            this.transformations *= Matrix.CreateRotationX(radians);
+            this.transformations = Matrix.CreateRotationX(radians) * this.transformations;
         }
         public void RotateY(float radians)
         {
-            this.transformations *= Matrix.CreateRotationY(radians);
+            this.transformations = Matrix.CreateRotationY(radians) * this.transformations;
         }
         public void RotateZ(float radians)
         {
-            this.transformations *= Matrix.CreateRotationZ(radians);
+            this.transformations = Matrix.CreateRotationZ(radians) * this.transformations;
         }
         #endregion
 
