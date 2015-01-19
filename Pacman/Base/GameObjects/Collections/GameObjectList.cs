@@ -25,7 +25,13 @@ namespace Base
         {
             this.toRemove.Add(gameObject); 
         }
-        
+
+        public void Clear()
+        {
+            this.toRemove.Clear();
+            this.gameObjects.Clear();
+        }
+
         public override void Update(float dt)
         {
             foreach (GameObject gameobject in toRemove)

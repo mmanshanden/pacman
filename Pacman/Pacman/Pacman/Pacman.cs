@@ -1,4 +1,5 @@
 ﻿using Base;
+using Network;
 using Microsoft.Xna.Framework;
 
 namespace Pacman
@@ -55,7 +56,9 @@ namespace Pacman
             this.Lives--;
             this.Position = this.spawn;
             Level level = (Level)this.Parent;
-            level.GhostHouse.ResetGhosts(); 
+
+            if (level.GhostHouse != null)
+                level.GhostHouse.ResetGhosts(); 
         }
 
         public override void Draw(DrawHelper drawHelper)
@@ -63,6 +66,36 @@ namespace Pacman
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Yellow);
             drawHelper.Translate(-this.Position);
+        }
+
+
+        public override NetMessageContent UpdateMessage(NetMessageContent cmsg)
+        {
+            PlayerMessage pmsg = new PlayerMessage();
+            NetMessageContent.CopyOver(cmsg, pmsg);
+            
+            pmsg.Position = this.Position;
+            pmsg.Direction = this.Direction;
+            pmsg.Speed = this.Speed;
+            pmsg.Lives = this.Lives;
+            pmsg.Score = this.Score;
+
+            return pmsg;
+        }
+
+        public override void UpdateObject(NetMessageContent cmsg)
+        {
+            PlayerMessage pmsg = (PlayerMessage)cmsg;
+
+            this.Position = pmsg.Position;
+            this.Direction = pmsg.Direction;
+            this.Speed = pmsg.Speed;
+
+            if (pmsg.Lives == this.Lives - 1)
+                this.Lives = pmsg.Lives;
+
+            if(pmsg.Score > this.Score)
+                this.Score = pmsg.Score;
         }
     }
 }

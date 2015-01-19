@@ -13,12 +13,12 @@ namespace Pacman
 
         public void HandleInput(InputHelper inputHelper)
         {
-
+            
         }
 
         public IGameState TransitionTo()
         {
-            return new StateDemo();
+            return new MenuMultiplayer();
         }
 
         public void Update(float dt)

@@ -1,5 +1,6 @@
 ﻿using Base;
 using Microsoft.Xna.Framework;
+using Network;
 
 namespace Pacman
 {
@@ -68,7 +69,6 @@ namespace Pacman
         public void HandleInput(InputHelper inputHelper)
         {
             this.Direction = inputHelper.GetDirectionalInput();
-        } 
-
+        }
     }
 }
