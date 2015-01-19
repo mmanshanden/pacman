@@ -1,4 +1,5 @@
-﻿using Base;
+﻿using _3dgl;
+using Base;
 using Microsoft.Xna.Framework;
 
 namespace Pacman
@@ -11,6 +12,15 @@ namespace Pacman
                 return this.GhostHouse.GetPacman().Center;
 
             return base.GetTarget(state);
+        }
+        
+        public override void Load()
+        {
+            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+            mb.PrimitiveBatch.SetColor(Color.Red);
+            mb.PrimitiveBatch.DrawCube();
+
+            Game.DrawManager.ModelLibrary.EndModel("blinky");
         }
 
         public override void Draw(DrawHelper drawHelper)
@@ -25,6 +35,11 @@ namespace Pacman
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Red);
             drawHelper.Translate(-this.Position);
+
+
+            Game.DrawManager.Translate(this.Position.X, this.Position.Y);
+            Game.DrawManager.DrawModel("blinky");
+            Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
         }
 
         public static Blinky LoadBlinky(FileReader file)

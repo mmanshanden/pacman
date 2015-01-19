@@ -1,6 +1,7 @@
 ﻿using Base;
 using Network;
 using Microsoft.Xna.Framework;
+using _3dgl;
 
 namespace Pacman
 {
@@ -61,6 +62,15 @@ namespace Pacman
                 level.GhostHouse.ResetGhosts(); 
         }
 
+        public override void Load()
+        {
+            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+            mb.PrimitiveBatch.SetColor(Color.Yellow);
+            mb.PrimitiveBatch.DrawCube();
+
+            Game.DrawManager.ModelLibrary.EndModel("pacman");
+        }
+
         public override void Draw(DrawHelper drawHelper)
         {
             drawHelper.Translate(this.Position);
@@ -68,7 +78,7 @@ namespace Pacman
             drawHelper.Translate(-this.Position);
 
             Game.DrawManager.Translate(this.Position.X, this.Position.Y);
-            Game.DrawManager.DrawModel("block");
+            Game.DrawManager.DrawModel("pacman");
             Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
         }
 

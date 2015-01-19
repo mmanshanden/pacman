@@ -1,4 +1,5 @@
-﻿using Base;
+﻿using _3dgl;
+using Base;
 using Microsoft.Xna.Framework;
 
 namespace Pacman
@@ -20,6 +21,14 @@ namespace Pacman
             return base.GetTarget(state);
         }
 
+        public override void Load()
+        {
+            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+            mb.PrimitiveBatch.SetColor(Color.Orange);
+            mb.PrimitiveBatch.DrawCube();
+
+            Game.DrawManager.ModelLibrary.EndModel("clyde");
+        }
 
         public override void Draw(DrawHelper drawHelper)
         {
@@ -32,6 +41,10 @@ namespace Pacman
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Orange);
             drawHelper.Translate(-this.Position);
+
+            Game.DrawManager.Translate(this.Position.X, this.Position.Y);
+            Game.DrawManager.DrawModel("clyde");
+            Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
         }
 
         public static Clyde LoadClyde(FileReader file)

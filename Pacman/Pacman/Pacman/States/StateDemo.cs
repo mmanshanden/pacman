@@ -36,11 +36,6 @@ namespace Pacman
             ghostHouse.Add(clyde);
             ghostHouse.Add(inky);
             ghostHouse.Add(pinky);
-
-            ObjectLoader loader = new ObjectLoader();
-            loader.Add(this.level.GameBoard);
-
-            loader.LoadObjects();
         }
 
         public void HandleInput(InputHelper inputHelper)

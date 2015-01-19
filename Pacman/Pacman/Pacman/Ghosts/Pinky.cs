@@ -1,4 +1,5 @@
-﻿using Base;
+﻿using _3dgl;
+using Base;
 using Microsoft.Xna.Framework;
 
 namespace Pacman
@@ -15,6 +16,15 @@ namespace Pacman
             return base.GetTarget(state);
         }
 
+        public override void Load()
+        {
+            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+            mb.PrimitiveBatch.SetColor(Color.Pink);
+            mb.PrimitiveBatch.DrawCube();
+
+            Game.DrawManager.ModelLibrary.EndModel("pinky");
+        }
+
         public override void Draw(DrawHelper drawHelper)
         {
             if (this.State != States.Chase && this.State != States.Scatter)
@@ -26,6 +36,11 @@ namespace Pacman
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Pink);
             drawHelper.Translate(-this.Position);
+
+
+            Game.DrawManager.Translate(this.Position.X, this.Position.Y);
+            Game.DrawManager.DrawModel("pinky");
+            Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
         }
 
         public static Pinky LoadPinky(FileReader file)
