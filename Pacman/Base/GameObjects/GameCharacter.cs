@@ -79,6 +79,8 @@ namespace Base
                     next = tile.Right;
                 else
                     next = tile.Left;
+
+                junction.Y = this.Center.Y;
             }
             else
             {
@@ -90,6 +92,8 @@ namespace Base
                     next = tile.Bottom;
                 else
                     next = tile.Top;
+
+                junction.X = this.Center.X;
             }
 
             if (next == null)
