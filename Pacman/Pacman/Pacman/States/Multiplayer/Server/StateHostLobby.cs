@@ -45,7 +45,7 @@ namespace Pacman
             send.Type = PacketType.Lobby;
 
             LobbyMessage content = new LobbyMessage();
-            content.PlayerCount = 1;
+            content.PlayerCount = 1 + this.server.GetConnections().Count;
             content.GameMode = Network.GameModes.Multi;
 
             send.SetData(content);

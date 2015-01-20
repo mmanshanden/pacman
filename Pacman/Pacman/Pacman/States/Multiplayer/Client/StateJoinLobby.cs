@@ -59,7 +59,12 @@ namespace Pacman
 
             if (this.lobbyState != null)
             {
-                Console.WriteLine("We have lobby!");
+                Console.Clear();
+                Console.WriteLine("Players in lobby: " + this.lobbyState.PlayerCount);
+            }
+            else
+            {
+                Console.WriteLine("We don't have lobby!");
             }
         }
 
