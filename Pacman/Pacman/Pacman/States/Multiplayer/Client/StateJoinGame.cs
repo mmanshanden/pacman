@@ -17,13 +17,9 @@ namespace Pacman
         GameObjectList bubbles;
         GameObjectList powerups;
 
-        public StateJoinGame(string endpoint)
+        public StateJoinGame(GameClient client)
         {
-            this.client = new GameClient();
-            this.client.ConnectToServer(endpoint);
-
-            Console.Clear();
-            Console.WriteLine("Joining server " + endpoint);
+            this.client = client;
 
             FileReader levelFile = new FileReader("Content/Levels/level1.txt");
 

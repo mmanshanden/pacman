@@ -10,6 +10,8 @@ namespace Pacman
         GameClient client;
         LobbyMessage lobbyState;
 
+        StateJoinGame game;
+
         public StateJoinLobby(string endpoint)
         {
             this.client = new GameClient();
@@ -25,6 +27,9 @@ namespace Pacman
 
         public IGameState TransitionTo()
         {
+            if (this.game != null)
+                return this.game;
+
             return this;
         }
 
@@ -42,6 +47,9 @@ namespace Pacman
                 case PacketType.Lobby:
                     this.lobbyState = received.GetData() as LobbyMessage;
                     break;
+                case PacketType.WorldState:
+                    this.game = new StateJoinGame(client);
+                    break;                    
             }
         }
 
