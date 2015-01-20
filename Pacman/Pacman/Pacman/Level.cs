@@ -75,15 +75,17 @@ namespace Pacman
                         case '#':
                             tile = new Wall();
                             break;
-                        case 'o':
-                            tile = new InvisibleWall();
-                            break;
                         case '-':
+                            tile = new GhostHouseEntry();
+                            break;
+                        case 'o':
+                            tile = new GhostHouseVoid();
+                            break;
                         case 'X':
                             tile = new Boundary();
                             break;
-                        default:
-                            tile = new Ground();
+                        case 'G':
+                            tile = new GhostHouseWall();
                             break;
                     }
 

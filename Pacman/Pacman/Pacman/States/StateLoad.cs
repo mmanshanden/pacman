@@ -36,6 +36,7 @@ namespace Pacman
             loader.Add(new Powerup());
             loader.Add(new Bubble());
             loader.Add(new Boundary());
+            loader.Add(new GhostHouseWall());
 
             loader.LoadObjects();
 
