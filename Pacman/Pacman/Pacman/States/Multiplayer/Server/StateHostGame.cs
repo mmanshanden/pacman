@@ -66,10 +66,7 @@ namespace Pacman
 
         public void Update(float dt)
         {
-            this.server.Update(dt);
-
             this.level.Update(dt);
-
 
             NetMessage received;
 
