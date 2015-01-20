@@ -86,7 +86,6 @@ namespace Pacman
                 if (received.Type == PacketType.Logout)
                 {
                     PlayerMessage pmsg = new PlayerMessage();
-                    pmsg.Time = int.MaxValue;
                     pmsg.Position = new Vector2(20, 20);
                     pmsg.Lives = 0;
                     pmsg.Speed = 0;

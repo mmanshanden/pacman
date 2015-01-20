@@ -88,12 +88,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="States\Menu\MenuGameMode.cs" />
-    <Compile Include="States\Menu\StateHostLobby.cs" />
+    <Compile Include="States\Multiplayer\Client\StateJoinLobby.cs" />
+    <Compile Include="States\Multiplayer\Server\StateHostLobby.cs" />
     <Compile Include="States\StateDefault.cs" />
     <Compile Include="States\SinglePlayer\StatePlaying.cs" />
     <Compile Include="States\Menu\MenuServerBrowser.cs" />
-    <Compile Include="States\Multiplayer\Client\StateHostGame.cs" />
-    <Compile Include="States\Multiplayer\Server\StateJoinGame.cs" />
+    <Compile Include="States\Multiplayer\Server\StateHostGame.cs" />
+    <Compile Include="States\Multiplayer\Client\StateJoinGame.cs" />
     <Compile Include="States\StateLoad.cs" />
     <Compile Include="Tiles\Boundary.cs" />
     <Compile Include="Tiles\GhostHouseVoid.cs" />
