@@ -52,17 +52,19 @@ namespace _3dgl
 
         public void DrawQuad(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
         {
-            Vector3 normal = Vector3.Cross(p2 - p1, p3 - p1);
-
+           
             Vertex v1, v2, v3, v4;
             v1.Color = v2.Color = v3.Color = v4.Color = this.color;
-            v1.Normal = v2.Normal = v3.Normal = v4.Normal = normal;
 
             v1.Position = Vector3.Transform(p1, this.transformations);
             v2.Position = Vector3.Transform(p2, this.transformations);
             v3.Position = Vector3.Transform(p3, this.transformations);
             v4.Position = Vector3.Transform(p4, this.transformations);
-            
+
+            Vector3 normal = Vector3.Cross(v2.Position - v1.Position, v3.Position - v1.Position);
+            normal.Normalize();
+            v1.Normal = v2.Normal = v3.Normal = v4.Normal = normal;
+
             int vertexCount = this.vertices.Count;
 
             this.vertices.Add(v1);
