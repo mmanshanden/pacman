@@ -21,7 +21,6 @@ namespace Pacman
 
             GameObjectList gameObjectList = (GameObjectList)this.Parent;
             gameObjectList.Remove(this);
-            pacman.Speed = 0; 
         }
 
 

@@ -58,6 +58,11 @@ namespace Pacman
                     this.Dead(); 
                 }
             }
+
+            if (gameObject is Bubble)
+            {
+                this.Speed = 0;
+            }
         }
 
         public virtual void Dead()
@@ -81,9 +86,9 @@ namespace Pacman
             if (this.time < 0)
                 this.time = AnimationTime;
 
-            this.Speed = 6;
-
             base.Update(dt);
+
+            this.Speed = 6;
         }
 
         public override void Load()
