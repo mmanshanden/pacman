@@ -59,9 +59,6 @@ namespace _3dgl
             cameraPos.Z = (float)Math.Cos(Rho) * Zoom * (float)Math.Cos(Phi);
 
             effect.View =  Matrix.CreateLookAt(cameraPos + Target, Target, Vector3.Up);
-
-            Console.WriteLine("Phi: " + this.Phi);
-            Console.WriteLine("Rho: " + this.Rho);
         }
     }
 }
