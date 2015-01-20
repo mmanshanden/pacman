@@ -24,7 +24,7 @@ namespace Pacman
         {
             if (inputHelper.KeyDown(Keys.Back))
             {
-                this.client.Disconnect("Ragequit");
+                this.client.Disconnect();
                 this.nextState = new MenuServerBrowser(); 
             }
         }
