@@ -79,7 +79,8 @@ namespace Pacman
                     continue;
                 }
 
-                if (received.Type == PacketType.Logout)
+                if (received.Type == PacketType.Logout && 
+                    this.players.Contains(received.ConnectionId))
                 {
                     PlayerMessage pmsg = new PlayerMessage();
                     pmsg.Position = new Vector2(20, 20);

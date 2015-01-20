@@ -8,7 +8,9 @@ namespace Pacman
     class StateHostLobby : IGameState
     {
         GameServer server;
-        IGameState nextState; 
+        LobbyMessage lobbyState;
+
+        StateHostGame game; 
 
         public enum GameModes
         {
@@ -21,20 +23,22 @@ namespace Pacman
             this.server = new GameServer();
             this.server.Start();
 
+            this.lobbyState = new LobbyMessage();
+
             Console.Clear();
             Console.WriteLine("Hosting lobby");
         }
 
         public void HandleInput(InputHelper inputHelper)
         {
-            if (inputHelper.KeyDown(Keys.Y))
-                this.nextState = new StateHostGame(this.server); 
+            if (inputHelper.KeyDown(Keys.Y) && this.lobbyState.PlayerCount > 1)
+                this.game = new StateHostGame(this.server); 
         }
 
         public IGameState TransitionTo()
         {
-            if (nextState != null)
-                return this.nextState;
+            if (game != null)
+                return this.game;
 
             return this;
         }
@@ -44,11 +48,10 @@ namespace Pacman
             NetMessage send = new NetMessage();
             send.Type = PacketType.Lobby;
 
-            LobbyMessage content = new LobbyMessage();
-            content.PlayerCount = 1 + this.server.GetConnections().Count;
-            content.GameMode = Network.GameModes.Multi;
+            lobbyState.PlayerCount = 1 + this.server.GetConnections().Count;
+            lobbyState.GameMode = Network.GameModes.Multi;
 
-            send.SetData(content);
+            send.SetData(lobbyState);
             this.server.SetData(send);
         }
 
