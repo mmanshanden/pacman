@@ -79,6 +79,9 @@ namespace Pacman
 
         public override void Update(float dt)
         {
+            if (this.Lives < 1)
+                this.Position = Vector2.One * -20;
+
             if (this.Velocity != Vector2.Zero)
                 this.time -= dt;
 
@@ -117,6 +120,9 @@ namespace Pacman
 
         public override void Draw(DrawHelper drawHelper)
         {
+            if (this.Lives < 1)
+                return;
+
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Yellow);
             drawHelper.Translate(-this.Position);

@@ -58,8 +58,6 @@ namespace Pacman
 
         public void Update(float dt)
         {
-            Game.DrawManager.Camera.Target = new Vector3(this.level.Player.Center.X, 0, this.level.Player.Center.Y);
-
             this.level.Update(dt);
         }
 

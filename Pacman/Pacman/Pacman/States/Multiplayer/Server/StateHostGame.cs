@@ -83,7 +83,7 @@ namespace Pacman
                     this.players.Contains(received.ConnectionId))
                 {
                     PlayerMessage pmsg = new PlayerMessage();
-                    pmsg.Position = new Vector2(20, 20);
+                    pmsg.Position = new Vector2(-20, -20);
                     pmsg.Lives = 0;
                     pmsg.Speed = 0;
 
