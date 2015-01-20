@@ -9,7 +9,7 @@ namespace Pacman
     {
         GameClient client;
         LobbyMessage lobbyState;
-
+        IGameState nextState;
         StateJoinGame game;
 
         public StateJoinLobby(string endpoint)
@@ -22,13 +22,20 @@ namespace Pacman
 
         public void HandleInput(InputHelper inputHelper)
         {
-
+            if (inputHelper.KeyDown(Keys.Back))
+            {
+                this.client.Disconnect("Ragequit");
+                this.nextState = new MenuServerBrowser(); 
+            }
         }
 
         public IGameState TransitionTo()
         {
             if (this.game != null)
                 return this.game;
+
+            if (this.nextState != null)
+                return this.nextState; 
 
             return this;
         }
