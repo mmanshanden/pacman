@@ -37,7 +37,8 @@ namespace Pacman
 
         public override void Draw(DrawHelper drawHelper)
         {
-            if (this.State != States.Chase && this.State != States.Scatter)
+            if (this.State == States.Dead ||
+                this.State == States.Frightened)
             {
                 base.Draw(drawHelper);
                 return;
@@ -63,6 +64,8 @@ namespace Pacman
             inky.Spawn = file.ReadVector("inky_position");
             inky.Scatter = file.ReadVector("inky_scatter");
             inky.Direction = Vector2.UnitY * -1;
+            inky.waitTime = 8; 
+            inky.waitTimer = 8; 
 
             return inky;
         }

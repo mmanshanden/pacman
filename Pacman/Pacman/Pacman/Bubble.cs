@@ -15,12 +15,13 @@ namespace Pacman
         {
             base.Collision_GameObject(gameObject);
 
-            if (gameObject is Pacman)
-            {
-                GameObjectList gameObjectList = (GameObjectList)this.Parent;
-                gameObjectList.Remove(this); 
-            }
-            
+            Pacman pacman = gameObject as Pacman;
+            if (pacman == null)
+                return; 
+
+            GameObjectList gameObjectList = (GameObjectList)this.Parent;
+            gameObjectList.Remove(this);
+            pacman.Speed = 0; 
         }
 
 

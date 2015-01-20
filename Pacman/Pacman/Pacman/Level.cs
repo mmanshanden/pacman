@@ -9,10 +9,11 @@ namespace Pacman
     {
         public Player Player { get; private set; }
         public GhostHouse GhostHouse { get; private set; }
+        public float countdown;
 
         public Level()
         {
-
+            this.countdown = 0.5f;
         }
 
         public List<Vector2> GetBubbles()
@@ -135,6 +136,16 @@ namespace Pacman
 
                 }
             }
+        }
+
+        public override void Update(float dt)
+        {
+            countdown -= dt;
+
+            if (this.countdown < 0)
+                base.Update(dt);
+            else
+                Console.WriteLine(countdown.ToString()); 
         }
     }
 }

@@ -67,7 +67,8 @@ namespace Pacman
             Level level = (Level)this.Parent;
 
             if (level.GhostHouse != null)
-                level.GhostHouse.ResetGhosts(); 
+                level.GhostHouse.ResetGhosts();
+            level.countdown = 3;
         }
 
         public override void Update(float dt)
@@ -79,6 +80,8 @@ namespace Pacman
 
             if (this.time < 0)
                 this.time = AnimationTime;
+
+            this.Speed = 6;
 
             base.Update(dt);
         }

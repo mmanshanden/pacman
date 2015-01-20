@@ -13,7 +13,9 @@ namespace Pacman
             Chase,
             Scatter,
             Dead,
-            Frightened
+            Frightened,
+            Wait,
+            Leave
         }
 
         public Level Level
@@ -58,10 +60,12 @@ namespace Pacman
 
         public float totalTime;
         public float frightenedTime;
+        public float waitTime;
+        public float waitTimer; 
 
         public Ghost()
         {
-            this.State = States.Chase;
+            this.State = States.Wait;
         }
 
         #region Collision Events
@@ -100,17 +104,26 @@ namespace Pacman
         }
         public virtual void Collision_Target(GameBoard board, GameTile tile)
         {
-            if (this.Center == GhostHouse.Entry && this.State == States.Dead)
+            if (this.Center == GhostHouse.Entry && this.State == States.Leave)
             {
                 this.State = States.Chase;
             }
+            if (this.Center == GhostHouse.Entry && this.State == States.Dead)
+            {
+                this.State = States.Wait;
+                this.waitTimer = 3; 
+            }
+
         }
         #endregion
 
         public override void Collision_GameObject(GameObject gameObject)
         {
             if (this.State == States.Frightened && gameObject is Pacman)
+            {
                 this.State = States.Dead;
+                this.totalTime = 0;
+            }
         }
 
         #region Move - Don't touch
@@ -166,16 +179,23 @@ namespace Pacman
 
         public void Frighten()
         {
-            this.State = States.Frightened;
-            this.frightenedTime = 6;
+            if (this.State == States.Scatter || this.State == States.Chase)
+            {
+                this.State = States.Frightened;
+                this.frightenedTime = 6;
+            }
         }
     
         public virtual Vector2 GetTarget(States state)
         {
             switch (state)
             {
+                case States.Leave:
                 case States.Dead:
-                    return this.GhostHouse.Entry; 
+                    return this.GhostHouse.Entry;
+
+                case States.Wait:
+                    return this.Spawn;
 
                 case States.Frightened:
                     Vector2 size = this.World.GameBoard.Size;
@@ -223,6 +243,8 @@ namespace Pacman
         {
             this.Position = this.Spawn;
             this.Direction = Vector2.UnitY * -1;
+            this.State = States.Wait;
+            this.waitTimer = this.waitTime; 
             this.totalTime = 0;
         }
         
@@ -247,6 +269,10 @@ namespace Pacman
                 case States.Dead:
                     this.Speed = 20;
                     break;
+                case States.Leave:
+                case States.Wait:
+                    this.Speed = 5;
+                    break;
             }
 
             if (this.State == States.Frightened)
@@ -255,6 +281,15 @@ namespace Pacman
 
                 if (frightenedTime < 0)
                     this.State = States.Scatter;
+            }
+
+            if (this.State == States.Wait)
+            {
+                this.waitTimer -= dt;
+                if (waitTimer < 0)
+                {
+                    this.State = States.Leave; 
+                }
             }
 
             // switch between scatter and chase
@@ -350,6 +385,9 @@ namespace Pacman
                     }
 
                     break;
+                default:
+                    drawHelper.DrawBox(Color.Green);
+                    break; 
             }
 
 
