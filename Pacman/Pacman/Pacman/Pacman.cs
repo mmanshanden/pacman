@@ -11,7 +11,8 @@ namespace Pacman
 
         private float time;
         private bool closed;
-
+        private float rotation;
+        
         public int Lives
         {
             get;
@@ -119,11 +120,11 @@ namespace Pacman
             drawHelper.Translate(this.Position);
             drawHelper.DrawBox(Color.Yellow);
             drawHelper.Translate(-this.Position);
+            
+            if (this.Velocity != Vector2.Zero)
+                this.rotation = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);
 
-
-            float radians = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);
-
-            Game.DrawManager.RotateOver(radians, Vector2.One * 0.5f);
+            Game.DrawManager.RotateOver(this.rotation, Vector2.One * 0.5f);
             Game.DrawManager.Translate(this.Position.X, this.Position.Y);
 
             if (this.closed)
@@ -132,7 +133,7 @@ namespace Pacman
                 Game.DrawManager.DrawModel("pacman_open");
 
             Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
-            Game.DrawManager.RotateOver(-radians, Vector2.One * 0.5f);
+            Game.DrawManager.RotateOver(-rotation, Vector2.One * 0.5f);
         }
 
 
