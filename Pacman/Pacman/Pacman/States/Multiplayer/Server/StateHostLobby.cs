@@ -55,6 +55,12 @@ namespace Pacman
         public void Draw(DrawHelper drawHelper)
         {
             Console.Visible = true;
+
+            Console.Clear();
+
+            foreach (string ip in this.server.GetConnections())
+                Console.WriteLine(ip);
+
         }
 
     }

@@ -64,6 +64,16 @@ namespace Network
             return msg;
         }
 
+        public List<string> GetConnections()
+        {
+            List<string> result = new List<string>();
+
+            foreach(NetConnection connection in this.server.Connections)
+                result.Add(connection.RemoteEndpoint.Address.ToString());
+
+            return result;
+        }
+
         #region Threading
         public void Start()
         {
