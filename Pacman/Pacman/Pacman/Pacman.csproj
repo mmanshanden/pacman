@@ -93,6 +93,7 @@
     <Compile Include="States\StateHost.cs" />
     <Compile Include="States\StateJoin.cs" />
     <Compile Include="States\StateLoad.cs" />
+    <Compile Include="Tiles\Boundary.cs" />
     <Compile Include="Tiles\GhostHouseEntry.cs" />
     <Compile Include="Tiles\Ground.cs" />
     <Compile Include="Tiles\InvisibleWall.cs" />

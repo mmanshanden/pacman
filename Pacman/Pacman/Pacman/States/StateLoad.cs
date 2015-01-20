@@ -35,6 +35,7 @@ namespace Pacman
             loader.Add(new Ghost());
             loader.Add(new Powerup());
             loader.Add(new Bubble());
+            loader.Add(new Boundary());
 
             loader.LoadObjects();
 

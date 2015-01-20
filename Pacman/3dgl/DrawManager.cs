@@ -75,6 +75,14 @@ namespace _3dgl
         {
             this.Translate(translation.X, translation.Y);
         }
+        public void Scale(float x, float y)
+        {
+            this.effect.World *= Matrix.CreateScale(x, 1, y);
+        }
+        public void Scale(Vector2 vector)
+        {
+            this.Scale(vector.X, vector.Y);
+        }
 
         public void Rotate(float radians)
         {

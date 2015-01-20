@@ -78,6 +78,10 @@ namespace Pacman
                         case 'o':
                             tile = new InvisibleWall();
                             break;
+                        case '-':
+                        case 'X':
+                            tile = new Boundary();
+                            break;
                         default:
                             tile = new Ground();
                             break;
