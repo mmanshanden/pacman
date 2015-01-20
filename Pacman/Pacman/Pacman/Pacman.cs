@@ -122,10 +122,6 @@ namespace Pacman
         {
             if (this.Lives < 1)
                 return;
-
-            drawHelper.Translate(this.Position);
-            drawHelper.DrawBox(Color.Yellow);
-            drawHelper.Translate(-this.Position);
             
             if (this.Velocity != Vector2.Zero)
                 this.rotation = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);

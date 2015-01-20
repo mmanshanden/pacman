@@ -374,27 +374,18 @@ namespace Pacman
                     break;
 
                 case States.Frightened:
-                    if (this.frightenedTime < 2 &&
-                        this.frightenedTime % 0.4f < 0.2f)
-                    {
+                    if (this.frightenedTime < 2 && this.frightenedTime % 0.4f < 0.2f)
                         Game.DrawManager.DrawModel("scared_blink");
-                    }
+                    
                     else
-                    {
                         Game.DrawManager.DrawModel("scared");
-                    }
 
                     break;
-                default:
-                    drawHelper.DrawBox(Color.Green);
-                    break; 
             }
 
 
             Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
             Game.DrawManager.RotateOver(-radians, Vector2.One * 0.5f);
-
-            drawHelper.Translate(-this.Position);
         }
     }
 }
