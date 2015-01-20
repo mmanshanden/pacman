@@ -81,6 +81,12 @@ namespace Pacman
             if (inputHelper.KeyDown(Keys.Right))
                 Game.DrawManager.Camera.Phi += 0.03f;
 
+            // zoom camera
+            if (inputHelper.KeyDown(Keys.PageUp))
+                Game.DrawManager.Camera.Zoom -= 0.5f;
+            if (inputHelper.KeyDown(Keys.PageDown))
+                Game.DrawManager.Camera.Zoom += 0.5f;
+
             if (this.inputHelper.KeyPressed(Keys.OemTilde))
                 Console.Visible = !Console.Visible;
 
