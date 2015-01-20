@@ -49,19 +49,20 @@ namespace Base
 
         public override void Update(float dt)
         {
-            for (int x = 0; x < this.Size.X; x++)
+            foreach (GameObject gameObject in this.grid)
             {
-                for (int y = 0; y < this.Size.Y; y++)
-                {
-                    this.grid[x, y].Update(dt);
-                }
+                if (gameObject != null)
+                    gameObject.Update(dt);
             }
         }
 
         public override void Draw(DrawHelper drawHelper)
         {
             foreach (GameObject gameObject in this.grid)
-                gameObject.Draw(drawHelper);
+            {
+                if (gameObject != null)
+                    gameObject.Draw(drawHelper);
+            }
         }
 
     }

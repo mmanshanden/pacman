@@ -13,8 +13,10 @@ namespace Base
 
         public bool IsInside(Vector2 position)
         {
-            Point point = Collision.ToPoint(position);
-            return this.IsInside(point);
+            return (
+                position.X >= 0 && position.X < this.Size.X &&
+                position.Y >= 0 && position.Y < this.Size.Y
+            );
         }
         public bool IsInside(Point point)
         {
@@ -32,10 +34,12 @@ namespace Base
             Point point = Collision.ToPoint(position);
             return this.Get(point) as GameTile;
         }
+
         public List<GameTile> GetNeighbourList(Vector2 position, GameObject gameObject)
         {
             return this.GetTile(position).GetNeighbourList(gameObject);
         }
+
         public int GetNeighbourCount(Vector2 position, GameObject gameObject)
         {
             return this.GetTile(position).GetNeighbourCount(gameObject);

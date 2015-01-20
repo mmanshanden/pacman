@@ -75,17 +75,26 @@ namespace Pacman
                         case '#':
                             tile = new Wall();
                             break;
-                        case '-':
+                        case '=':
                             tile = new GhostHouseEntry();
                             break;
                         case 'o':
                             tile = new GhostHouseVoid();
                             break;
-                        case 'X':
-                            tile = new Boundary();
-                            break;
                         case 'G':
                             tile = new GhostHouseWall();
+                            break;
+                        case ' ':
+                            tile = null;
+                            break;
+                        case '-':
+                            tile = new Boundary(Boundary.Orientations.Horizontal);
+                            break;
+                        case '|':
+                            tile = new Boundary(Boundary.Orientations.Vertical);
+                            break;
+                        case '+':
+                            tile = new Boundary(Boundary.Orientations.Corner);
                             break;
                     }
 
