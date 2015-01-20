@@ -14,6 +14,8 @@ namespace Pacman
         {
             this.client = new GameClient();
             this.client.ConnectToServer(endpoint);
+
+            Console.Clear();
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -28,6 +30,8 @@ namespace Pacman
 
         public void Update(float dt)
         {
+            this.client.Update(dt);
+
             NetMessage received = this.client.GetData();
 
             if (received == null)
@@ -43,6 +47,8 @@ namespace Pacman
 
         public void Draw(DrawHelper drawHelper)
         {
+            Console.Visible = true;
+
             if (this.lobbyState != null)
             {
                 Console.WriteLine("We have lobby!");

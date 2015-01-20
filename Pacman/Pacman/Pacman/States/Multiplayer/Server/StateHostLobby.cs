@@ -36,15 +36,15 @@ namespace Pacman
 
         public void Update(float dt)
         {
-            NetMessage msg = new NetMessage();
-            msg.Type = PacketType.Lobby;
+            NetMessage send = new NetMessage();
+            send.Type = PacketType.Lobby;
 
-            LobbyMessage lobbyMsg = new LobbyMessage();
-            lobbyMsg.PlayerCount = 1;
-            lobbyMsg.GameMode = Network.GameModes.Multi;
+            LobbyMessage content = new LobbyMessage();
+            content.PlayerCount = 1;
+            content.GameMode = Network.GameModes.Multi;
 
-            msg.SetData(lobbyMsg);
-            this.server.SetData(msg);
+            send.SetData(content);
+            this.server.SetData(send);
         }
 
         public void Draw(DrawHelper drawHelper)

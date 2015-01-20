@@ -159,15 +159,9 @@ namespace Network
                 return;
             }
 
-            switch (msg.Type)
-            {
-                case PacketType.WorldState:
-                    this.ReceiveMessage(msg);
-                    break;
-            }
-
+            this.ReceiveMessage(msg);
+            
             this.client.Recycle(this.inc);
-
         }
         #endregion
     }
