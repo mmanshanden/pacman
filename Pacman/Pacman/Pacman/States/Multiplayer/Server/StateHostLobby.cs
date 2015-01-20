@@ -8,6 +8,7 @@ namespace Pacman
     class StateHostLobby : IGameState
     {
         GameServer server;
+        IGameState nextState; 
 
         public enum GameModes
         {
@@ -26,11 +27,15 @@ namespace Pacman
 
         public void HandleInput(InputHelper inputHelper)
         {
-
+            if (inputHelper.KeyDown(Keys.Y))
+                this.nextState = new StateHostGame(this.server); 
         }
 
         public IGameState TransitionTo()
         {
+            if (nextState != null)
+                return this.nextState;
+
             return this;
         }
 

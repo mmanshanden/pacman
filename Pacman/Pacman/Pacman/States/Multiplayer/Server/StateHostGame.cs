@@ -14,10 +14,9 @@ namespace Pacman
         IndexedGameObjectList players = new IndexedGameObjectList();
         OrderedGameObjectList ghosts = new OrderedGameObjectList();
 
-        public StateHostGame()
+        public StateHostGame(GameServer server)
         {
-            this.server = new GameServer();
-            this.server.StartSimple();
+            this.server = server; 
 
             Console.Clear();
             Console.WriteLine("Hosting server");
