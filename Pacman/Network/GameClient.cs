@@ -7,6 +7,8 @@ namespace Network
 {
     public class GameClient
     {
+        private bool Debug = false;
+
         const float UpdateTimer = 1 / 32f;
 
         private int clientConnectionId;
@@ -74,7 +76,9 @@ namespace Network
         #region NetRoutine
         private void RecieveLogin(NetMessage message)
         {
-            Console.WriteLine("Received login relpy.\n" + message.ToString());
+            if (Debug)
+                Console.WriteLine("Received login relpy.\n" + message.ToString());
+
             this.clientConnectionId = message.ConnectionId;
         }
 
@@ -92,10 +96,13 @@ namespace Network
             this.sendData.WriteMessage(msg);
 
             this.client.SendMessage(msg, NetDeliveryMethod.UnreliableSequenced);
-
-            Console.WriteLine("Message sent to server: ");
-            Console.WriteLine(sendData.ToString());
-            Console.WriteLine("");
+            
+            if (Debug)
+            {
+                Console.WriteLine("Message sent to server: ");
+                Console.WriteLine(sendData.ToString());
+                Console.WriteLine("");
+            }
 
             this.sendData = null;
         }

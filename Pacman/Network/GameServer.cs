@@ -9,6 +9,8 @@ namespace Network
 {
     public class GameServer
     {
+        private bool Debug = false;
+
         const float UpdateTimer =  1/ 32f;
         const int ServerPort = 1000;
 
@@ -126,7 +128,9 @@ namespace Network
 
             // send reply
             server.SendMessage(outmsg, inc.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
-            Console.WriteLine("Login reply send back to " + inc.SenderEndpoint.Address.ToString());
+
+            if (Debug)
+                Console.WriteLine("Login reply send back to " + inc.SenderEndpoint.Address.ToString());
         }
 
         private void SendMessage()
@@ -147,7 +151,8 @@ namespace Network
             // message has been send, dont send again
             this.sendData = null;
 
-            Console.WriteLine("Message sent to connected clients");
+            if (Debug)
+                Console.WriteLine("Message sent to connected clients");
         }
 
         private void ReceiveMessage(NetMessage message)

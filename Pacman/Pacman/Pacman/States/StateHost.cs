@@ -134,8 +134,6 @@ namespace Pacman
             mmsg.Bubbles = this.level.GetBubbles();
             mmsg.PowerUps = this.level.GetPowerUps();
             message.SetData(mmsg);
-
-            Console.WriteLine("Sending message:\n------------\n" + message.ToString());
         }
 
         public void Draw(DrawHelper drawHelper)
