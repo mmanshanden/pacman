@@ -90,10 +90,10 @@
     <Compile Include="States\Menu\MenuGameMode.cs" />
     <Compile Include="States\Multiplayer\Client\StateHostLobby.cs" />
     <Compile Include="States\StateDefault.cs" />
-    <Compile Include="States\SinglePlayer\StateDemo.cs" />
+    <Compile Include="States\SinglePlayer\StatePlaying.cs" />
     <Compile Include="States\Menu\MenuServerBrowser.cs" />
     <Compile Include="States\Multiplayer\Client\StateHostGame.cs" />
-    <Compile Include="States\Multiplayer\Server\StateJoin.cs" />
+    <Compile Include="States\Multiplayer\Server\StateJoinGame.cs" />
     <Compile Include="States\StateLoad.cs" />
     <Compile Include="Tiles\Boundary.cs" />
     <Compile Include="Tiles\GhostHouseVoid.cs" />
