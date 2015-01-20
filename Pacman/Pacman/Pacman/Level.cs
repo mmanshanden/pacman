@@ -76,7 +76,7 @@ namespace Pacman
                         case '#':
                             tile = new Wall();
                             break;
-                        case '=':
+                        case '*':
                             tile = new GhostHouseEntry();
                             break;
                         case 'o':
