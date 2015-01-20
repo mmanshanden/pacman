@@ -39,8 +39,8 @@ namespace Pacman
             this.Content.RootDirectory = "Content";
             this.gameState = new StateDefault();
 
-            this.graphics.PreferredBackBufferWidth = 1920;
-            this.graphics.PreferredBackBufferHeight = 1080;
+            this.graphics.PreferredBackBufferWidth = 1280;
+            this.graphics.PreferredBackBufferHeight = 720;
 
             Game.Random = new Random();
         }

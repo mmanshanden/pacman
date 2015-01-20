@@ -19,7 +19,7 @@ namespace Pacman
         public void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyPressed(Keys.X))
-                this.nextState = new StateHostGame();
+                this.nextState = new StateHostLobby();
 
             if (inputHelper.KeyPressed(Keys.R))
                 this.client.Discover();
@@ -39,7 +39,7 @@ namespace Pacman
             if (number > client.Replies.Count)
                 return;
 
-            this.nextState = new StateJoinGame(this.client.Replies[number].Endpoint);
+            this.nextState = new StateJoinLobby(this.client.Replies[number].Endpoint);
 
         }
 

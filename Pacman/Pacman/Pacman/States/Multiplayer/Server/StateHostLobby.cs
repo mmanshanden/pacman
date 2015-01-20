@@ -18,7 +18,10 @@ namespace Pacman
         public StateHostLobby()
         {
             this.server = new GameServer();
-            this.server.StartSimple();
+            this.server.Start();
+
+            Console.Clear();
+            Console.WriteLine("Hosting lobby");
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -33,12 +36,20 @@ namespace Pacman
 
         public void Update(float dt)
         {
+            NetMessage msg = new NetMessage();
+            msg.Type = PacketType.Lobby;
 
+            LobbyMessage lobbyMsg = new LobbyMessage();
+            lobbyMsg.PlayerCount = 1;
+            lobbyMsg.GameMode = Network.GameModes.Multi;
+
+            msg.SetData(lobbyMsg);
+            this.server.SetData(msg);
         }
 
         public void Draw(DrawHelper drawHelper)
         {
-
+            Console.Visible = true;
         }
 
     }
