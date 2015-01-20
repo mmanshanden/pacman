@@ -12,7 +12,8 @@ namespace Pacman
                 return true;
 
             if (ghost.State == Ghost.States.Dead || 
-                ghost.State == Ghost.States.Leave)
+                ghost.State == Ghost.States.Leave ||
+                ghost.State == Ghost.States.Wait)
                 return false;
 
             return true;
