@@ -40,7 +40,7 @@ namespace Pacman
 
             loader.LoadObjects();
 
-            return new StateDemo();
+            return new MenuGameMode();
         }
 
         public void Update(float dt)

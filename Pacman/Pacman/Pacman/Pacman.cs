@@ -158,7 +158,7 @@ namespace Pacman
             this.Direction = pmsg.Direction;
             this.Speed = pmsg.Speed;
 
-            if (pmsg.Lives == this.Lives - 1)
+            if (pmsg.Lives < this.Lives)
                 this.Lives = pmsg.Lives;
 
             if (pmsg.Score > this.Score)

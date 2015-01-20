@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Pacman
 {
-    class StateDemo : IGameState
+    class StatePlaying : IGameState
     {
         FileReader levelFile;
         Level level;
 
-        public StateDemo()
+        public StatePlaying()
         {
             this.levelFile = new FileReader("Content/Levels/level1.txt");
             this.level = new Level();

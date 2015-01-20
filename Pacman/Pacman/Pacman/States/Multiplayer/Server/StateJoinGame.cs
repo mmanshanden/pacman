@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Pacman
 {
-    class StateJoin : IGameState
+    class StateJoinGame : IGameState
     {
         GameClient client;
         Level level;
@@ -17,7 +17,7 @@ namespace Pacman
         GameObjectList bubbles;
         GameObjectList powerups;
 
-        public StateJoin(string endpoint)
+        public StateJoinGame(string endpoint)
         {
             this.client = new GameClient();
             this.client.ConnectToServer(endpoint);
@@ -52,7 +52,7 @@ namespace Pacman
         public IGameState TransitionTo()
         {
             if (!this.client.Connected)
-                return new MenuMultiplayer();
+                return new MenuServerBrowser();
                 
             return this;
         }

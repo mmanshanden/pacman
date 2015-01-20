@@ -5,12 +5,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Pacman
 {
-    class MenuMultiplayer : IGameState
+    class MenuServerBrowser : IGameState
     {
         DiscoveryClient client;
         IGameState nextState;
 
-        public MenuMultiplayer()
+        public MenuServerBrowser()
         {
             this.client = new DiscoveryClient();
             this.client.Discover();
@@ -19,7 +19,7 @@ namespace Pacman
         public void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyPressed(Keys.X))
-                this.nextState = new StateHost();
+                this.nextState = new StateHostGame();
 
             if (inputHelper.KeyPressed(Keys.R))
                 this.client.Discover();
@@ -39,7 +39,7 @@ namespace Pacman
             if (number > client.Replies.Count)
                 return;
 
-            this.nextState = new StateJoin(this.client.Replies[number].Endpoint);
+            this.nextState = new StateJoinGame(this.client.Replies[number].Endpoint);
 
         }
 

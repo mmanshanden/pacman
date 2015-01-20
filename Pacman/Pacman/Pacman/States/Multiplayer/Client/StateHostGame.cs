@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Pacman
 {
-    class StateHost : IGameState
+    class StateHostGame : IGameState
     {
         GameServer server;
         Level level;
@@ -14,7 +14,7 @@ namespace Pacman
         IndexedGameObjectList players = new IndexedGameObjectList();
         OrderedGameObjectList ghosts = new OrderedGameObjectList();
 
-        public StateHost()
+        public StateHostGame()
         {
             this.server = new GameServer();
             this.server.StartSimple();
@@ -83,15 +83,20 @@ namespace Pacman
                     continue;
                 }
 
-                PlayerMessage pmsg = new PlayerMessage();
-                pmsg.Time = int.MaxValue;
-                pmsg.Position = new Vector2(20, 20);
-                pmsg.Lives = 0;
-                pmsg.Speed = 0;
+                if (received.Type == PacketType.Disconnected)
+                {
+                    PlayerMessage pmsg = new PlayerMessage();
+                    pmsg.Time = int.MaxValue;
+                    pmsg.Position = new Vector2(20, 20);
+                    pmsg.Lives = 0;
+                    pmsg.Speed = 0;
+
+                    // update disconnected player with fake data
+                    this.players.UpdateObject(received.ConnectionId, pmsg);
+                }
 
                 Console.WriteLine(received.ConnectionId + " Disconnected");
 
-                this.players.UpdateObject(received.ConnectionId, pmsg);
             }
 
             NetMessage send = new NetMessage();
