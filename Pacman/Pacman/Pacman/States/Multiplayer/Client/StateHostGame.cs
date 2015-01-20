@@ -83,7 +83,7 @@ namespace Pacman
                     continue;
                 }
 
-                if (received.Type == PacketType.Disconnected)
+                if (received.Type == PacketType.Logout)
                 {
                     PlayerMessage pmsg = new PlayerMessage();
                     pmsg.Time = int.MaxValue;

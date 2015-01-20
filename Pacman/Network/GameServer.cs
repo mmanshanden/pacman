@@ -192,7 +192,7 @@ namespace Network
 
                     NetMessage dcMessage = new NetMessage();
                     dcMessage.ConnectionId = inc.SenderConnection.GetHashCode();
-                    dcMessage.Type = PacketType.Disconnected;
+                    dcMessage.Type = PacketType.Logout;
 
                     this.receivedData.Add(dcMessage);
                     break;

@@ -88,7 +88,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="States\Menu\MenuGameMode.cs" />
-    <Compile Include="States\Multiplayer\Client\StateHostLobby.cs" />
+    <Compile Include="States\Menu\StateHostLobby.cs" />
     <Compile Include="States\StateDefault.cs" />
     <Compile Include="States\SinglePlayer\StatePlaying.cs" />
     <Compile Include="States\Menu\MenuServerBrowser.cs" />

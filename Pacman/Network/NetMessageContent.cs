@@ -8,6 +8,7 @@ namespace Network
         Pacman,
         Ghost,
         Map,
+        Lobby,
     }
 
     public class NetMessageContent

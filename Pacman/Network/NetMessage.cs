@@ -6,8 +6,9 @@ namespace Network
     public enum PacketType
     {
         Login,
-        WorldState,
-        Disconnected
+        Logout,
+        Lobby,
+        WorldState
     }
 
     public class NetMessage
@@ -23,7 +24,22 @@ namespace Network
         {
             this.content = new List<NetMessageContent>();
         }
-   
+
+        private NetMessageContent ParseWorldState(DataType type)
+        {
+            switch (type)
+            {
+                case DataType.Pacman:
+                    return new PlayerMessage();
+                case DataType.Ghost:
+                    return new GhostMessage();
+                case DataType.Map:
+                    return new MapMessage();
+            }
+
+            return new NetMessageContent();
+        }
+
         public virtual void ReadMessage(NetIncomingMessage msg)
         {            
             this.Type = (PacketType)msg.ReadByte();
@@ -37,19 +53,18 @@ namespace Network
                 // content reads byte again
                 msg.Position -= 8;
 
-                switch (type)
+                switch (this.Type)
                 {
-                    case DataType.Pacman:
-                        c = new PlayerMessage();
+                    case PacketType.WorldState:
+                        c = this.ParseWorldState(type);
                         break;
-                    case DataType.Ghost:
-                        c = new GhostMessage();
-                        break;
-                    case DataType.Map:
-                        c = new MapMessage();
+
+                    case PacketType.Lobby:
+                        c = new LobbyMessage();
                         break;
                 }
-
+                
+                // read and add message
                 c.ReadMessage(msg);
                 this.content.Add(c);
             }

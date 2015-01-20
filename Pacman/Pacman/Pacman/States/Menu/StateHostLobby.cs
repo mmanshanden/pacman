@@ -9,9 +9,16 @@ namespace Pacman
     {
         GameServer server;
 
+        public enum GameModes
+        {
+            Multi,
+            Player
+        }
+
         public StateHostLobby()
         {
-
+            this.server = new GameServer();
+            this.server.StartSimple();
         }
 
         public void HandleInput(InputHelper inputHelper)

@@ -65,9 +65,10 @@
     <Compile Include="DiscoveryClient.cs" />
     <Compile Include="GameClient.cs" />
     <Compile Include="GameServer.cs" />
-    <Compile Include="MessageContent\GhostMessage.cs" />
-    <Compile Include="MessageContent\MapMessage.cs" />
-    <Compile Include="MessageContent\PlayerMessage.cs" />
+    <Compile Include="MessageContent\Lobby\LobbyMessage.cs" />
+    <Compile Include="MessageContent\WorldState\GhostMessage.cs" />
+    <Compile Include="MessageContent\WorldState\MapMessage.cs" />
+    <Compile Include="MessageContent\WorldState\PlayerMessage.cs" />
     <Compile Include="MessageParser.cs" />
     <Compile Include="NetMessage.cs" />
     <Compile Include="NetMessageContent.cs" />
