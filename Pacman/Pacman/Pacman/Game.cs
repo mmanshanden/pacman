@@ -89,8 +89,13 @@ namespace Pacman
             if (inputHelper.KeyDown(Keys.PageDown))
                 Camera.Zoom += 0.5f;
 
+            // show/hide console
             if (this.inputHelper.KeyPressed(Keys.OemTilde))
                 Console.Visible = !Console.Visible;
+
+            // enable/disable sound
+            if (this.inputHelper.KeyPressed(Keys.F1))
+                Game.SoundManager.Enabled = !Game.SoundManager.Enabled;
 
             this.gameState = this.gameState.TransitionTo();
 

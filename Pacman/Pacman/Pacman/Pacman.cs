@@ -54,6 +54,7 @@ namespace Pacman
                 if (ghost.State == Ghost.States.Chase || ghost.State == Ghost.States.Scatter)
                 {
                     this.Dead();
+
                     Game.SoundManager.PlaySoundEffect("live_lost");
                 }
             }
@@ -62,7 +63,7 @@ namespace Pacman
             {
                 this.Speed = 0;
                 this.Score++;
-                Game.SoundManager.Enabled = true;
+
                 Game.SoundManager.PlaySoundEffect("bubble");
             }
 
@@ -71,7 +72,6 @@ namespace Pacman
                 Level level = (Level)this.Parent;
                 level.GhostHouse.FrightenGhosts();
                 
-                Game.SoundManager.Enabled = true;
                 Game.SoundManager.PlaySoundEffect("powerup");
             }
         }
