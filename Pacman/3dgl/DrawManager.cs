@@ -58,7 +58,7 @@ namespace _3dgl
             // undo graphicsdevice changes done by spritebatch
             this.graphicsDevice.BlendState = BlendState.Opaque;
             this.graphicsDevice.DepthStencilState = DepthStencilState.Default;
-            this.graphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+            this.graphicsDevice.SamplerStates[0] = SamplerState.LinearClamp;
             this.graphicsDevice.RasterizerState = RasterizerState.CullNone;
         }
 
