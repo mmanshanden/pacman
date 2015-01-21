@@ -3,21 +3,27 @@ using Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using _3dgl;
+using System.Collections.Generic;
 
 namespace Pacman
 {
-    class MenuServerBrowser : IGameState
+    class MenuServerBrowser : Menu
     {
         DiscoveryClient client;
         IGameState nextState;
 
+        private int serverIndex;
+        private List<DiscoveryClient.DiscoveryReply> servers;
+
         public MenuServerBrowser()
         {
+            base.controlSprite = "menu_controls_serverbrowser";
+
             this.client = new DiscoveryClient();
             this.client.Discover();
         }
 
-        public void HandleInput(InputHelper inputHelper)
+        public override void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyPressed(Keys.X))
                 this.nextState = new StateHostLobby();
@@ -25,26 +31,18 @@ namespace Pacman
             if (inputHelper.KeyPressed(Keys.R))
                 this.client.Discover();
 
-            int number = -1;
+            if (inputHelper.KeyPressed(Keys.Back))
+                this.nextState = new MenuGameMode();
 
-            if (inputHelper.KeyPressed(Keys.D1))
-                number = 0;
-            if (inputHelper.KeyPressed(Keys.D2))
-                number = 1;
-            if (inputHelper.KeyPressed(Keys.D3))
-                number = 2;
+            if (inputHelper.KeyPressed(Keys.Up))
+                this.serverIndex--;
 
-            if (number == -1)
-                return;
-
-            if (number > client.Replies.Count)
-                return;
-
-            this.nextState = new StateJoinLobby(this.client.Replies[number].Endpoint);
+            if (inputHelper.KeyPressed(Keys.Down))
+                this.serverIndex++;
 
         }
 
-        public IGameState TransitionTo()
+        public override IGameState TransitionTo()
         {
             if (nextState != null)
             {
@@ -55,36 +53,46 @@ namespace Pacman
             return this;
         }
 
-        public void Update(float dt)
+        public override void Update(float dt)
         {            
             if (this.nextState != null)
                 return;
 
             this.client.Update();
-            Console.Clear();
 
-            foreach(DiscoveryClient.DiscoveryReply server in this.client.Replies)
+            // positive index
+            this.serverIndex = System.Math.Abs(this.serverIndex);
+
+            // update server list
+            this.servers = this.client.Replies;
+
+            if (this.servers.Count == 0)
+                return;
+
+            // limit index
+            this.serverIndex %= this.servers.Count;
+
+        }
+
+        public override void Draw(DrawHelper drawHelper)
+        {
+            Console.Clear();
+            for (int i = 0; i < this.servers.Count; i++)
             {
+                DiscoveryClient.DiscoveryReply lobby = this.servers[i];
+
                 string line = "";
-                line += server.Endpoint + ": ";
-                line += server.Name + ". ";
-                line += server.Connections + " connections.";
+
+                if (i == this.serverIndex)
+                    line += "* ";
+
+                line += lobby.Endpoint + " ";
+                line += lobby.Connections + "/4";
 
                 Console.WriteLine(line);
             }
 
-            Console.WriteLine("\n\nPress r to refresh list.");
-            Console.WriteLine("Press x to host server.");
-        }
-
-        public void Draw(DrawManager drawManager)
-        {
-            
-        }
-
-        public void Draw(DrawHelper drawHelper)
-        {
-            Console.Visible = true;
+            base.Draw(drawHelper);
         }
 
     }
