@@ -17,7 +17,7 @@ namespace Pacman
 
         public MenuServerBrowser()
         {
-            base.controlSprite = "menu_controls_ps_serverbrowser";
+            base.controlSprite = "menu_controls_kb_serverbrowser";
 
             this.client = new DiscoveryClient();
             this.client.Discover();
@@ -86,7 +86,7 @@ namespace Pacman
         public override void Draw(DrawHelper drawHelper)
         {
             Console.Clear();
-            Console.Visible = true;
+            //Console.Visible = true;
 
             for (int i = 0; i < this.servers.Count; i++)
             {

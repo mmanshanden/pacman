@@ -10,7 +10,7 @@ namespace Pacman
     {
         GameServer server;
         LobbyMessage lobbyState;
-
+        IGameState nextState;
         StateHostGame game; 
 
         public enum GameModes
@@ -21,7 +21,7 @@ namespace Pacman
 
         public StateHostLobby()
         {
-            base.controlSprite = "menu_controls_ps_lobbyhost";
+            base.controlSprite = "menu_controls_kb_lobbyhost";
 
             this.server = new GameServer();
             this.server.Start();
@@ -35,13 +35,20 @@ namespace Pacman
         public override void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyDown(Keys.Y) && this.lobbyState.PlayerCount > 1)
-                this.game = new StateHostGame(this.server); 
+                this.game = new StateHostGame(this.server);
+            if (inputHelper.KeyDown(Keys.Back))
+            {
+                // Handle server stop properly (server.Stop() causes crash on re-host) ! ##
+            }
         }
 
         public override IGameState TransitionTo()
         {
             if (game != null)
                 return this.game;
+
+            if (nextState != null)
+                return this.nextState;
 
             return this;
         }
@@ -60,7 +67,7 @@ namespace Pacman
         
         public override void Draw(DrawHelper drawHelper)
         {
-            Console.Visible = true;
+            //Console.Visible = true;
 
             Console.Clear();
 
