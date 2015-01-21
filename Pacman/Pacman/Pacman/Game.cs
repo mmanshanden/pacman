@@ -14,22 +14,14 @@ namespace Pacman
                 
         private DrawManager drawHelper3d;
         private DrawHelper drawHelper2d;
+
+        private SoundHelper soundHelper;
         private InputHelper inputHelper;
 
         public static Camera Camera { get; private set; }
-
-        
-
-        public static Vector2 Screen
-        {
-            get;
-            private set;
-        }
-        public static Random Random
-        {
-            get;
-            private set;
-        }
+        public static Vector2 Screen { get; private set; }
+        public static Random Random { get; private set; }
+        public static SoundHelper SoundManager { get; private set; }
 
         public Game()
         {
@@ -45,16 +37,26 @@ namespace Pacman
         protected override void LoadContent()
         {
             this.drawHelper2d = new DrawHelper(GraphicsDevice);
+            this.soundHelper = new SoundHelper();
             this.inputHelper = new InputHelper();
 
+            Game.SoundManager = this.soundHelper;
+
+            // 2d loading
             this.drawHelper2d.LoadTextures(this.Content);
 
+            // 3d initialization & loading
             this.drawHelper3d = new DrawManager(GraphicsDevice, Content);
             this.drawHelper3d.Initialize();
             Game.Camera = this.drawHelper3d.Camera;
 
+            // load 3d models
             this.gameState = new StateLoad(this.drawHelper3d.ModelLibrary);
 
+            // load audio files
+            this.soundHelper.LoadAudio(this.Content);
+
+            // initialize console
             Console.Initialize(GraphicsDevice, Content);
         }
 

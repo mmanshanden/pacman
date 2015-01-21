@@ -70,6 +70,7 @@
     <Compile Include="GameObjects\GameWorld.cs" />
     <Compile Include="Helpers\DrawHelper.cs" />
     <Compile Include="Helpers\InputHelper.cs" />
+    <Compile Include="Helpers\SoundHelper.cs" />
     <Compile Include="Interfaces\IGameState.cs" />
     <Compile Include="Interfaces\ILoopMember.cs" />
     <Compile Include="Net\GameObject.cs" />
