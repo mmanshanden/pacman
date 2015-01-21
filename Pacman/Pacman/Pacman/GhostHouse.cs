@@ -96,8 +96,14 @@ namespace Pacman
 
         public void ResetGhosts()
         {
-            foreach (Ghost ghost in ghosts)
+            foreach (Ghost ghost in this.ghosts)
                 ghost.Respawn(); 
+        }
+
+        public void FrightenGhosts()
+        {
+            foreach (Ghost ghost in this.ghosts)
+                ghost.Frighten();
         }
 
         public override void Update(float dt)

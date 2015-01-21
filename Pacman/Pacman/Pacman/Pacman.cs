@@ -52,7 +52,10 @@ namespace Pacman
             if (ghost != null)
             {
                 if (ghost.State == Ghost.States.Chase || ghost.State == Ghost.States.Scatter)
-                    this.Dead(); 
+                {
+                    this.Dead();
+                    Game.SoundManager.PlaySoundEffect("live_lost");
+                }
             }
 
             else if (gameObject is Bubble)
@@ -65,13 +68,9 @@ namespace Pacman
 
             else if (gameObject is Powerup)
             {
-                // todo: ghosthouse.frightenAll()
                 Level level = (Level)this.Parent;
-                level.GhostHouse.Blinky.Frighten();
-                level.GhostHouse.Pinky.Frighten();
-                level.GhostHouse.Clyde.Frighten();
-                level.GhostHouse.Inky.Frighten();
-
+                level.GhostHouse.FrightenGhosts();
+                
                 Game.SoundManager.Enabled = true;
                 Game.SoundManager.PlaySoundEffect("powerup");
             }
