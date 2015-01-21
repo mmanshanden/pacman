@@ -45,14 +45,6 @@ namespace Pacman
 
         public override void Draw(DrawManager drawManager)
         {
-            /*drawHelper.Translate(this.Position);
-            drawHelper.Translate(1 / 4f, 1 / 4f);
-            drawHelper.Scale(1 / 2f, 1 / 2f);
-            drawHelper.DrawBox(Color.Green);
-            drawHelper.Scale(2, 2);
-            drawHelper.Translate(-1 / 4f, -1 / 4f);
-            drawHelper.Translate(-this.Position);*/
-
             drawManager.Translate(this.Position);
             drawManager.DrawModel("powerup");
             drawManager.Translate(-this.Position);
