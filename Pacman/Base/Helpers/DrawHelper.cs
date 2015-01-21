@@ -8,20 +8,19 @@ namespace Base
 {
     public class DrawHelper
     {
+        public enum Origin
+        {
+            TopLeft,
+            Center,
+            BottomRight,
+        }
+        
         GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
 
-        private Vector2 translations;
-        private Vector2 scale;
-
-        private Texture2D pixel;
-
-        public static Texture2D Pixel
-        {
-            get;
-            private set;
-        }
-
+        private Dictionary<string, Texture2D> textures;
+        
+        public Vector2 Screen { get; set; }     
         public SpriteBatch SpriteBatch
         {
             get { return this.spriteBatch; }
@@ -31,46 +30,46 @@ namespace Base
         {
             this.graphicsDevice = graphicsDevice;
             this.spriteBatch = new SpriteBatch(graphicsDevice);
-
-            this.translations = Vector2.Zero;
-            this.scale = Vector2.One;
+            this.textures = new Dictionary<string, Texture2D>();
         }
 
         public void LoadTextures(ContentManager content)
         {
-            this.pixel = new Texture2D(this.graphicsDevice, 1, 1);
-            this.pixel.SetData(new Color[] { Color.White });
-            DrawHelper.Pixel = this.pixel;
+            Texture2D pixel = new Texture2D(this.graphicsDevice, 1, 1);
+            pixel.SetData(new Color[] { Color.White });
+
+            this.textures["pixel"] = pixel;
+            
+            // controls
+            this.textures["menu_controls_back"]          = content.Load<Texture2D>("sprites/menu/back/controls");
+            this.textures["menu_controls_serverbrowser"] = content.Load<Texture2D>("sprites/menu/serverbrowser/controls");
+            this.textures["menu_controls_gamemode"]      = content.Load<Texture2D>("sprites/menu/gamemode/controls");
+            this.textures["menu_controls_lobbyhost"]     = content.Load<Texture2D>("sprites/menu/lobbyhost/controls");
+
+            // gamemode selection menu
+            this.textures["menu_gamemode_singleplayer"] = content.Load<Texture2D>("sprites/menu/gamemode/singleplayer");
+            this.textures["menu_gamemode_multiplayer"]  = content.Load<Texture2D>("sprites/menu/gamemode/multiplayer");
         }
 
-        #region Transformations
-        public void Translate(Vector2 translation)
+        public void DrawBox(string texture, Vector2 position, Origin origin)
         {
-            this.translations += translation * this.scale;
-        }
-        public void Translate(float x, float y)
-        {
-            this.Translate(new Vector2(x, y));
-        }
-        public void Scale(Vector2 scale)
-        {
-            this.scale *= scale;
-        }
-        public void Scale(float x, float y)
-        {
-            this.Scale(new Vector2(x, y));
-        }
-        #endregion
+            position *= this.Screen;
 
-        public void DrawBox(Color color)
-        {
-            Rectangle r = new Rectangle();
-            r.X = (int)this.translations.X;
-            r.Y = (int)this.translations.Y;
-            r.Width = (int)this.scale.X;
-            r.Height = (int)this.scale.Y;
+            Texture2D t = this.textures[texture];
+            Vector2 size = new Vector2(t.Width, t.Height);
 
-            //this.spriteBatch.Draw(this.pixel, r, color);
+            switch (origin)
+            {
+                case Origin.BottomRight:
+                    position -= size;
+                    break;
+
+                case Origin.Center:
+                    position -= size / 2;
+                    break;
+            }
+
+            this.spriteBatch.Draw(t, position, Color.White);
         }
     }
 }
