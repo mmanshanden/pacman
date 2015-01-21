@@ -1,4 +1,5 @@
-﻿using Base;
+﻿using _3dgl;
+using Base;
 using Microsoft.Xna.Framework.Input;
 using System;
 
@@ -60,7 +61,7 @@ namespace Pacman
             selectedMenu = selectedMenu % 2;
         }
 
-        public void Draw(DrawHelper drawHelper)
+        public void Draw(DrawManager drawManager)
         {
             Console.Visible = true;
             Console.Clear();
@@ -83,5 +84,6 @@ namespace Pacman
             Console.WriteLine(multiplayer);
 
         }
+
     }
 }

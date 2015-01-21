@@ -2,6 +2,7 @@
 using Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using _3dgl;
 
 namespace Pacman
 {
@@ -76,7 +77,7 @@ namespace Pacman
             Console.WriteLine("Press x to host server.");
         }
 
-        public void Draw(DrawHelper drawHelper)
+        public void Draw(DrawManager drawManager)
         {
             Console.Visible = true;
         }

@@ -1,4 +1,5 @@
-﻿using Base;
+﻿using _3dgl;
+using Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -6,9 +7,11 @@ namespace Pacman
 {
     class StateLoad : IGameState
     {
-        public StateLoad()
-        {
+        ModelLibrary modelLibrary;
 
+        public StateLoad(ModelLibrary modelLibrary)
+        {
+            this.modelLibrary = modelLibrary;
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -18,27 +21,18 @@ namespace Pacman
 
         public IGameState TransitionTo()
         {
-            ObjectLoader loader = new ObjectLoader();
+            Pacman.Load(this.modelLibrary);
+            Blinky.Load(this.modelLibrary);
+            Clyde.Load(this.modelLibrary);
+            Inky.Load(this.modelLibrary);
+            Pinky.Load(this.modelLibrary);
+            Ghost.Load(this.modelLibrary);
 
-            Level l = new Level();
-            FileReader f = new FileReader("Content/levels/level1.txt");
-            l.LoadGameBoard(f.ReadGrid("level"));
-
-
-            loader.Add(new Pacman());
-            loader.Add(new Blinky());
-            loader.Add(new Clyde());
-            loader.Add(new Inky());
-            loader.Add(new Pinky());
-            loader.Add(new Wall());
-            loader.Add(new Ground());
-            loader.Add(new Ghost());
-            loader.Add(new Powerup());
-            loader.Add(new Bubble());
-            loader.Add(new Boundary());
-            loader.Add(new GhostHouseWall());
-
-            loader.LoadObjects();
+            Wall.Load(this.modelLibrary);
+            GhostHouseWall.Load(this.modelLibrary);
+            Boundary.Load(this.modelLibrary);
+            Bubble.Load(this.modelLibrary);
+            Powerup.Load(this.modelLibrary);
 
             return new MenuGameMode();
         }
@@ -48,7 +42,7 @@ namespace Pacman
 
         }
 
-        public void Draw(DrawHelper drawHelper)
+        public void Draw(DrawManager drawManager)
         {
 
         }

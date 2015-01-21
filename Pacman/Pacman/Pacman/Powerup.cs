@@ -30,20 +30,20 @@ namespace Pacman
 
         }
 
-        public override void Load()
+        public static void Load(ModelLibrary modelLibrary)
         {
-            ModelBuilder modelBuilder = Game.DrawManager.ModelLibrary.BeginModel();
+            ModelBuilder modelBuilder = modelLibrary.BeginModel();
 
             modelBuilder.PrimitiveBatch.Translate(Vector3.One * 0.5f);
             modelBuilder.PrimitiveBatch.Scale(Vector3.One * 0.5f);
             modelBuilder.PrimitiveBatch.Translate(Vector3.One * -0.5f);
 
             modelBuilder.BuildFromTexture("voxels/powerup", 5);
-            Game.DrawManager.ModelLibrary.EndModel("powerup");
+            modelLibrary.EndModel("powerup");
 
         }
 
-        public override void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawManager drawManager)
         {
             /*drawHelper.Translate(this.Position);
             drawHelper.Translate(1 / 4f, 1 / 4f);
@@ -53,9 +53,9 @@ namespace Pacman
             drawHelper.Translate(-1 / 4f, -1 / 4f);
             drawHelper.Translate(-this.Position);*/
 
-            Game.DrawManager.Translate(this.Position);
-            Game.DrawManager.DrawModel("powerup");
-            Game.DrawManager.Translate(-this.Position);
+            drawManager.Translate(this.Position);
+            drawManager.DrawModel("powerup");
+            drawManager.Translate(-this.Position);
         }
     }
 }

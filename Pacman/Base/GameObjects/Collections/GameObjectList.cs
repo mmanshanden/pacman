@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _3dgl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,10 +43,10 @@ namespace Base
                 gameObject.Update(dt);
         }
 
-        public override void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawManager drawManager)
         {
             foreach (GameObject gameObject in this.gameObjects)
-                gameObject.Draw(drawHelper);
+                gameObject.Draw(drawManager);
         }
     }
 }

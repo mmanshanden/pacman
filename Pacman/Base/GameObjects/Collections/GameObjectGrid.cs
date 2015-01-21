@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using _3dgl;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,12 +57,12 @@ namespace Base
             }
         }
 
-        public override void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawManager drawManager)
         {
             foreach (GameObject gameObject in this.grid)
             {
                 if (gameObject != null)
-                    gameObject.Draw(drawHelper);
+                    gameObject.Draw(drawManager);
             }
         }
 

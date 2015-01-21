@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using _3dgl;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,9 +73,9 @@ namespace Base
             base.Update(dt);
         }
 
-        public override void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawManager drawManager)
         {
-            base.Draw(drawHelper);
+            base.Draw(drawManager);
         }
     }
 }

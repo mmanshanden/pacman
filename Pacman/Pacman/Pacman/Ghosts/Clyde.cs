@@ -21,9 +21,9 @@ namespace Pacman
             return base.GetTarget(state);
         }
 
-        public override void Load()
+        public new static void Load(ModelLibrary modelLibrary)
         {
-            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+            ModelBuilder mb = modelLibrary.BeginModel();
 
             mb.PrimitiveBatch.Translate(new Vector3(0, 1, 0));
             mb.PrimitiveBatch.RotateX(MathHelper.PiOver2);
@@ -32,29 +32,25 @@ namespace Pacman
             mb.PrimitiveBatch.Scale(Vector3.One * 1.5f);
 
             mb.BuildFromTexture("voxels/clyde", 15);
-            Game.DrawManager.ModelLibrary.EndModel("clyde");
+            modelLibrary.EndModel("clyde");
         }
 
-        public override void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawManager drawManager)
         {
             if (this.State == States.Dead ||
                 this.State == States.Frightened)
             {
-                base.Draw(drawHelper);
+                base.Draw(drawManager);
                 return;
             }
 
-            drawHelper.Translate(this.Position);
-            drawHelper.DrawBox(Color.Orange);
-            drawHelper.Translate(-this.Position);
-
             float radians = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);
 
-            Game.DrawManager.RotateOver(radians, Vector2.One * 0.5f);
-            Game.DrawManager.Translate(this.Position.X, this.Position.Y);
-            Game.DrawManager.DrawModel("clyde");
-            Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
-            Game.DrawManager.RotateOver(-radians, Vector2.One * 0.5f);
+            drawManager.RotateOver(radians, Vector2.One * 0.5f);
+            drawManager.Translate(this.Position.X, this.Position.Y);
+            drawManager.DrawModel("clyde");
+            drawManager.Translate(-this.Position.X, -this.Position.Y);
+            drawManager.RotateOver(-radians, Vector2.One * 0.5f);
         }
 
         public static Clyde LoadClyde(FileReader file)

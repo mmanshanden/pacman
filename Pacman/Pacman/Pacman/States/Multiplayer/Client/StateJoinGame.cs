@@ -3,6 +3,7 @@ using Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using _3dgl;
 
 namespace Pacman
 {
@@ -172,11 +173,9 @@ namespace Pacman
             message.SetData(this.level.Player.UpdateMessage(cmsg));
         }
 
-        public void Draw(DrawHelper drawHelper)
+        public void Draw(DrawManager drawManager)
         {
-            drawHelper.Scale(14, 14);
-            this.level.Draw(drawHelper);
-            drawHelper.Scale(1 / 14f, 1 / 14f);
+            this.level.Draw(drawManager);
 
             Console.Clear();
             Console.WriteLine("Lives:");

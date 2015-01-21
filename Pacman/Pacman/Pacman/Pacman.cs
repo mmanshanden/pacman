@@ -95,30 +95,30 @@ namespace Pacman
             this.Speed = 6;
         }
 
-        public override void Load()
+        public static void Load(ModelLibrary modelLibrary)
         {
-            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+            ModelBuilder mb = modelLibrary.BeginModel();
 
             mb.PrimitiveBatch.Translate(Vector3.One * 0.5f);
             mb.PrimitiveBatch.Scale(Vector3.One * 1.8f);
             mb.PrimitiveBatch.Translate(Vector3.One * -0.5f);
 
             mb.BuildFromTexture("voxels/pacmanopen", 16);
-            Game.DrawManager.ModelLibrary.EndModel("pacman_open");
+            modelLibrary.EndModel("pacman_open");
 
             
             
-            mb = Game.DrawManager.ModelLibrary.BeginModel();
+            mb = modelLibrary.BeginModel();
 
             mb.PrimitiveBatch.Translate(Vector3.One * 0.5f);
             mb.PrimitiveBatch.Scale(Vector3.One * 1.8f);
             mb.PrimitiveBatch.Translate(Vector3.One * -0.5f);
 
             mb.BuildFromTexture("voxels/pacmanclosed", 16);
-            Game.DrawManager.ModelLibrary.EndModel("pacman_closed");
+            modelLibrary.EndModel("pacman_closed");
         }
 
-        public override void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawManager drawManager)
         {
             if (this.Lives < 1)
                 return;
@@ -126,16 +126,16 @@ namespace Pacman
             if (this.Velocity != Vector2.Zero)
                 this.rotation = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);
 
-            Game.DrawManager.RotateOver(this.rotation, Vector2.One * 0.5f);
-            Game.DrawManager.Translate(this.Position.X, this.Position.Y);
+            drawManager.RotateOver(this.rotation, Vector2.One * 0.5f);
+            drawManager.Translate(this.Position.X, this.Position.Y);
 
             if (this.closed)
-                Game.DrawManager.DrawModel("pacman_closed");
+                drawManager.DrawModel("pacman_closed");
             else
-                Game.DrawManager.DrawModel("pacman_open");
+                drawManager.DrawModel("pacman_open");
 
-            Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
-            Game.DrawManager.RotateOver(-rotation, Vector2.One * 0.5f);
+            drawManager.Translate(-this.Position.X, -this.Position.Y);
+            drawManager.RotateOver(-rotation, Vector2.One * 0.5f);
         }
 
 

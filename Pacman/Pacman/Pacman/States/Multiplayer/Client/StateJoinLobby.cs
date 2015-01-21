@@ -1,4 +1,5 @@
-﻿using Base;
+﻿using _3dgl;
+using Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Network;
@@ -60,7 +61,7 @@ namespace Pacman
             }
         }
 
-        public void Draw(DrawHelper drawHelper)
+        public void Draw(DrawManager drawManager)
         {
             Console.Visible = true;
 

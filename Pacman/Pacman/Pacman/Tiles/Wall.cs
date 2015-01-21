@@ -11,28 +11,28 @@ namespace Pacman
             return true;
         }
 
-        public override void Load()
+        public static void Load(ModelLibrary modelLibrary)
         {
-            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+            ModelBuilder mb = modelLibrary.BeginModel();
             mb.PrimitiveBatch.Translate(new Vector3(0, 1, 0));
             mb.PrimitiveBatch.RotateX(MathHelper.PiOver2);
 
             mb.BuildFromTexture("voxels/walls/straight", 8);
-            Game.DrawManager.ModelLibrary.EndModel("wall_straight");
+            modelLibrary.EndModel("wall_straight");
 
-            mb = Game.DrawManager.ModelLibrary.BeginModel();
+            mb = modelLibrary.BeginModel();
             mb.PrimitiveBatch.Translate(new Vector3(0, 1, 0));
             mb.PrimitiveBatch.RotateX(MathHelper.PiOver2);
 
             mb.BuildFromTexture("voxels/walls/inversecorner", 8);
-            Game.DrawManager.ModelLibrary.EndModel("wall_corner_inverse");
+            modelLibrary.EndModel("wall_corner_inverse");
 
-            mb = Game.DrawManager.ModelLibrary.BeginModel();
+            mb = modelLibrary.BeginModel();
             mb.PrimitiveBatch.Translate(new Vector3(0, 1, 0));
             mb.PrimitiveBatch.RotateX(MathHelper.PiOver2);
 
             mb.BuildFromTexture("voxels/walls/corner", 8);
-            Game.DrawManager.ModelLibrary.EndModel("wall_corner");
+            modelLibrary.EndModel("wall_corner");
 
 
         }
@@ -45,7 +45,7 @@ namespace Pacman
             return 0;
         }
 
-        public override void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawManager drawManager)
         {
             bool top = this.Top is Wall;
             bool bottom = this.Bottom is Wall;
@@ -59,39 +59,39 @@ namespace Pacman
                 case 2:
                     if (left && top)
                     {
-                        Game.DrawManager.Translate(this.Position);
-                        Game.DrawManager.DrawModel("wall_corner");
-                        Game.DrawManager.Translate(-this.Position);
+                        drawManager.Translate(this.Position);
+                        drawManager.DrawModel("wall_corner");
+                        drawManager.Translate(-this.Position);
                     }
                     if (top && right)
                     {
-                        Game.DrawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
+                        drawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
 
-                        Game.DrawManager.Translate(this.Position);
-                        Game.DrawManager.DrawModel("wall_corner");
-                        Game.DrawManager.Translate(-this.Position);
+                        drawManager.Translate(this.Position);
+                        drawManager.DrawModel("wall_corner");
+                        drawManager.Translate(-this.Position);
 
-                        Game.DrawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
+                        drawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
                     }
                     if (right && bottom)
                     {
-                        Game.DrawManager.RotateOver(-MathHelper.Pi, Vector2.One * 0.5f);
+                        drawManager.RotateOver(-MathHelper.Pi, Vector2.One * 0.5f);
 
-                        Game.DrawManager.Translate(this.Position);
-                        Game.DrawManager.DrawModel("wall_corner");
-                        Game.DrawManager.Translate(-this.Position);
+                        drawManager.Translate(this.Position);
+                        drawManager.DrawModel("wall_corner");
+                        drawManager.Translate(-this.Position);
 
-                        Game.DrawManager.RotateOver(MathHelper.Pi, Vector2.One * 0.5f);
+                        drawManager.RotateOver(MathHelper.Pi, Vector2.One * 0.5f);
                     }
                     if (bottom && left)
                     {
-                        Game.DrawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
+                        drawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
 
-                        Game.DrawManager.Translate(this.Position);
-                        Game.DrawManager.DrawModel("wall_corner");
-                        Game.DrawManager.Translate(-this.Position);
+                        drawManager.Translate(this.Position);
+                        drawManager.DrawModel("wall_corner");
+                        drawManager.Translate(-this.Position);
 
-                        Game.DrawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
+                        drawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
                     }
 
                     break;
@@ -100,19 +100,19 @@ namespace Pacman
                     {
                         if (right)
                         {
-                            Game.DrawManager.RotateOver(-MathHelper.Pi, Vector2.One * 0.5f);
+                            drawManager.RotateOver(-MathHelper.Pi, Vector2.One * 0.5f);
 
-                            Game.DrawManager.Translate(this.Position);
-                            Game.DrawManager.DrawModel("wall_straight");
-                            Game.DrawManager.Translate(-this.Position);
+                            drawManager.Translate(this.Position);
+                            drawManager.DrawModel("wall_straight");
+                            drawManager.Translate(-this.Position);
 
-                            Game.DrawManager.RotateOver(MathHelper.Pi, Vector2.One * 0.5f);
+                            drawManager.RotateOver(MathHelper.Pi, Vector2.One * 0.5f);
                         }
                         else
                         {
-                            Game.DrawManager.Translate(this.Position);
-                            Game.DrawManager.DrawModel("wall_straight");
-                            Game.DrawManager.Translate(-this.Position);
+                            drawManager.Translate(this.Position);
+                            drawManager.DrawModel("wall_straight");
+                            drawManager.Translate(-this.Position);
                         }
                     }
 
@@ -120,23 +120,23 @@ namespace Pacman
                     {
                         if (top)
                         {
-                            Game.DrawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
+                            drawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
 
-                            Game.DrawManager.Translate(this.Position);
-                            Game.DrawManager.DrawModel("wall_straight");
-                            Game.DrawManager.Translate(-this.Position);
+                            drawManager.Translate(this.Position);
+                            drawManager.DrawModel("wall_straight");
+                            drawManager.Translate(-this.Position);
 
-                            Game.DrawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
+                            drawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
                         }
                         else
                         {
-                            Game.DrawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
+                            drawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
 
-                            Game.DrawManager.Translate(this.Position);
-                            Game.DrawManager.DrawModel("wall_straight");
-                            Game.DrawManager.Translate(-this.Position);
+                            drawManager.Translate(this.Position);
+                            drawManager.DrawModel("wall_straight");
+                            drawManager.Translate(-this.Position);
 
-                            Game.DrawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
+                            drawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
                         }
                     }
                     
@@ -145,39 +145,39 @@ namespace Pacman
                 case 4:
                     if (Right.Top is Ground)
                     {
-                        Game.DrawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
+                        drawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
 
-                        Game.DrawManager.Translate(this.Position);
-                        Game.DrawManager.DrawModel("wall_corner_inverse");
-                        Game.DrawManager.Translate(-this.Position);
+                        drawManager.Translate(this.Position);
+                        drawManager.DrawModel("wall_corner_inverse");
+                        drawManager.Translate(-this.Position);
 
-                        Game.DrawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
+                        drawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
                     }
                     if (Right.Bottom is Ground)
                     {
-                        Game.DrawManager.Translate(this.Position);
-                        Game.DrawManager.DrawModel("wall_corner_inverse");
-                        Game.DrawManager.Translate(-this.Position);
+                        drawManager.Translate(this.Position);
+                        drawManager.DrawModel("wall_corner_inverse");
+                        drawManager.Translate(-this.Position);
                     }
                     if (Left.Bottom is Ground)
                     {
-                        Game.DrawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
+                        drawManager.RotateOver(-MathHelper.PiOver2, Vector2.One * 0.5f);
 
-                        Game.DrawManager.Translate(this.Position);
-                        Game.DrawManager.DrawModel("wall_corner_inverse");
-                        Game.DrawManager.Translate(-this.Position);
+                        drawManager.Translate(this.Position);
+                        drawManager.DrawModel("wall_corner_inverse");
+                        drawManager.Translate(-this.Position);
 
-                        Game.DrawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
+                        drawManager.RotateOver(MathHelper.PiOver2, Vector2.One * 0.5f);
                     }
                     if (Left.Top is Ground)
                     {
-                        Game.DrawManager.RotateOver(-MathHelper.Pi, Vector2.One * 0.5f);
+                        drawManager.RotateOver(-MathHelper.Pi, Vector2.One * 0.5f);
 
-                        Game.DrawManager.Translate(this.Position);
-                        Game.DrawManager.DrawModel("wall_corner_inverse");
-                        Game.DrawManager.Translate(-this.Position);
+                        drawManager.Translate(this.Position);
+                        drawManager.DrawModel("wall_corner_inverse");
+                        drawManager.Translate(-this.Position);
 
-                        Game.DrawManager.RotateOver(MathHelper.Pi, Vector2.One * 0.5f);
+                        drawManager.RotateOver(MathHelper.Pi, Vector2.One * 0.5f);
                     }
 
                     break;

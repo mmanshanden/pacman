@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using _3dgl;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace Base
@@ -88,12 +89,12 @@ namespace Base
 
         }
 
-        public virtual void Draw(DrawHelper drawHelper)
+        public virtual void Draw(DrawManager drawManager)
         {
 
         }
 
-        public virtual void Load()
+        public virtual void Draw(DrawHelper drawHelper)
         {
 
         }

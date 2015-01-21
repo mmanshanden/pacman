@@ -1,4 +1,5 @@
-﻿using Base;
+﻿using _3dgl;
+using Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -41,14 +42,6 @@ namespace Pacman
         public void HandleInput(InputHelper inputHelper)
         {
             this.level.HandleInput(inputHelper);
-
-            Vector2 rs = inputHelper.RightStickVector();
-
-            if (rs == Vector2.Zero)
-                return;
-
-            Game.DrawManager.Camera.Phi += rs.X * 0.1f;
-            Game.DrawManager.Camera.Rho += rs.Y * -0.1f;
         }
 
         public IGameState TransitionTo()
@@ -61,11 +54,9 @@ namespace Pacman
             this.level.Update(dt);
         }
 
-        public void Draw(DrawHelper drawHelper)
+        public void Draw(DrawManager drawManager)
         {
-            drawHelper.Scale(13, 13);
-            this.level.Draw(drawHelper);
-            drawHelper.Scale(1 / 13f, 1 / 13f);
+            this.level.Draw(drawManager);
         }
 
     }

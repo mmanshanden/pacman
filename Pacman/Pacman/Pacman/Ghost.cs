@@ -330,10 +330,10 @@ namespace Pacman
             base.Update(dt);
         }
 
-        public override void Load()
+        public static void Load(ModelLibrary modelLibrary)
         {
             // load scared
-            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+            ModelBuilder mb = modelLibrary.BeginModel();
 
             mb.PrimitiveBatch.Translate(new Vector3(0, 1, 0));
             mb.PrimitiveBatch.RotateX(MathHelper.PiOver2);
@@ -343,11 +343,11 @@ namespace Pacman
 
             mb.BuildFromTexture("voxels/scared", 15);
 
-            Game.DrawManager.ModelLibrary.EndModel("scared");
+            modelLibrary.EndModel("scared");
 
 
             // load scared blink
-            mb = Game.DrawManager.ModelLibrary.BeginModel();
+            mb = modelLibrary.BeginModel();
 
             mb.PrimitiveBatch.Translate(new Vector3(0, 1, 0));
             mb.PrimitiveBatch.RotateX(MathHelper.PiOver2);
@@ -357,35 +357,35 @@ namespace Pacman
 
             mb.BuildFromTexture("voxels/scaredblink", 15);
 
-            Game.DrawManager.ModelLibrary.EndModel("scared_blink");
+            modelLibrary.EndModel("scared_blink");
         }
 
-        public override void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawManager drawManager)
         {
             float radians = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);
 
-            Game.DrawManager.RotateOver(radians, Vector2.One * 0.5f);
-            Game.DrawManager.Translate(this.Position.X, this.Position.Y);
+            drawManager.RotateOver(radians, Vector2.One * 0.5f);
+            drawManager.Translate(this.Position.X, this.Position.Y);
 
             switch (this.State)
             {
                 case States.Dead:
-                    Game.DrawManager.DrawModel("scared_blink");
+                    drawManager.DrawModel("scared_blink");
                     break;
 
                 case States.Frightened:
                     if (this.frightenedTime < 2 && this.frightenedTime % 0.4f < 0.2f)
-                        Game.DrawManager.DrawModel("scared_blink");
+                        drawManager.DrawModel("scared_blink");
                     
                     else
-                        Game.DrawManager.DrawModel("scared");
+                        drawManager.DrawModel("scared");
 
                     break;
             }
 
 
-            Game.DrawManager.Translate(-this.Position.X, -this.Position.Y);
-            Game.DrawManager.RotateOver(-radians, Vector2.One * 0.5f);
+            drawManager.Translate(-this.Position.X, -this.Position.Y);
+            drawManager.RotateOver(-radians, Vector2.One * 0.5f);
         }
     }
 }

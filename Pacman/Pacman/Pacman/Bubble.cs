@@ -24,23 +24,23 @@ namespace Pacman
         }
 
 
-        public override void Load()
+        public static void Load(ModelLibrary modelLibrary)
         {
-            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+            ModelBuilder mb = modelLibrary.BeginModel();
 
             mb.PrimitiveBatch.Translate(Vector3.One * 0.5f);
             mb.PrimitiveBatch.Scale(Vector3.One * 0.15f);
             mb.PrimitiveBatch.Translate(Vector3.One * -0.5f);
             mb.PrimitiveBatch.DrawCube();
 
-            Game.DrawManager.ModelLibrary.EndModel("bubble");
+            modelLibrary.EndModel("bubble");
         }
         
-        public override void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawManager drawManager)
         {
-            Game.DrawManager.Translate(this.Position);
-            Game.DrawManager.DrawModel("bubble");
-            Game.DrawManager.Translate(-this.Position);
+            drawManager.Translate(this.Position);
+            drawManager.DrawModel("bubble");
+            drawManager.Translate(-this.Position);
         }
     }
 }

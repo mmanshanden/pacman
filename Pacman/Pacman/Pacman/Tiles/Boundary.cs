@@ -25,54 +25,54 @@ namespace Pacman
 
         public Orientations Orientation { get; set; }
 
-        public override void Load()
+        public new static void Load(ModelLibrary modelLibrary)
         {
-            ModelBuilder mb = Game.DrawManager.ModelLibrary.BeginModel();
+            ModelBuilder mb = modelLibrary.BeginModel();
             mb.PrimitiveBatch.Scale(new Vector3(0.5f, 1, 1));
             mb.BuildFromTexture("voxels/walls/boundary", 8);
-            Game.DrawManager.ModelLibrary.EndModel("boundary");
+            modelLibrary.EndModel("boundary");
 
-            mb = Game.DrawManager.ModelLibrary.BeginModel();
+            mb = modelLibrary.BeginModel();
             mb.BuildFromTexture("voxels/walls/boundarycorner", 8);
-            Game.DrawManager.ModelLibrary.EndModel("boundary_corner");
+            modelLibrary.EndModel("boundary_corner");
         }
 
-        public override void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawManager drawManager)
         {
             switch (this.Orientation)
             {
                 case Orientations.Horizontal:
-                    Game.DrawManager.Rotate(MathHelper.PiOver2);
+                    drawManager.Rotate(MathHelper.PiOver2);
 
                     if (Bottom == null)
                     {
-                        Game.DrawManager.Translate(this.Position + new Vector2(0, 1));
-                        Game.DrawManager.DrawModel("boundary");
-                        Game.DrawManager.Translate(-this.Position - new Vector2(0, 1));
+                        drawManager.Translate(this.Position + new Vector2(0, 1));
+                        drawManager.DrawModel("boundary");
+                        drawManager.Translate(-this.Position - new Vector2(0, 1));
                     }
                     else
                     {
-                        Game.DrawManager.Translate(this.Position + new Vector2(0, 0.5f));
-                        Game.DrawManager.DrawModel("boundary");
-                        Game.DrawManager.Translate(-this.Position - new Vector2(0, 0.5f));
+                        drawManager.Translate(this.Position + new Vector2(0, 0.5f));
+                        drawManager.DrawModel("boundary");
+                        drawManager.Translate(-this.Position - new Vector2(0, 0.5f));
                     }
 
-                    Game.DrawManager.Rotate(-MathHelper.PiOver2);
+                    drawManager.Rotate(-MathHelper.PiOver2);
 
                     break;
 
                 case Orientations.Vertical:
                     if (Left == null)
                     {
-                        Game.DrawManager.Translate(this.Position);
-                        Game.DrawManager.DrawModel("boundary");
-                        Game.DrawManager.Translate(-this.Position);
+                        drawManager.Translate(this.Position);
+                        drawManager.DrawModel("boundary");
+                        drawManager.Translate(-this.Position);
                     }
                     else
                     {
-                        Game.DrawManager.Translate(this.Position + new Vector2(0.5f, 0));
-                        Game.DrawManager.DrawModel("boundary");
-                        Game.DrawManager.Translate(-this.Position - new Vector2(0.5f, 0));
+                        drawManager.Translate(this.Position + new Vector2(0.5f, 0));
+                        drawManager.DrawModel("boundary");
+                        drawManager.Translate(-this.Position - new Vector2(0.5f, 0));
                     }
 
                     break;
@@ -89,13 +89,13 @@ namespace Pacman
 
                             else
                             {
-                                Game.DrawManager.Rotate(MathHelper.PiOver2);
-                                Game.DrawManager.Translate(0, 1);
-                                Game.DrawManager.Translate(this.Position);
-                                Game.DrawManager.DrawModel("boundary_corner");
-                                Game.DrawManager.Translate(-this.Position);
-                                Game.DrawManager.Translate(0, -1);
-                                Game.DrawManager.Rotate(-MathHelper.PiOver2);
+                                drawManager.Rotate(MathHelper.PiOver2);
+                                drawManager.Translate(0, 1);
+                                drawManager.Translate(this.Position);
+                                drawManager.DrawModel("boundary_corner");
+                                drawManager.Translate(-this.Position);
+                                drawManager.Translate(0, -1);
+                                drawManager.Rotate(-MathHelper.PiOver2);
                             }
                         }
 
@@ -107,13 +107,13 @@ namespace Pacman
                             }
                             else
                             {
-                                Game.DrawManager.Rotate(MathHelper.Pi);
-                                Game.DrawManager.Translate(1, 1);
-                                Game.DrawManager.Translate(this.Position);
-                                Game.DrawManager.DrawModel("boundary_corner");
-                                Game.DrawManager.Translate(-this.Position);
-                                Game.DrawManager.Translate(-1, -1);
-                                Game.DrawManager.Rotate(-MathHelper.Pi);
+                                drawManager.Rotate(MathHelper.Pi);
+                                drawManager.Translate(1, 1);
+                                drawManager.Translate(this.Position);
+                                drawManager.DrawModel("boundary_corner");
+                                drawManager.Translate(-this.Position);
+                                drawManager.Translate(-1, -1);
+                                drawManager.Rotate(-MathHelper.Pi);
                             }
                         }
                     }
@@ -128,9 +128,9 @@ namespace Pacman
                             }
                             else 
                             {                                
-                                Game.DrawManager.Translate(this.Position);
-                                Game.DrawManager.DrawModel("boundary_corner");
-                                Game.DrawManager.Translate(-this.Position);
+                                drawManager.Translate(this.Position);
+                                drawManager.DrawModel("boundary_corner");
+                                drawManager.Translate(-this.Position);
                             }
                         }
                         else
@@ -141,13 +141,13 @@ namespace Pacman
                             }
                             else
                             {
-                                Game.DrawManager.Rotate(-MathHelper.PiOver2);
-                                Game.DrawManager.Translate(1, 0);
-                                Game.DrawManager.Translate(this.Position);
-                                Game.DrawManager.DrawModel("boundary_corner");
-                                Game.DrawManager.Translate(-this.Position);
-                                Game.DrawManager.Translate(-1, 0);
-                                Game.DrawManager.Rotate(MathHelper.PiOver2);
+                                drawManager.Rotate(-MathHelper.PiOver2);
+                                drawManager.Translate(1, 0);
+                                drawManager.Translate(this.Position);
+                                drawManager.DrawModel("boundary_corner");
+                                drawManager.Translate(-this.Position);
+                                drawManager.Translate(-1, 0);
+                                drawManager.Rotate(MathHelper.PiOver2);
                             }
                         }
                     }

@@ -10,6 +10,7 @@ namespace _3dgl
     public class Camera
     {
         private BasicEffect effect;
+        private Vector3 target;
 
         public float Rho
         {
@@ -28,19 +29,26 @@ namespace _3dgl
             set;
         }
 
-        public Vector3 Target
+        public Vector2 Target
         {
-            get;
-            set;
+            get
+            {
+                Vector2 target = new Vector2();
+                target.X = this.target.X;
+                target.Y = this.target.Z;
+
+                return target;
+            }
+            set
+            {
+                this.target.X = value.X;
+                this.target.Z = value.Y;
+            }
         }
 
-        public void SetTarget(Vector2 target)
-        {
-            this.Target = new Vector3(target.X, this.Target.Y, target.Y);
-        }
         public void SetCameraHeight(float height)
         {
-            this.Target = new Vector3(this.Target.X, height, this.Target.Z);
+            this.target.Y = height;
         }
 
         public Camera(BasicEffect effect)
@@ -58,7 +66,7 @@ namespace _3dgl
             cameraPos.Y = (float)Math.Sin(Rho) * Zoom;
             cameraPos.Z = (float)Math.Cos(Rho) * Zoom * (float)Math.Cos(Phi);
 
-            effect.View =  Matrix.CreateLookAt(cameraPos + Target, Target, Vector3.Up);
+            effect.View =  Matrix.CreateLookAt(cameraPos + this.target, this.target, Vector3.Up);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using _3dgl;
 
 namespace Pacman
 {
@@ -137,11 +138,9 @@ namespace Pacman
             message.SetData(mmsg);
         }
 
-        public void Draw(DrawHelper drawHelper)
+        public void Draw(DrawManager drawManager)
         {
-            drawHelper.Scale(14, 14);
-            this.level.Draw(drawHelper);
-            drawHelper.Scale(1 / 14f, 1 / 14f);
+            this.level.Draw(drawManager);
         }
 
     }
