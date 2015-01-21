@@ -13,8 +13,8 @@ namespace Pacman
 
             if (state == States.Chase)
             {
-                Vector2 pacmanOffset = pacman.Center + pacman.Direction *2;
-                Vector2 blinkyVector = (pacmanOffset - blinky.Center) * 2;
+                Vector2 pacmanOffset = pacman.Center + pacman.Direction * 2;
+                Vector2 blinkyVector = pacmanOffset + (pacmanOffset - blinky.Center);
                 return blinkyVector; 
             }
 
