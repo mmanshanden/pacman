@@ -30,6 +30,9 @@ namespace Pacman
 
             this.graphics.PreferredBackBufferWidth = 1280;
             this.graphics.PreferredBackBufferHeight = 720;
+            this.graphics.ApplyChanges();
+
+            this.Window.AllowUserResizing = true;
 
             Game.Random = new Random();
         }
@@ -67,6 +70,11 @@ namespace Pacman
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             this.inputHelper.Update();
+
+            Vector2 screen = new Vector2();
+            screen.X = GraphicsDevice.Viewport.Width;
+            screen.Y = GraphicsDevice.Viewport.Height;
+            this.drawHelper2d.Screen = screen;
 
             // move camera controller
             Vector2 rs = inputHelper.RightStickVector();

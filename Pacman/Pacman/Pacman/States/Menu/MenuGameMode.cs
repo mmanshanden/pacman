@@ -1,21 +1,22 @@
 ﻿using _3dgl;
 using Base;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace Pacman
 {
-    class MenuGameMode : IGameState
+    class MenuGameMode : Menu
     {
         IGameState nextState;
         int selectedMenu;
 
         public MenuGameMode()
         {
-
+            base.controlSprite = "menu_controls_gamemode";
         }        
 
-        public IGameState TransitionTo()
+        public override IGameState TransitionTo()
         {
             if (this.nextState != null)
             {
@@ -30,7 +31,7 @@ namespace Pacman
             }
         }
 
-        public void HandleInput(InputHelper inputHelper)
+        public override void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyPressed(Keys.Up))
                 selectedMenu--;
@@ -51,8 +52,8 @@ namespace Pacman
                 }
             }
         }
-        
-        public void Update(float dt)
+
+        public override void Update(float dt)
         {            
             // index must be positive
             selectedMenu = Math.Abs(selectedMenu);
@@ -61,32 +62,19 @@ namespace Pacman
             selectedMenu = selectedMenu % 2;
         }
 
-        public void Draw(DrawManager drawManager)
+        public override void Draw(DrawHelper drawHelper)
         {
-            
-        }
-
-        public void Draw(DrawHelper drawHelper)
-        {
-            Console.Visible = true;
-            Console.Clear();
-
-            string singleplayer = "Singleplayer";
-            string multiplayer = "Multiplayer";
-
-            // mark selected menu
             switch (this.selectedMenu)
             {
-                case 0:
-                    singleplayer = "* " + singleplayer;
-                    break;
                 case 1:
-                    multiplayer = "* " + multiplayer;
+                    drawHelper.DrawBox("menu_gamemode_singleplayer", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center);
+                    break;
+                case 0:
+                    drawHelper.DrawBox("menu_gamemode_multiplayer", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center);
                     break;
             }
-
-            Console.WriteLine(singleplayer);
-            Console.WriteLine(multiplayer);
+            
+            base.Draw(drawHelper);
         }
 
     }
