@@ -63,8 +63,6 @@ namespace Pacman
             {
                 this.Speed = 0;
                 this.Score++;
-
-                Game.SoundManager.PlaySoundEffect("bubble");
             }
 
             else if (gameObject is Powerup)

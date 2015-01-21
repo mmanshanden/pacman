@@ -59,6 +59,14 @@ namespace Pacman
                 this.direction = queued;
         }
 
+        public override void Collision_GameObject(GameObject gameObject)
+        {
+            if (gameObject is Bubble)
+                Game.SoundManager.PlaySoundEffect("bubble");
+            
+            base.Collision_GameObject(gameObject);
+        }
+
         public override void Dead()
         {
             this.direction = Vector2.Zero;
