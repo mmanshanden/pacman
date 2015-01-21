@@ -109,8 +109,14 @@ namespace Pacman
         {
             this.GraphicsDevice.Clear(Color.Black);
 
+            // draw 3d
             this.drawHelper3d.BeginDraw();
             this.gameState.Draw(drawHelper3d);
+
+            // draw 2d (ui)
+            this.drawHelper2d.SpriteBatch.Begin();
+            this.gameState.Draw(drawHelper2d);
+            this.drawHelper2d.SpriteBatch.End();
 
             Console.Draw();
 

@@ -59,5 +59,10 @@ namespace Pacman
             this.level.Draw(drawManager);
         }
 
+        public void Draw(DrawHelper drawHelper)
+        {
+
+        }
+
     }
 }

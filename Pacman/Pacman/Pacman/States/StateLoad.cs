@@ -46,6 +46,10 @@ namespace Pacman
         {
 
         }
+        public void Draw(DrawHelper drawHelper)
+        {
+
+        }
 
     }
 }

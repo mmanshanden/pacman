@@ -176,13 +176,15 @@ namespace Pacman
         public void Draw(DrawManager drawManager)
         {
             this.level.Draw(drawManager);
+        }
 
+        public void Draw(DrawHelper drawHelper)
+        {
             Console.Clear();
             Console.WriteLine("Lives:");
             Console.WriteLine(this.level.Player.Lives.ToString());
             Console.WriteLine("Score:");
             Console.WriteLine(this.level.Player.Score.ToString());
         }
-
     }
 }

@@ -79,6 +79,11 @@ namespace Pacman
 
         public void Draw(DrawManager drawManager)
         {
+            
+        }
+
+        public void Draw(DrawHelper drawHelper)
+        {
             Console.Visible = true;
         }
 
