@@ -41,10 +41,10 @@ namespace Base
             this.textures["pixel"] = pixel;
             
             // controls
-            this.textures["menu_controls_back"]          = content.Load<Texture2D>("sprites/menu/back/controls");
-            this.textures["menu_controls_serverbrowser"] = content.Load<Texture2D>("sprites/menu/serverbrowser/controls");
-            this.textures["menu_controls_gamemode"]      = content.Load<Texture2D>("sprites/menu/gamemode/controls");
-            this.textures["menu_controls_lobbyhost"]     = content.Load<Texture2D>("sprites/menu/lobbyhost/controls");
+            this.textures["menu_controls_ps_back"]          = content.Load<Texture2D>("sprites/menu/back/playstation");
+            this.textures["menu_controls_ps_serverbrowser"] = content.Load<Texture2D>("sprites/menu/serverbrowser/playstation");
+            this.textures["menu_controls_ps_gamemode"]      = content.Load<Texture2D>("sprites/menu/gamemode/playstation");
+            this.textures["menu_controls_ps_lobbyhost"]     = content.Load<Texture2D>("sprites/menu/lobbyhost/playstation");
 
             // gamemode selection menu
             this.textures["menu_gamemode_singleplayer"] = content.Load<Texture2D>("sprites/menu/gamemode/singleplayer");
