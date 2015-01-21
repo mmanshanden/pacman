@@ -40,6 +40,15 @@ namespace Pacman
             if (inputHelper.KeyPressed(Keys.Down))
                 this.serverIndex++;
 
+            if (inputHelper.KeyPressed(Keys.Enter))
+            {
+                if (this.servers.Count == 0)
+                    return;
+
+                string endpoint = this.servers[this.serverIndex].Endpoint;
+                this.nextState = new StateJoinLobby(endpoint);
+            }
+
         }
 
         public override IGameState TransitionTo()
@@ -77,6 +86,8 @@ namespace Pacman
         public override void Draw(DrawHelper drawHelper)
         {
             Console.Clear();
+            Console.Visible = true;
+
             for (int i = 0; i < this.servers.Count; i++)
             {
                 DiscoveryClient.DiscoveryReply lobby = this.servers[i];

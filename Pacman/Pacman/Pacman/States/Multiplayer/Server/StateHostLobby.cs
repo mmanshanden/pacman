@@ -6,7 +6,7 @@ using Network;
 
 namespace Pacman
 {
-    class StateHostLobby : IGameState
+    class StateHostLobby : Menu
     {
         GameServer server;
         LobbyMessage lobbyState;
@@ -21,6 +21,8 @@ namespace Pacman
 
         public StateHostLobby()
         {
+            base.controlSprite = "menu_controls_lobbyhost";
+
             this.server = new GameServer();
             this.server.Start();
 
@@ -30,13 +32,13 @@ namespace Pacman
             Console.WriteLine("Hosting lobby");
         }
 
-        public void HandleInput(InputHelper inputHelper)
+        public override void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyDown(Keys.Y) && this.lobbyState.PlayerCount > 1)
                 this.game = new StateHostGame(this.server); 
         }
 
-        public IGameState TransitionTo()
+        public override IGameState TransitionTo()
         {
             if (game != null)
                 return this.game;
@@ -44,7 +46,7 @@ namespace Pacman
             return this;
         }
 
-        public void Update(float dt)
+        public override void Update(float dt)
         {
             NetMessage send = new NetMessage();
             send.Type = PacketType.Lobby;
@@ -55,14 +57,8 @@ namespace Pacman
             send.SetData(lobbyState);
             this.server.SetData(send);
         }
-
-        public void Draw(DrawManager drawManager)
-        {
-            
-
-        }
-
-        public void Draw(DrawHelper drawHelper)
+        
+        public override void Draw(DrawHelper drawHelper)
         {
             Console.Visible = true;
 
@@ -70,6 +66,8 @@ namespace Pacman
 
             foreach (string ip in this.server.GetConnections())
                 Console.WriteLine(ip);
+
+            base.Draw(drawHelper);
         }
     }
 }

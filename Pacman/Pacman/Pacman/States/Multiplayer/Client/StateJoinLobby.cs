@@ -6,7 +6,7 @@ using Network;
 
 namespace Pacman
 {
-    class StateJoinLobby : IGameState
+    class StateJoinLobby : Menu
     {
         GameClient client;
         LobbyMessage lobbyState;
@@ -15,13 +15,15 @@ namespace Pacman
 
         public StateJoinLobby(string endpoint)
         {
+            base.controlSprite = "menu_controls_back";
+
             this.client = new GameClient();
             this.client.ConnectToServer(endpoint);
 
             Console.Clear();
         }
 
-        public void HandleInput(InputHelper inputHelper)
+        public override void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyDown(Keys.Back))
             {
@@ -30,7 +32,7 @@ namespace Pacman
             }
         }
 
-        public IGameState TransitionTo()
+        public override IGameState TransitionTo()
         {
             if (this.game != null)
                 return this.game;
@@ -41,7 +43,7 @@ namespace Pacman
             return this;
         }
 
-        public void Update(float dt)
+        public override void Update(float dt)
         {
             this.client.Update(dt);
 
@@ -61,12 +63,7 @@ namespace Pacman
             }
         }
 
-        public void Draw(DrawManager drawManager)
-        {
-            
-        }
-
-        public void Draw(DrawHelper drawHelper)
+        public override void Draw(DrawHelper drawHelper)
         {
             Console.Visible = true;
 
@@ -79,6 +76,8 @@ namespace Pacman
             {
                 Console.WriteLine("We don't have lobby!");
             }
+
+            base.Draw(drawHelper);
         }
 
     }
