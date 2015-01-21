@@ -17,7 +17,7 @@ namespace Pacman
 
         public MenuServerBrowser()
         {
-            base.controlSprite = "menu_controls_kb_serverbrowser";
+            base.controlSprite = "menu_controls_ps_serverbrowser";
 
             this.client = new DiscoveryClient();
             this.client.Discover();

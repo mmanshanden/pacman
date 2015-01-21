@@ -15,7 +15,7 @@ namespace Pacman
 
         public StateJoinLobby(string endpoint)
         {
-            base.controlSprite = "menu_controls_kb_back";
+            base.controlSprite = "menu_controls_ps_back";
 
             this.client = new GameClient();
             this.client.ConnectToServer(endpoint);

@@ -21,7 +21,7 @@ namespace Pacman
 
         public StateHostLobby()
         {
-            base.controlSprite = "menu_controls_kb_lobbyhost";
+            base.controlSprite = "menu_controls_ps_lobbyhost";
 
             this.server = new GameServer();
             this.server.Start();
@@ -34,7 +34,7 @@ namespace Pacman
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            if (inputHelper.KeyDown(Keys.Y) && this.lobbyState.PlayerCount > 1)
+            if (inputHelper.KeyDown(Keys.X) && this.lobbyState.PlayerCount > 1)
                 this.game = new StateHostGame(this.server);
             if (inputHelper.KeyDown(Keys.Back))
             {

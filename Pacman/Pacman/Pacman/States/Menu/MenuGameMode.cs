@@ -13,7 +13,7 @@ namespace Pacman
 
         public MenuGameMode()
         {
-            base.controlSprite = "menu_controls_kb_gamemode";
+            base.controlSprite = "menu_controls_ps_gamemode";
         }        
 
         public override IGameState TransitionTo()
