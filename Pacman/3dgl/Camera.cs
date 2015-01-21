@@ -22,7 +22,6 @@ namespace _3dgl
             get;
             set;
         }
-
         public float Zoom
         {
             get;
@@ -45,7 +44,6 @@ namespace _3dgl
                 this.target.Z = value.Y;
             }
         }
-
         public void SetCameraHeight(float height)
         {
             this.target.Y = height;
@@ -55,7 +53,7 @@ namespace _3dgl
         {
             this.effect = effect;
             this.Zoom = 18;
-            this.Rho = 1;
+            this.Rho = 0.7f;
         }
 
         public void Update()
@@ -67,6 +65,27 @@ namespace _3dgl
             cameraPos.Z = (float)Math.Cos(Rho) * Zoom * (float)Math.Cos(Phi);
 
             effect.View =  Matrix.CreateLookAt(cameraPos + this.target, this.target, Vector3.Up);
+
+
+            if (true)
+            {
+                float dy = Math.Abs(this.Rho - 1);
+
+                // rest at 0.7, allow more movement up
+                if (this.Rho > 1)                    
+                    this.Rho -= dy * 0.06f;
+
+                if (this.Rho < 1)
+                    this.Rho += dy * 0.18f;
+
+                // rest at 0
+                this.Phi -= this.Phi * 0.065f;
+
+                // keep zoom at 18
+                float dz = this.Zoom - 14;
+                this.Zoom -= dz * 0.065f;
+
+            }
         }
     }
 }

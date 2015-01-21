@@ -73,6 +73,12 @@ namespace Pacman
             base.Dead();
         }
 
+        public override void Update(float dt)
+        {
+            Game.Camera.Target = this.Position + Vector2.UnitY * 2;
+
+            base.Update(dt);
+        }
 
         public void HandleInput(InputHelper inputHelper)
         {

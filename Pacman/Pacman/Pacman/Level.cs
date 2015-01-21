@@ -11,9 +11,11 @@ namespace Pacman
         public GhostHouse GhostHouse { get; private set; }
         public float countdown;
 
+        private bool cameraEffect = false;
+
         public Level()
         {
-            this.countdown = 0.5f;
+            this.countdown = 3;
         }
 
         public List<Vector2> GetBubbles()
@@ -137,14 +139,18 @@ namespace Pacman
         public override void Update(float dt)
         {
             Game.Camera.Target = (this.GameBoard.Size / 2);
-            Game.Camera.Target += Vector2.UnitY * 5;
-
+            Game.Camera.Target += Vector2.UnitY * 3;
+            Game.Camera.SetCameraHeight(2);
+            
             countdown -= dt;
 
             if (this.countdown < 0)
                 base.Update(dt);
             else
-                Console.WriteLine(countdown.ToString()); 
+            {
+                Game.Camera.Rho = MathHelper.PiOver2 - 0.08f;
+                Game.Camera.Zoom = 26;
+            }
         }
     }
 }
