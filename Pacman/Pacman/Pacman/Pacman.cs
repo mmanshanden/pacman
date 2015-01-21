@@ -48,21 +48,32 @@ namespace Pacman
 
         public override void Collision_GameObject(GameObject gameObject)
         {
-            if (gameObject is Bubble)
-                this.Score++;
-                
             Ghost ghost = gameObject as Ghost;
             if (ghost != null)
             {
                 if (ghost.State == Ghost.States.Chase || ghost.State == Ghost.States.Scatter)
-                {
                     this.Dead(); 
-                }
             }
 
-            if (gameObject is Bubble)
+            else if (gameObject is Bubble)
             {
                 this.Speed = 0;
+                this.Score++;
+                Game.SoundManager.Enabled = true;
+                Game.SoundManager.PlaySoundEffect("bubble");
+            }
+
+            else if (gameObject is Powerup)
+            {
+                // todo: ghosthouse.frightenAll()
+                Level level = (Level)this.Parent;
+                level.GhostHouse.Blinky.Frighten();
+                level.GhostHouse.Pinky.Frighten();
+                level.GhostHouse.Clyde.Frighten();
+                level.GhostHouse.Inky.Frighten();
+
+                Game.SoundManager.Enabled = true;
+                Game.SoundManager.PlaySoundEffect("powerup");
             }
         }
 
@@ -105,7 +116,6 @@ namespace Pacman
 
             mb.BuildFromTexture("voxels/pacmanopen", 16);
             modelLibrary.EndModel("pacman_open");
-
             
             
             mb = modelLibrary.BeginModel();

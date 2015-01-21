@@ -23,7 +23,9 @@ namespace Base
 
         public void LoadAudio(ContentManager content)
         {
-
+            this.soundEffects["game_over"] = content.Load<SoundEffect>("sounds/gameover");
+            this.soundEffects["bubble"] = content.Load<SoundEffect>("sounds/bubble");
+            this.soundEffects["powerup"] = content.Load<SoundEffect>("sounds/powerup");
         }
 
         public void PlaySong(string song)
