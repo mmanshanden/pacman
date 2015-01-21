@@ -55,7 +55,7 @@ namespace Base
         {
             return (
                 (ksPrevious.IsKeyUp(key) && ksCurrent.IsKeyDown(key)) ||
-                (TranslateController(key, gsPrevious) && TranslateController(key, gsCurrent))
+                (TranslateController(key, gsPrevious) && !TranslateController(key, gsCurrent))
             );
         }
 
