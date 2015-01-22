@@ -36,6 +36,7 @@ namespace Pacman
                 this.spawn = value;
             }
         }
+
         public GhostHouse GhostHouse
         {
             get;

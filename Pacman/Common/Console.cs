@@ -30,7 +30,7 @@ public class Console
         background.Width = graphics.Viewport.Width;
         background.Height = graphics.Viewport.Height;
 
-        consoleFont = content.Load<SpriteFont>("font");
+        consoleFont = content.Load<SpriteFont>("fonts/console");
 
         lineCount = background.Height / lineHeight;
 

@@ -11,12 +11,15 @@ namespace Base
         public enum Origin
         {
             TopLeft,
+            TopRight,
             Center,
+            BottomLeft,
             BottomRight,
         }
         
         GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
+        SpriteFont spriteFont;
 
         private Dictionary<string, Texture2D> textures;
         
@@ -56,6 +59,32 @@ namespace Base
 
             //pause
             this.textures["PauseOverlay"] = content.Load<Texture2D>("sprites/menu/pause/pausebackground");
+
+            this.spriteFont = content.Load<SpriteFont>("fonts/ui");
+        }
+
+        private Vector2 TranslatePosition(Vector2 position, Vector2 size, Origin origin)
+        {
+            switch (origin)
+            {
+                case Origin.TopRight:
+                    position.X -= size.X;
+                    break;
+
+                case Origin.Center:
+                    position -= size / 2;
+                    break;
+
+                case Origin.BottomLeft:
+                    position.Y -= size.Y;
+                    break;
+
+                case Origin.BottomRight:
+                    position -= size;
+                    break;
+            }
+
+            return position;
         }
 
         public void DrawBox(string texture, Vector2 position, Origin origin)
@@ -65,18 +94,34 @@ namespace Base
             Texture2D t = this.textures[texture];
             Vector2 size = new Vector2(t.Width, t.Height);
 
-            switch (origin)
-            {
-                case Origin.BottomRight:
-                    position -= size;
-                    break;
-
-                case Origin.Center:
-                    position -= size / 2;
-                    break;
-            }
+            position = this.TranslatePosition(position, size, origin);
 
             this.spriteBatch.Draw(t, position, Color.White);
         }
+
+        public void DrawOverlay(Color color)
+        {
+            Rectangle screen = new Rectangle();
+            screen.Width = (int)this.Screen.X + 1;
+            screen.Height = (int)this.Screen.Y + 1;
+
+            this.spriteBatch.Draw(this.textures["pixel"], screen, color);
+        }
+
+        public void DrawString(string text, Vector2 position, Origin origin)
+        {
+            this.DrawString(text, position, origin, Color.White);
+        }
+
+        public void DrawString(string text, Vector2 position, Origin origin, Color color)
+        {
+            position *= this.Screen;
+            Vector2 size = this.spriteFont.MeasureString(text);
+
+            position = this.TranslatePosition(position, size, origin);
+
+            this.spriteBatch.DrawString(this.spriteFont, text, position, color);
+        }
+
     }
 }

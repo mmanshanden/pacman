@@ -30,11 +30,12 @@ namespace Pacman
             drawHelper.DrawBox(controls, Vector2.One * 0.95f, DrawHelper.Origin.BottomRight);
         }
 
-        public virtual void HandleInput(InputHelper inputHelper) { }
-        public virtual void Update(float dt) 
+        public virtual void Update(float dt)
         {
             Game.SoundManager.PlaySong("");
         }
+
+        public virtual void HandleInput(InputHelper inputHelper) { }
         public virtual void Draw(DrawManager drawManager) { }
     }
 }

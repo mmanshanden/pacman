@@ -84,5 +84,10 @@ namespace Pacman
         {
             this.Direction = inputHelper.GetDirectionalInput();
         }
+
+        public override void Draw(DrawHelper drawHelper)
+        {
+            drawHelper.DrawString(this.Score.ToString(), new Vector2(0.98f, 0.02f), DrawHelper.Origin.TopRight);
+        }
     }
 }

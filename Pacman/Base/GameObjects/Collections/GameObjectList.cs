@@ -48,5 +48,11 @@ namespace Base
             foreach (GameObject gameObject in this.gameObjects)
                 gameObject.Draw(drawManager);
         }
+
+        public override void Draw(DrawHelper drawHelper)
+        {
+            foreach (GameObject gameObject in this.gameObjects)
+                    gameObject.Draw(drawHelper);
+        }
     }
 }

@@ -76,7 +76,7 @@ namespace Pacman
 
         public void Draw(DrawHelper drawHelper)
         {
-
+            this.level.Draw(drawHelper);
         }
 
     }

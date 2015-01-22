@@ -66,5 +66,13 @@ namespace Base
             }
         }
 
+        public override void Draw(DrawHelper drawHelper)
+        {
+            foreach (GameObject gameObject in this.grid)
+            {
+                if (gameObject != null)
+                    gameObject.Draw(drawHelper);
+            }
+        }
     }
 }

@@ -73,9 +73,5 @@ namespace Base
             base.Update(dt);
         }
 
-        public override void Draw(DrawManager drawManager)
-        {
-            base.Draw(drawManager);
-        }
     }
 }
