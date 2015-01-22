@@ -11,17 +11,13 @@ namespace Pacman
         IGameState nextState;
         IGameState savedState;
         int selectedMenu;
-
-        public StatePaused(IGameState gameState)
-        {
-            base.controlSprite = "gamemode"; // Add Pause Controls here
-            this.savedState = gameState;
-        }
+        bool includeUpdate;
 
         public StatePaused(IGameState gameState, bool includeUpdate = false)
         {
             base.controlSprite = "gamemode"; // Add Pause Controls here
             this.savedState = gameState;
+            this.includeUpdate = includeUpdate;
         }
 
         public override IGameState TransitionTo()
@@ -68,6 +64,11 @@ namespace Pacman
 
             // index must be 0 or 1
             selectedMenu = selectedMenu % 2;
+
+            if (this.includeUpdate)
+                this.savedState.Update(dt);
+
+            base.Update(dt);
         }
 
         public override void Draw(DrawManager drawManager)
