@@ -20,7 +20,7 @@ namespace Pacman
         {
             Horizontal,
             Vertical,
-            Corner
+            Corner,
         }
 
         public Orientations Orientation { get; set; }
@@ -84,7 +84,13 @@ namespace Pacman
                         {
                             if (Top is Ground && Right is Ground)
                             {
-
+                                drawManager.Translate(0, 1);
+                                drawManager.Scale(1, 0.5f);
+                                drawManager.Translate(this.Position);
+                                drawManager.DrawModel("boundary");
+                                drawManager.Translate(-this.Position);
+                                drawManager.Scale(1, 2);
+                                drawManager.Translate(0, -1);
                             }
 
                             else
@@ -103,8 +109,15 @@ namespace Pacman
                         {
                             if (Top is Ground && Left is Ground)
                             {
-                                
+                                drawManager.Translate(0.5f, 1);
+                                drawManager.Scale(1, 0.5f);
+                                drawManager.Translate(this.Position);
+                                drawManager.DrawModel("boundary");
+                                drawManager.Translate(-this.Position);
+                                drawManager.Scale(1, 2);
+                                drawManager.Translate(-0.5f, -1);
                             }
+
                             else
                             {
                                 drawManager.Rotate(MathHelper.Pi);
@@ -124,10 +137,14 @@ namespace Pacman
                         {
                             if (Bottom is Ground && Right is Ground)
                             {
-
+                                drawManager.Scale(1, 0.5f);
+                                drawManager.Translate(this.Position);
+                                drawManager.DrawModel("boundary");
+                                drawManager.Translate(-this.Position);
+                                drawManager.Scale(1, 2);
                             }
-                            else 
-                            {                                
+                            else
+                            {
                                 drawManager.Translate(this.Position);
                                 drawManager.DrawModel("boundary_corner");
                                 drawManager.Translate(-this.Position);
@@ -137,7 +154,13 @@ namespace Pacman
                         {
                             if (Bottom is Ground && Left is Ground)
                             {
-
+                                drawManager.Translate(0.5f, 0);
+                                drawManager.Scale(1, 0.5f);
+                                drawManager.Translate(this.Position);
+                                drawManager.DrawModel("boundary");
+                                drawManager.Translate(-this.Position);
+                                drawManager.Scale(1, 2);
+                                drawManager.Translate(-0.5f, 0);
                             }
                             else
                             {
@@ -151,7 +174,6 @@ namespace Pacman
                             }
                         }
                     }
-
                     break;
 
             }

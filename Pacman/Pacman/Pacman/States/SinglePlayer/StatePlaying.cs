@@ -51,7 +51,6 @@ namespace Pacman
                 return new StateGameOver(this.level.Player);
 
 
-
             return this;
         }
 
