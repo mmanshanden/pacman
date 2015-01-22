@@ -67,10 +67,10 @@ namespace Pacman
             base.Collision_GameObject(gameObject);
         }
 
-        public override void Dead()
+        public override void Die()
         {
             this.direction = Vector2.Zero;
-            base.Dead();
+            base.Die();
         }
 
         public override void Update(float dt)

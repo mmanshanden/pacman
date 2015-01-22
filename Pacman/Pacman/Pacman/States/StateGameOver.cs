@@ -9,6 +9,7 @@ namespace Pacman
         List<Pacman> players;
 
         IGameState nextState;
+        private bool playGameOverSound;
 
         public StateGameOver(Pacman pacman)
         {
@@ -16,6 +17,9 @@ namespace Pacman
 
             this.players = new List<Pacman>();
             this.players.Add(pacman);
+
+            if (pacman.Lives == 0)
+                this.playGameOverSound = true;
         }
 
         public StateGameOver(List<Pacman> players)
@@ -38,7 +42,18 @@ namespace Pacman
             if (inputHelper.KeyPressed(Keys.Back))
                 this.nextState = new MenuGameMode();
         }
-        
+
+        public override void Update(float dt)
+        {
+            if (this.playGameOverSound)
+            {
+                Game.SoundManager.PlaySoundEffect("game_over");
+                this.playGameOverSound = false;
+            }
+                
+            
+            base.Update(dt);
+        }
 
         public override void Draw(DrawHelper drawHelper)
         {

@@ -52,11 +52,7 @@ namespace Pacman
             if (ghost != null)
             {
                 if (ghost.State == Ghost.States.Chase || ghost.State == Ghost.States.Scatter)
-                {
-                    this.Dead();
-
-                    Game.SoundManager.PlaySoundEffect("live_lost");
-                }
+                    this.Die();
             }
 
             else if (gameObject is Bubble)
@@ -74,7 +70,7 @@ namespace Pacman
             }
         }
 
-        public virtual void Dead()
+        public virtual void Die()
         {
             this.Lives--;
             this.Position = this.spawn;
@@ -83,6 +79,9 @@ namespace Pacman
             if (level.GhostHouse != null)
                 level.GhostHouse.ResetGhosts();
             level.countdown = 3;
+
+            if (this.Lives > 0)
+                Game.SoundManager.PlaySoundEffect("live_lost");
         }
 
         public override void Update(float dt)
