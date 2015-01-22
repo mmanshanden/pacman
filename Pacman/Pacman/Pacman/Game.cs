@@ -78,8 +78,8 @@ namespace Pacman
 
             // move camera controller
             Vector2 rs = inputHelper.RightStickVector();
-            Camera.Phi += rs.X * 0.1f;
-            Camera.Rho += rs.Y * -0.1f;
+            Camera.Phi += rs.X * 0.03f;
+            Camera.Rho += rs.Y * -0.03f;
 
             // move camera keyboard
             if (inputHelper.KeyDown(Keys.Up))

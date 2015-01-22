@@ -81,7 +81,7 @@ namespace _3dgl
                     this.Rho -= dy * 0.06f;
 
                 if (this.Rho < 1)
-                    this.Rho += dy * 0.18f;
+                    this.Rho += dy * 0.09f;
 
                 // rest at 0
                 this.Phi -= this.Phi * 0.065f;
