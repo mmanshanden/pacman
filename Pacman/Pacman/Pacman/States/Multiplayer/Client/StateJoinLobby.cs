@@ -38,7 +38,10 @@ namespace Pacman
                 return this.game;
 
             if (this.nextState != null)
-                return this.nextState; 
+                return this.nextState;
+
+            if (!this.client.Connected)
+                return new MenuServerBrowser();
 
             return this;
         }

@@ -26,6 +26,12 @@ namespace Network
         private List<NetMessage> receivedData;
         private List<int> connectedIds;
 
+        public bool Visible
+        {
+            get;
+            set;
+        }
+
         public GameServer()
         {
             this.serverRunning = false;
@@ -121,6 +127,9 @@ namespace Network
 
         private void ReceiveDiscoveryRequest()
         {
+            if (!this.Visible)
+                return;
+
             NetOutgoingMessage respone = this.server.CreateMessage();
             respone.Write("server");
             respone.Write(server.Connections.Count);
@@ -130,6 +139,9 @@ namespace Network
 
         private void ReceiveLogin()
         {
+            if (!this.Visible)
+                return; // closed for business
+
             // Approve connection (critical)
             inc.SenderConnection.Approve();
 
@@ -227,6 +239,7 @@ namespace Network
             }
 
             this.server.Recycle(this.inc);
+            this.Visible = false;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Pacman
 {
     class StateHostLobby : Menu
     {
+        int levelIndex;
         GameServer server;
         LobbyMessage lobbyState;
 
@@ -19,10 +20,11 @@ namespace Pacman
             Player
         }
 
-        public StateHostLobby()
+        public StateHostLobby(int levelIndex)
         {
             base.controlSprite = "lobbyhost";
 
+            this.levelIndex = levelIndex;
             this.server = new GameServer();
             this.server.StartSimple();
 
@@ -55,6 +57,9 @@ namespace Pacman
 
         public override void Update(float dt)
         {
+            if (this.levelIndex == 1)
+                this.server.Visible = true;
+
             this.server.Update(dt);
 
             NetMessage send = new NetMessage();

@@ -26,7 +26,7 @@ namespace Pacman
         public override void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyPressed(Keys.X))
-                this.nextState = new StateHostLobby();
+                this.nextState = new StateHostLobby(1);
 
             if (inputHelper.KeyPressed(Keys.R))
                 this.client.Discover();
