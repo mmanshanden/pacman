@@ -53,6 +53,9 @@ namespace Base
             // gamemode selection menu
             this.textures["menu_gamemode_singleplayer"] = content.Load<Texture2D>("sprites/menu/gamemode/singleplayer");
             this.textures["menu_gamemode_multiplayer"]  = content.Load<Texture2D>("sprites/menu/gamemode/multiplayer");
+
+            //pause
+            this.textures["PauseOverlay"] = content.Load<Texture2D>("sprites/menu/pause/pausebackground");
         }
 
         public void DrawBox(string texture, Vector2 position, Origin origin)

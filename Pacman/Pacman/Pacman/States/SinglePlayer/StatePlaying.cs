@@ -10,6 +10,7 @@ namespace Pacman
     {
         FileReader levelFile;
         Level level;
+        IGameState nextState;
 
         public StatePlaying()
         {
@@ -42,6 +43,9 @@ namespace Pacman
 
         public void HandleInput(InputHelper inputHelper)
         {
+            if (inputHelper.KeyPressed(Keys.Escape))
+                this.nextState = new StatePaused(this);
+
             this.level.HandleInput(inputHelper);
         }
 
@@ -50,6 +54,12 @@ namespace Pacman
             if (this.level.Player.Lives < 1 || this.level.GetBubbles().Count == 0)
                 return new StateGameOver(this.level.Player);
 
+            if (nextState != null)
+            {
+                IGameState paused = nextState;
+                nextState = null;
+                return paused;
+            }
 
             return this;
         }
