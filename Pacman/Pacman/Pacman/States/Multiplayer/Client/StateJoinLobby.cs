@@ -58,7 +58,7 @@ namespace Pacman
                     this.lobbyState = received.GetData() as LobbyMessage;
                     break;
                 case PacketType.WorldState:
-                    this.game = new StateJoinGame(client);
+                    this.game = new StateJoinGame(client, received);
                     break;                    
             }
         }

@@ -34,7 +34,7 @@ namespace Base
         {
             this.gameObjects[id].UpdateMessage(cmsg);
         }
-
+        
         public void WriteAllToMessage(NetMessage msg, NetMessageContent baseMessage)
         {
             foreach(KeyValuePair<int, GameObject> entry in this.gameObjects)

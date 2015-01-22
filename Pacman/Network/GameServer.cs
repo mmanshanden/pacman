@@ -24,13 +24,13 @@ namespace Network
 
         private NetMessage sendData;
         private List<NetMessage> receivedData;
+        private List<int> connectedIds;
 
         public GameServer()
         {
             this.serverRunning = false;
             this.serverStarted = false;
-            this.timer = UpdateTimer;
-            
+            this.timer = UpdateTimer;            
 
             NetPeerConfiguration config = new NetPeerConfiguration("game");
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
@@ -42,6 +42,7 @@ namespace Network
             this.server = new NetServer(config);
 
             this.receivedData = new List<NetMessage>();
+            this.connectedIds = new List<int>();
         }
         
         public void StartSimple()
@@ -64,7 +65,7 @@ namespace Network
             return msg;
         }
 
-        public List<string> GetConnections()
+        public List<string> GetConnectedIPs()
         {
             List<string> result = new List<string>();
 
@@ -72,6 +73,11 @@ namespace Network
                 result.Add(connection.RemoteEndpoint.Address.ToString());
 
             return result;
+        }
+
+        public List<int> GetConnectedIDs()
+        {
+            return this.connectedIds;
         }
 
         #region Threading
@@ -134,6 +140,9 @@ namespace Network
             message.ConnectionId = inc.SenderConnection.GetHashCode();
             message.WriteMessage(outmsg);
 
+            // add to list
+            this.connectedIds.Add(message.ConnectionId);
+            
             // allow start up time
             Thread.Sleep(200);
 
@@ -204,6 +213,8 @@ namespace Network
                     NetMessage dcMessage = new NetMessage();
                     dcMessage.ConnectionId = inc.SenderConnection.GetHashCode();
                     dcMessage.Type = PacketType.Logout;
+
+                    this.connectedIds.Remove(dcMessage.ConnectionId);
 
                     this.receivedData.Add(dcMessage);
                     break;

@@ -11,8 +11,8 @@ namespace Pacman
         GameServer server;
         Level level;
 
-        IndexedGameObjectList players = new IndexedGameObjectList();
-        OrderedGameObjectList ghosts = new OrderedGameObjectList();
+        IndexedGameObjectList players;
+        OrderedGameObjectList ghosts;
 
         public StateHostGame(GameServer server)
         {
@@ -20,10 +20,11 @@ namespace Pacman
 
             Console.Clear();
             Console.WriteLine("Hosting server");
-
-            this.level = this.LoadLevel(1);            
-
+          
             this.players = new IndexedGameObjectList();
+            this.ghosts = new OrderedGameObjectList();
+            
+            this.level = this.LoadLevel(1);
             this.players.Add(0, this.level.Player);
         }
 
@@ -38,10 +39,19 @@ namespace Pacman
             level.LoadGameBoard(levelfile.ReadGrid("level"));
             level.LoadGameBoardObjects(levelfile.ReadGrid("level"));
 
-            // load player
+            // load self
             Player player = new Player();
             player.Spawn = levelfile.ReadVector("player1_position");
             level.Add(player);
+
+            // load other players
+            for (int i = 2; i <= levelfile.ReadFloat("players"); i++)
+            {
+                Pacman pacman = new Pacman();
+                pacman.Spawn = levelfile.ReadVector("player" + i + "_position");
+                this.players.Add(this.server.GetConnectedIDs()[i - 2], pacman);
+                level.Add(pacman);
+            }
 
             for (int i = 1; i <= levelfile.ReadFloat("ghosthouses"); i++)
             {
@@ -55,7 +65,7 @@ namespace Pacman
                 ghosthouse.Add(Inky.LoadInky(levelfile, i));
                 ghosthouse.Add(Pinky.LoadPinky(levelfile, i));
 
-                ghosthouse.SetPacman(level.Player);
+                ghosthouse.SetPacman(level.Player);                
             }
             
             return level;
@@ -73,6 +83,8 @@ namespace Pacman
 
         public void Update(float dt)
         {
+            this.server.Update(dt);
+
             this.level.Update(dt);
 
             NetMessage received;
@@ -116,19 +128,7 @@ namespace Pacman
             while((cmsg = message.GetData()) != null)
             {
                 if (cmsg.Type == DataType.Pacman)
-                {
-                    if (!this.players.Contains(cmsg.Id))
-                    {
-                        // new pacman
-                        Pacman pacman = new Pacman();
-
-                        this.level.Add(pacman);
-                        //this.ghostHouse.SetPacman(pacman);
-                        this.players.Add(cmsg.Id, pacman);
-                    }
-
                     this.players.UpdateObject(cmsg.Id, cmsg);
-                }
             }
         }
 

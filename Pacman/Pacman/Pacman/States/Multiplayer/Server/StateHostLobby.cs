@@ -24,7 +24,7 @@ namespace Pacman
             base.controlSprite = "lobbyhost";
 
             this.server = new GameServer();
-            this.server.Start();
+            this.server.StartSimple();
 
             this.lobbyState = new LobbyMessage();
 
@@ -34,7 +34,7 @@ namespace Pacman
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            if (inputHelper.KeyDown(Keys.X))
+            if (inputHelper.KeyDown(Keys.X) && this.lobbyState.PlayerCount > 1)
                 this.nextState = new StateHostGame(this.server);
 
             if (inputHelper.KeyDown(Keys.Back))
@@ -55,10 +55,12 @@ namespace Pacman
 
         public override void Update(float dt)
         {
+            this.server.Update(dt);
+
             NetMessage send = new NetMessage();
             send.Type = PacketType.Lobby;
 
-            lobbyState.PlayerCount = 1 + this.server.GetConnections().Count;
+            lobbyState.PlayerCount = 1 + this.server.GetConnectedIPs().Count;
             lobbyState.GameMode = Network.GameModes.Multi;
 
             send.SetData(lobbyState);
@@ -71,7 +73,7 @@ namespace Pacman
 
             Console.Clear();
 
-            foreach (string ip in this.server.GetConnections())
+            foreach (string ip in this.server.GetConnectedIPs())
                 Console.WriteLine(ip);
 
             base.Draw(drawHelper);

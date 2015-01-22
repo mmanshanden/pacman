@@ -18,18 +18,35 @@ namespace Pacman
         GameObjectList bubbles;
         GameObjectList powerups;
 
-        public StateJoinGame(GameClient client)
+        public StateJoinGame(GameClient client, NetMessage gamemessage)
         {
             this.client = client;
 
-            FileReader levelFile = new FileReader("Content/Levels/level1.txt");
-
-            this.level = new Level();
-            this.level.LoadGameBoard(levelFile.ReadGrid("level"));
-
             Player player = new Player();
-            player.Spawn = levelFile.ReadVector("player_position");
-            this.level.Add(player);
+            this.level = new Level();
+
+            NetMessageContent cmsg;
+            
+            while((cmsg = gamemessage.GetData()) != null)
+            {
+                switch(cmsg.Type)
+                {
+                    case DataType.Pacman:
+                        if (cmsg.Id != this.client.ConnectionID)
+                            continue;
+
+                        player.Spawn = (cmsg as PlayerMessage).Position;
+                        this.level.Add(player);
+                        break;
+
+                    case DataType.Map:
+                        FileReader levelFile = new FileReader("content/levels/multiplayer/level1.txt");
+                        this.level.LoadGameBoard(levelFile.ReadGrid("level"));
+
+                        break;
+                }
+            }
+            
 
             this.players = new IndexedGameObjectList();
             this.ghosts = new OrderedGameObjectList();
