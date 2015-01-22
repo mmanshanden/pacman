@@ -3,6 +3,7 @@ using Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using _3dgl;
+using System.Collections.Generic;
 
 namespace Pacman
 {
@@ -39,9 +40,12 @@ namespace Pacman
             level.LoadGameBoard(levelfile.ReadGrid("level"));
             level.LoadGameBoardObjects(levelfile.ReadGrid("level"));
 
+            List<Pacman> ghosthousetargets = new List<Pacman>();
+
             // load self
             Player player = new Player();
             player.Spawn = levelfile.ReadVector("player1_position");
+            ghosthousetargets.Add(player);
             level.Add(player);
 
             // load other players
@@ -50,9 +54,11 @@ namespace Pacman
                 Pacman pacman = new Pacman();
                 pacman.Spawn = levelfile.ReadVector("player" + i + "_position");
                 this.players.Add(this.server.GetConnectedIDs()[i - 2], pacman);
+                ghosthousetargets.Add(pacman);
                 level.Add(pacman);
-            }
 
+            }
+            
             for (int i = 1; i <= levelfile.ReadFloat("ghosthouses"); i++)
             {
                 GhostHouse ghosthouse = new GhostHouse();
@@ -60,12 +66,24 @@ namespace Pacman
 
                 ghosthouse.Entry = levelfile.ReadVector("ghosthouse" + i + "_entry");
 
-                ghosthouse.Add(Blinky.LoadBlinky(levelfile, i));
-                ghosthouse.Add(Clyde.LoadClyde(levelfile, i));
-                ghosthouse.Add(Inky.LoadInky(levelfile, i));
-                ghosthouse.Add(Pinky.LoadPinky(levelfile, i));
+                Blinky blinky = Blinky.LoadBlinky(levelfile, i);
+                ghosthouse.Add(blinky);
+                this.ghosts.Add(blinky);
 
-                ghosthouse.SetPacman(level.Player);                
+                Clyde clyde = Clyde.LoadClyde(levelfile, i);
+                ghosthouse.Add(clyde);
+                this.ghosts.Add(clyde);
+
+                Inky inky = Inky.LoadInky(levelfile, i);
+                ghosthouse.Add(inky);
+                this.ghosts.Add(inky);
+
+                Pinky pinky = Pinky.LoadPinky(levelfile, i);
+                ghosthouse.Add(pinky);
+                this.ghosts.Add(pinky);
+
+                Pacman target = ghosthousetargets[i % ghosthousetargets.Count];
+                ghosthouse.SetPacman(target);
             }
             
             return level;
