@@ -82,6 +82,7 @@ namespace Network
 
             this.server.Start();
             this.serverRunning = true;
+            this.serverStarted = true;
 
             this.serverThread = new Thread(new ThreadStart(Run));
             this.serverThread.IsBackground = true;
