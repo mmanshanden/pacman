@@ -75,7 +75,7 @@ namespace Pacman
 
         public override void Update(float dt)
         {
-            Game.Camera.Target = this.Position + Vector2.UnitY * 2;
+            Game.Camera.Target = this.Center + Vector2.UnitY * 2;
 
             base.Update(dt);
         }

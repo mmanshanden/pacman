@@ -9,6 +9,12 @@ namespace _3dgl
 {
     public class Camera
     {
+        public bool FreeAim
+        {
+            get;
+            set;
+        }
+
         private BasicEffect effect;
         private Vector3 target;
 
@@ -52,8 +58,7 @@ namespace _3dgl
         public Camera(BasicEffect effect)
         {
             this.effect = effect;
-            this.Zoom = 18;
-            this.Rho = 0.7f;
+            this.FreeAim = false;
         }
 
         public void Update()
@@ -67,7 +72,7 @@ namespace _3dgl
             effect.View =  Matrix.CreateLookAt(cameraPos + this.target, this.target, Vector3.Up);
 
 
-            if (true)
+            if (!this.FreeAim)
             {
                 float dy = Math.Abs(this.Rho - 1);
 
