@@ -43,7 +43,7 @@ namespace Pacman
             {
                 if (this.selectedMenu == 0)
                 {
-                    this.nextState = new StatePlaying();
+                    this.nextState = new StatePlaying(1);
                 }
 
                 if (this.selectedMenu == 1)

@@ -236,7 +236,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Levels\Singleplayer\level2.txt">
+      <Name>level2</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Sprites\Menu\Pause\pausebackground.png">
       <Name>pausebackground</Name>
