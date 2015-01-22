@@ -11,14 +11,14 @@ namespace Pacman
         FileReader levelFile;
         Level level;
         IGameState nextState, nextLevel;
+
         int index;
 
-        public StatePlaying(int indeX)
+        public StatePlaying(int index)
         {
-            if (indeX > 2) // put max count here to prevent level not found :/
-                indeX = 2;
-            this.index = indeX;
-            string path = "Content/Levels/singleplayer/level" + index.ToString() + ".txt";
+            this.index = index;
+
+            string path = "Content/Levels/singleplayer/level" + index + ".txt";
 
             this.levelFile = new FileReader(path);
             this.level = new Level();
@@ -78,7 +78,13 @@ namespace Pacman
             this.level.Update(dt);
 
             if (this.level.GetBubbles().Count == 0)
-                this.nextLevel = new StatePlaying(this.index + 1);
+            {
+                if (this.index != 2)
+                    this.nextLevel = new StatePlaying(index + 1);
+
+                this.nextLevel = new StateGameOver(this.level.Player);
+            }
+                
         }
 
         public void Draw(DrawManager drawManager)
