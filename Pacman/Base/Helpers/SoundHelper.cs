@@ -13,7 +13,19 @@ namespace Base
 
         private string songPlaying;
 
-        public bool Enabled { get; set; }
+        private bool enabled;
+
+        public bool Enabled
+        {
+            get { return this.enabled; }
+            set
+            {
+                this.enabled = value;
+
+                if (this.enabled == false)
+                    MediaPlayer.Stop();
+            }
+        }
 
         public SoundHelper()
         {
