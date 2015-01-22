@@ -159,5 +159,17 @@ namespace Pacman
                 Game.Camera.Zoom = 26;
             }
         }
+
+        public override void Draw(DrawHelper drawHelper)
+        {
+            base.Draw(drawHelper);
+
+            if (3 > countdown && countdown > 2)
+                drawHelper.DrawString("3", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center, Color.Lime);
+            else if (2 > countdown && countdown > 1)
+                drawHelper.DrawString("2", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center, Color.Lime);
+            else if (1 > countdown && countdown > 0)
+                drawHelper.DrawString("1", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center, Color.Lime); 
+        }
     }
 }

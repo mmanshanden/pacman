@@ -60,7 +60,7 @@ namespace Pacman
             if (nextLevel != null)
                 return nextLevel; 
 
-            if (this.level.Player.Lives < 1 || this.level.GetBubbles().Count == 0)
+            if (this.level.Player.Lives < 1)
                 return new StateGameOver(this.level.Player);
 
             if (nextState != null)
@@ -78,7 +78,7 @@ namespace Pacman
             this.level.Update(dt);
 
             if (this.level.GetBubbles().Count == 0)
-                this.nextLevel = new StatePlaying(this.index + 1); 
+                this.nextLevel = new StatePlaying(this.index + 1);
         }
 
         public void Draw(DrawManager drawManager)
