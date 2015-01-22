@@ -10,8 +10,8 @@ namespace Pacman
     {
         GameServer server;
         LobbyMessage lobbyState;
+
         IGameState nextState;
-        StateHostGame game; 
 
         public enum GameModes
         {
@@ -35,18 +35,18 @@ namespace Pacman
         public override void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyDown(Keys.X) && this.lobbyState.PlayerCount > 1)
-                this.game = new StateHostGame(this.server);
+                this.nextState = new StateHostGame(this.server);
+
             if (inputHelper.KeyDown(Keys.Back))
             {
-                // Handle server stop properly (server.Stop() causes crash on re-host) ! ##
+                this.server.Stop();
+
+                this.nextState = new MenuServerBrowser();
             }
         }
 
         public override IGameState TransitionTo()
         {
-            if (game != null)
-                return this.game;
-
             if (nextState != null)
                 return this.nextState;
 
