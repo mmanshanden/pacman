@@ -41,7 +41,7 @@ namespace Pacman
                 return this.nextState;
 
             if (!this.client.Connected)
-                return new MenuServerBrowser();
+                return new MenuErrorMessage("Could not connect to server.");
 
             return this;
         }

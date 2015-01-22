@@ -14,7 +14,7 @@ namespace Pacman
 
         int index;
 
-        public StatePlaying(int index)
+        public StatePlaying(int index, int score = 0)
         {
             this.index = index;
 
@@ -28,6 +28,7 @@ namespace Pacman
 
             Player player = new Player();
             player.Spawn = this.levelFile.ReadVector("player_position");
+            player.Score = score;
             this.level.Add(player);
 
             GhostHouse ghostHouse = new GhostHouse();
@@ -80,9 +81,9 @@ namespace Pacman
             if (this.level.GetBubbles().Count == 0)
             {
                 if (this.index != 2)
-                    this.nextLevel = new StatePlaying(index + 1);
-
-                this.nextLevel = new StateGameOver(this.level.Player);
+                    this.nextLevel = new StatePlaying(index + 1, this.level.Player.Score);
+                else
+                    this.nextLevel = new StateGameOver(this.level.Player);
             }
                 
         }

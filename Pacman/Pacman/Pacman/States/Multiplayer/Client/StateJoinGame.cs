@@ -68,7 +68,7 @@ namespace Pacman
         public IGameState TransitionTo()
         {
             if (!this.client.Connected)
-                return new MenuServerBrowser();
+                return new MenuErrorMessage("Lost connection to server.");
                 
             return this;
         }
