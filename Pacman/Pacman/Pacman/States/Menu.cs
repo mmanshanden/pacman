@@ -31,7 +31,10 @@ namespace Pacman
         }
 
         public virtual void HandleInput(InputHelper inputHelper) { }
-        public virtual void Update(float dt) { }
+        public virtual void Update(float dt) 
+        {
+            Game.SoundManager.PlaySong("");
+        }
         public virtual void Draw(DrawManager drawManager) { }
     }
 }
