@@ -59,6 +59,11 @@ namespace Base
             );
         }
 
+        public static bool ControllerConnected
+        {
+            get { return GamePad.GetState(PlayerIndex.One).IsConnected; }
+        }
+
         public Vector2 GetDirectionalInput()
         {
             if (KeyDown(Keys.W))

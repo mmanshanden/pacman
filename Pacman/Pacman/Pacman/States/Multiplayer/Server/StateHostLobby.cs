@@ -21,7 +21,7 @@ namespace Pacman
 
         public StateHostLobby()
         {
-            base.controlSprite = "menu_controls_ps_lobbyhost";
+            base.controlSprite = "lobbyhost";
 
             this.server = new GameServer();
             this.server.Start();

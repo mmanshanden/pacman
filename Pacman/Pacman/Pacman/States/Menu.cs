@@ -21,11 +21,13 @@ namespace Pacman
 
         public virtual void Draw(DrawHelper drawHelper)
         {
-
             if (this.controlSprite == "")
                 return;
 
-            drawHelper.DrawBox(controlSprite, Vector2.One * 0.95f, DrawHelper.Origin.BottomRight);
+            string platform = InputHelper.ControllerConnected ? "ps_" : "kb_";
+            string controls = "menu_controls_" + platform + controlSprite;
+
+            drawHelper.DrawBox(controls, Vector2.One * 0.95f, DrawHelper.Origin.BottomRight);
         }
 
         public virtual void HandleInput(InputHelper inputHelper) { }
