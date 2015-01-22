@@ -56,6 +56,8 @@ namespace Pacman
 
             this.level.Add(bubbles);
             this.level.Add(powerups);
+
+            Console.Visible = false;
         }
 
         public void HandleInput(InputHelper inputHelper)

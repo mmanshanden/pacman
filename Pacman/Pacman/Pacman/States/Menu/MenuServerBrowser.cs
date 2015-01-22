@@ -86,7 +86,7 @@ namespace Pacman
         public override void Draw(DrawHelper drawHelper)
         {
             Console.Clear();
-            //Console.Visible = true;
+            Console.Visible = true;
 
             for (int i = 0; i < this.servers.Count; i++)
             {
