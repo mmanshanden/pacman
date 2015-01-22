@@ -20,6 +20,7 @@ namespace Base
         GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
+        SpriteFont spriteFontBig;
 
         private Dictionary<string, Texture2D> textures;
         
@@ -60,7 +61,8 @@ namespace Base
             //pause
             this.textures["PauseOverlay"] = content.Load<Texture2D>("sprites/menu/pause/pausebackground");
 
-            this.spriteFont = content.Load<SpriteFont>("fonts/ui");
+            this.spriteFont    = content.Load<SpriteFont>("fonts/ui");
+            this.spriteFontBig = content.Load<SpriteFont>("fonts/bigui");
         }
 
         private Vector2 TranslatePosition(Vector2 position, Vector2 size, Origin origin)
@@ -108,20 +110,23 @@ namespace Base
             this.spriteBatch.Draw(this.textures["pixel"], screen, color);
         }
 
-        public void DrawString(string text, Vector2 position, Origin origin)
-        {
-            this.DrawString(text, position, origin, Color.White);
-        }
-
         public void DrawString(string text, Vector2 position, Origin origin, Color color)
         {
+            this.DrawString(this.spriteFont, text, position, origin, color);
+        }
+        public void DrawStringBig(string text, Vector2 position, Origin origin, Color color)
+        {
+            this.DrawString(this.spriteFontBig, text, position, origin, color);
+        }
+
+        private void DrawString(SpriteFont spriteFont, string text, Vector2 position, Origin origin, Color color)
+        {
             position *= this.Screen;
-            Vector2 size = this.spriteFont.MeasureString(text);
+            Vector2 size = spriteFont.MeasureString(text);
 
             position = this.TranslatePosition(position, size, origin);
 
-            this.spriteBatch.DrawString(this.spriteFont, text, position, color);
+            this.spriteBatch.DrawString(spriteFont, text, position, color);
         }
-
     }
 }

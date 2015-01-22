@@ -164,12 +164,10 @@ namespace Pacman
         {
             base.Draw(drawHelper);
 
-            if (3 > countdown && countdown > 2)
-                drawHelper.DrawString("3", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center, Color.Lime);
-            else if (2 > countdown && countdown > 1)
-                drawHelper.DrawString("2", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center, Color.Lime);
-            else if (1 > countdown && countdown > 0)
-                drawHelper.DrawString("1", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center, Color.Lime); 
+            int countdown = (int)this.countdown + 1;
+
+            if (this.countdown > 0)
+                drawHelper.DrawStringBig(countdown.ToString(), Vector2.One * 0.5f, DrawHelper.Origin.Center, Color.White);
         }
     }
 }
