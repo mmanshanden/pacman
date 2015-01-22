@@ -47,6 +47,11 @@ namespace Base
             return this.data[key];
         }
 
+        public float ReadFloat(string key)
+        {
+            return this.ParseFloat(this.data[key]);
+        }
+
         public char[,] ReadGrid(string key)
         {
             string[] lines = data[key].Split(';');

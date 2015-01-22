@@ -48,11 +48,15 @@ namespace Pacman
             drawManager.RotateOver(-radians, Vector2.One * 0.5f);
         }
 
-        public static Pinky LoadPinky(FileReader file)
+        public static Pinky LoadPinky(FileReader file, int index = 0)
         {
+            string i = "";
+            if (index != 0)
+                i = index.ToString();
+
             Pinky pinky = new Pinky();
-            pinky.Spawn = file.ReadVector("pinky_position");
-            pinky.Scatter = file.ReadVector("pinky_scatter");
+            pinky.Spawn = file.ReadVector("pinky" + i + "_position");
+            pinky.Scatter = file.ReadVector("pinky" + i + "_scatter");
             pinky.Direction = Vector2.UnitY * -1;
             pinky.waitTime = 12;
             pinky.waitTimer = 12; 

@@ -13,7 +13,7 @@ namespace Pacman
 
         public StatePlaying()
         {
-            this.levelFile = new FileReader("Content/Levels/level1.txt");
+            this.levelFile = new FileReader("Content/Levels/singleplayer/level1.txt");
             this.level = new Level();
 
             this.level.LoadGameBoard(levelFile.ReadGrid("level"));

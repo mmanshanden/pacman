@@ -10,9 +10,7 @@ namespace Pacman
         public Player Player { get; private set; }
         public GhostHouse GhostHouse { get; private set; }
         public float countdown;
-
-        private bool cameraEffect = false;
-
+        
         public Level()
         {
             this.countdown = 3;

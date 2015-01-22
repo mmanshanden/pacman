@@ -34,7 +34,7 @@ namespace Pacman
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            if (inputHelper.KeyDown(Keys.X) && this.lobbyState.PlayerCount > 1)
+            if (inputHelper.KeyDown(Keys.X))
                 this.nextState = new StateHostGame(this.server);
 
             if (inputHelper.KeyDown(Keys.Back))

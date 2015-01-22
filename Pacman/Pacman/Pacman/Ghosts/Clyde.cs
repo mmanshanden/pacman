@@ -53,11 +53,15 @@ namespace Pacman
             drawManager.RotateOver(-radians, Vector2.One * 0.5f);
         }
 
-        public static Clyde LoadClyde(FileReader file)
+        public static Clyde LoadClyde(FileReader file, int index = 0)
         {
+            string i = "";
+            if (index != 0)
+                i = index.ToString();
+
             Clyde clyde = new Clyde();
-            clyde.Spawn = file.ReadVector("clyde_position");
-            clyde.Scatter = file.ReadVector("clyde_scatter");
+            clyde.Spawn = file.ReadVector("clyde" + i + "_position");
+            clyde.Scatter = file.ReadVector("clyde" + i + "_scatter");
             clyde.Direction = Vector2.UnitY * -1;
             clyde.waitTime = 4; 
             clyde.waitTimer = 4; 

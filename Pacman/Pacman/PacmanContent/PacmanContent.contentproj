@@ -30,7 +30,7 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Levels\level1.txt">
+    <None Include="Levels\Singleplayer\level1.txt">
       <Name>level1</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -220,6 +220,16 @@
       <Importer>WavImporter</Importer>
       <Processor>SongProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Levels\Multiplayer\level1.txt">
+      <Name>level1</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Levels\Multiplayer\level2.txt">
+      <Name>level2</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 

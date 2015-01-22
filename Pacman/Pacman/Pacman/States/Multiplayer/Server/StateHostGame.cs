@@ -10,7 +10,6 @@ namespace Pacman
     {
         GameServer server;
         Level level;
-        GhostHouse ghostHouse;
 
         IndexedGameObjectList players = new IndexedGameObjectList();
         OrderedGameObjectList ghosts = new OrderedGameObjectList();
@@ -21,40 +20,47 @@ namespace Pacman
 
             Console.Clear();
             Console.WriteLine("Hosting server");
-          
-            FileReader levelFile = new FileReader("Content/Levels/level1.txt");
-            this.level = new Level();
 
-            this.level.LoadGameBoard(levelFile.ReadGrid("level"));
-            this.level.LoadGameBoardObjects(levelFile.ReadGrid("level"));
-
-            Player player = new Player();
-            player.Spawn = levelFile.ReadVector("player_position");
-            this.level.Add(player);
-
-            ghostHouse = new GhostHouse();
-            ghostHouse.Entry = levelFile.ReadVector("ghosthouse_entry");
-            ghostHouse.SetPacman(player);
-            this.level.Add(ghostHouse);
-
-            Blinky blinky = Blinky.LoadBlinky(levelFile);
-            Pinky pinky = Pinky.LoadPinky(levelFile);
-            Inky inky = Inky.LoadInky(levelFile);
-            Clyde clyde = Clyde.LoadClyde(levelFile);
-
-            ghostHouse.Add(blinky);
-            ghosts.Add(blinky);
-            ghostHouse.Add(clyde);
-            ghosts.Add(clyde);
-            ghostHouse.Add(inky);
-            ghosts.Add(inky);
-            ghostHouse.Add(pinky);
-            ghosts.Add(pinky);
+            this.level = this.LoadLevel(1);            
 
             this.players = new IndexedGameObjectList();
             this.players.Add(0, this.level.Player);
         }
 
+        private Level LoadLevel(int index)
+        {
+            Level level = new Level();
+
+            string filepath = "content/levels/multiplayer/level" + index + ".txt";
+            FileReader levelfile = new FileReader(filepath);
+
+            level = new Level();
+            level.LoadGameBoard(levelfile.ReadGrid("level"));
+            level.LoadGameBoardObjects(levelfile.ReadGrid("level"));
+
+            // load player
+            Player player = new Player();
+            player.Spawn = levelfile.ReadVector("player1_position");
+            level.Add(player);
+
+            for (int i = 1; i <= levelfile.ReadFloat("ghosthouses"); i++)
+            {
+                GhostHouse ghosthouse = new GhostHouse();
+                level.Add(ghosthouse);
+
+                ghosthouse.Entry = levelfile.ReadVector("ghosthouse" + i + "_entry");
+
+                ghosthouse.Add(Blinky.LoadBlinky(levelfile, i));
+                ghosthouse.Add(Clyde.LoadClyde(levelfile, i));
+                ghosthouse.Add(Inky.LoadInky(levelfile, i));
+                ghosthouse.Add(Pinky.LoadPinky(levelfile, i));
+
+                ghosthouse.SetPacman(level.Player);
+            }
+            
+            return level;
+        }
+        
         public void HandleInput(InputHelper inputHelper)
         {
             this.level.HandleInput(inputHelper);
@@ -117,7 +123,7 @@ namespace Pacman
                         Pacman pacman = new Pacman();
 
                         this.level.Add(pacman);
-                        this.ghostHouse.SetPacman(pacman);
+                        //this.ghostHouse.SetPacman(pacman);
                         this.players.Add(cmsg.Id, pacman);
                     }
 

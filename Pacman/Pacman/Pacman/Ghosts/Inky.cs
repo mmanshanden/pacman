@@ -53,11 +53,15 @@ namespace Pacman
             drawManager.RotateOver(-radians, Vector2.One * 0.5f);
         }
 
-        public static Inky LoadInky(FileReader file)
+        public static Inky LoadInky(FileReader file, int index = 0)
         {
+            string i = "";
+            if (index != 0)
+                i = index.ToString();
+
             Inky inky = new Inky();
-            inky.Spawn = file.ReadVector("inky_position");
-            inky.Scatter = file.ReadVector("inky_scatter");
+            inky.Spawn = file.ReadVector("inky" + i + "_position");
+            inky.Scatter = file.ReadVector("inky" + i + "_scatter");
             inky.Direction = Vector2.UnitY * -1;
             inky.waitTime = 8; 
             inky.waitTimer = 8; 

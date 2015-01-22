@@ -9,7 +9,7 @@ namespace Pacman
         public override Vector2 GetTarget(Ghost.States state)
         {
             if (state == States.Chase)
-                return this.GhostHouse.GetPacman().Center;
+                return this.GhostHouse.GetPacman().Center;               
 
             return base.GetTarget(state);
         }
@@ -48,11 +48,15 @@ namespace Pacman
             drawManager.RotateOver(-radians, Vector2.One * 0.5f);
         }
 
-        public static Blinky LoadBlinky(FileReader file)
+        public static Blinky LoadBlinky(FileReader file, int index = 0)
         {
+            string i = "";
+            if (index != 0)
+                i = index.ToString();
+
             Blinky blinky = new Blinky();
-            blinky.Spawn = file.ReadVector("blinky_position");
-            blinky.Scatter = file.ReadVector("blinky_scatter");
+            blinky.Spawn = file.ReadVector("blinky" + i + "_position");
+            blinky.Scatter = file.ReadVector("blinky" + i + "_scatter");
             blinky.Direction = Vector2.UnitY * -1;
             blinky.waitTime = 0; 
             blinky.waitTimer = 0; 
