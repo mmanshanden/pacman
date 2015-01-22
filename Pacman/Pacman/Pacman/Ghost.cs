@@ -171,7 +171,6 @@ namespace Pacman
             // we crossed junction
             this.Center = this.Target;
             this.Collision_Target(board, tile);
-            Console.WriteLine("Target event");
             base.Move(board, tile, dt - t);
         }
         #endregion
