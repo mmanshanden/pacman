@@ -148,7 +148,10 @@ namespace Pacman
             Game.Camera.Target = (this.GameBoard.Size / 2);
             Game.Camera.Target += Vector2.UnitY * 3;
             Game.Camera.SetCameraHeight(2);
-            
+
+            if (countdown == 0)
+                Game.SoundManager.PlaySoundEffect("level_start");
+
             countdown -= dt;
 
             if (this.countdown < 0)

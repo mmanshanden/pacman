@@ -47,7 +47,7 @@ namespace Pacman
         {
             if (this.playGameOverSound)
             {
-                Game.SoundManager.PlaySoundEffect("game_over");
+                //Game.SoundManager.PlaySoundEffect("game_over");
                 this.playGameOverSound = false;
             }
                 

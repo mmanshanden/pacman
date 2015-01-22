@@ -122,6 +122,9 @@ namespace Pacman
             {
                 this.State = States.Dead;
                 this.totalTime = 0;
+
+                if (gameObject is Player)
+                    Game.SoundManager.PlaySoundEffect("ghost_dead");
             }
         }
 

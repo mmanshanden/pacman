@@ -41,12 +41,11 @@ namespace Base
 
         public void LoadAudio(ContentManager content)
         {
-            this.soundEffects["game_over"] = content.Load<SoundEffect>("sounds/gameover");
-            this.soundEffects["live_lost"] = content.Load<SoundEffect>("sounds/original/lifelost");
-            this.soundEffects["bubble"] = content.Load<SoundEffect>("sounds/original/bubble");
-            this.soundEffects["powerup"] = content.Load<SoundEffect>("sounds/original/powerup");
-
-            this.songs["ambient"] = content.Load<Song>("sounds/ambient");
+            this.soundEffects["live_lost"] = content.Load<SoundEffect>("sounds/lifelost");
+            this.soundEffects["ghost_dead"] = content.Load<SoundEffect>("sounds/ghostdead");
+            this.soundEffects["bubble"] = content.Load<SoundEffect>("sounds/bubble");
+            this.soundEffects["powerup"] = content.Load<SoundEffect>("sounds/powerup");
+            this.soundEffects["level_start"] = content.Load<SoundEffect>("sounds/levelstart");
 
             this.durations["bubble"] = new TimeSpan(0, 0, 0, 0, 500);
             this.startTimes["bubble"] = DateTime.Now;
