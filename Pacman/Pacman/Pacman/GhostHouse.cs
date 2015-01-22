@@ -77,6 +77,7 @@ namespace Pacman
         public void SetPacman(Pacman pacman)
         {
             this.pacman = pacman;
+            pacman.GhostHouse = this;
         }
 
         public Pacman GetPacman()

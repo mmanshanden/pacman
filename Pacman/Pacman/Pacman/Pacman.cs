@@ -36,6 +36,11 @@ namespace Pacman
                 this.spawn = value;
             }
         }
+        public GhostHouse GhostHouse
+        {
+            get;
+            set;
+        }
 
         public Pacman()
         {
@@ -64,7 +69,7 @@ namespace Pacman
             else if (gameObject is Powerup)
             {
                 Level level = (Level)this.Parent;
-                level.GhostHouse.FrightenGhosts();
+                level.FrightenAllGhosts();
                 
                 Game.SoundManager.PlaySoundEffect("powerup");
             }
@@ -76,9 +81,8 @@ namespace Pacman
             this.Position = this.spawn;
             Level level = (Level)this.Parent;
 
-            if (level.GhostHouse != null)
-                level.GhostHouse.ResetGhosts();
-            level.countdown = 3;
+            if (GhostHouse != null)
+                GhostHouse.ResetGhosts();
 
             if (this.Lives > 0)
                 Game.SoundManager.PlaySoundEffect("live_lost");

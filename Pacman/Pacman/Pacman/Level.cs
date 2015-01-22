@@ -8,11 +8,13 @@ namespace Pacman
     class Level : GameWorld
     {
         public Player Player { get; private set; }
-        public GhostHouse GhostHouse { get; private set; }
-        public float countdown;
+
+        private List<GhostHouse> ghosthouses;
+        private float countdown;
         
         public Level()
         {
+            this.ghosthouses = new List<GhostHouse>();
             this.countdown = 3;
         }
 
@@ -50,8 +52,13 @@ namespace Pacman
 
         public void Add(GhostHouse ghostHouse)
         {
-            this.GhostHouse = ghostHouse;
-            base.Add(GhostHouse);
+            this.ghosthouses.Add(ghostHouse);
+            base.Add(ghostHouse);
+        }
+
+        public void FrightenAllGhosts()
+        {
+            this.ghosthouses.ForEach(g => g.FrightenGhosts());
         }
 
         public void HandleInput(InputHelper inputHelper)

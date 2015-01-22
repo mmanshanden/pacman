@@ -17,7 +17,10 @@ namespace Pacman
             Wait,
             Leave
         }
+        
+        private Vector2 spawn;
 
+        #region Properties
         public Level Level
         {
             get;
@@ -27,10 +30,7 @@ namespace Pacman
         {
             get;
             set;
-        }
-
-        private Vector2 spawn;
-
+        } 
         public Vector2 Spawn
         {
             get { return this.spawn; }
@@ -40,7 +40,6 @@ namespace Pacman
                 this.spawn = value;
             }
         }
-
         public Vector2 Scatter
         {
             get;
@@ -51,17 +50,17 @@ namespace Pacman
             get;
             set;
         }
-
         public States State
         {
             get;
             set;
         }
+        #endregion
 
-        public float totalTime;
-        public float frightenedTime;
-        public float waitTime;
-        public float waitTimer; 
+        protected float totalTime;
+        protected float frightenedTime;
+        protected float waitTime;
+        protected float waitTimer; 
 
         public Ghost()
         {
