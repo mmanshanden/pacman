@@ -42,13 +42,13 @@ namespace Base
             
             // controls
             this.textures["menu_controls_ps_back"]          = content.Load<Texture2D>("sprites/menu/back/playstation");
-            this.textures["menu_controls_kb_back"] = content.Load<Texture2D>("sprites/menu/back/keyboardback");
+            this.textures["menu_controls_kb_back"]          = content.Load<Texture2D>("sprites/menu/back/keyboard");
             this.textures["menu_controls_ps_serverbrowser"] = content.Load<Texture2D>("sprites/menu/serverbrowser/playstation");
-            this.textures["menu_controls_kb_serverbrowser"] = content.Load<Texture2D>("sprites/menu/serverbrowser/keyboardserverbrowser");
+            this.textures["menu_controls_kb_serverbrowser"] = content.Load<Texture2D>("sprites/menu/serverbrowser/keyboard");
             this.textures["menu_controls_ps_gamemode"]      = content.Load<Texture2D>("sprites/menu/gamemode/playstation");
-            this.textures["menu_controls_kb_gamemode"] = content.Load<Texture2D>("sprites/menu/gamemode/keyboardselect");
+            this.textures["menu_controls_kb_gamemode"]      = content.Load<Texture2D>("sprites/menu/gamemode/keyboard");
             this.textures["menu_controls_ps_lobbyhost"]     = content.Load<Texture2D>("sprites/menu/lobbyhost/playstation");
-            this.textures["menu_controls_kb_lobbyhost"] = content.Load<Texture2D>("sprites/menu/lobbyhost/keyboardlobbyhost");
+            this.textures["menu_controls_kb_lobbyhost"]     = content.Load<Texture2D>("sprites/menu/lobbyhost/keyboard");
 
             // gamemode selection menu
             this.textures["menu_gamemode_singleplayer"] = content.Load<Texture2D>("sprites/menu/gamemode/singleplayer");

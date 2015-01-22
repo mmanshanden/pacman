@@ -187,29 +187,29 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Menu\Back\keyboardback.png">
-      <Name>keyboardback</Name>
+    <Compile Include="Sprites\Menu\Back\Keyboard.png">
+      <Name>Keyboard</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Menu\GameMode\keyboardselect.png">
-      <Name>keyboardselect</Name>
+    <Compile Include="Sprites\Menu\GameMode\Keyboard.png">
+      <Name>Keyboard</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Menu\LobbyHost\keyboardlobbyhost.png">
-      <Name>keyboardlobbyhost</Name>
+    <Compile Include="Sprites\Menu\LobbyHost\Keyboard.png">
+      <Name>Keyboard</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Menu\ServerBrowser\keyboardserverbrowser.png">
-      <Name>keyboardserverbrowser</Name>
+    <Compile Include="Sprites\Menu\ServerBrowser\Keyboard.png">
+      <Name>Keyboard</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
