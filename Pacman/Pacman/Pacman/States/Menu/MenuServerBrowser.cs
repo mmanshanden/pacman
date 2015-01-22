@@ -85,22 +85,22 @@ namespace Pacman
 
         public override void Draw(DrawHelper drawHelper)
         {
-            Console.Clear();
-            Console.Visible = true;
-
-            for (int i = 0; i < this.servers.Count; i++)
+            for (int i = 0; i < MathHelper.Min(this.servers.Count, 6); i++)
             {
                 DiscoveryClient.DiscoveryReply lobby = this.servers[i];
 
                 string line = "";
 
                 if (i == this.serverIndex)
-                    line += "* ";
+                    line += "--> ";
 
                 line += lobby.Endpoint + " ";
                 line += lobby.Connections + "/4";
 
-                Console.WriteLine(line);
+                Vector2 position = Vector2.One * 0.1f;
+                position.Y += 0.1f * i;
+
+                drawHelper.DrawString(line, position, DrawHelper.Origin.TopLeft, Color.White);
             }
 
             base.Draw(drawHelper);

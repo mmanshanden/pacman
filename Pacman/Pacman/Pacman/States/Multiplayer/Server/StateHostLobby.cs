@@ -74,12 +74,19 @@ namespace Pacman
         
         public override void Draw(DrawHelper drawHelper)
         {
-            //Console.Visible = true;
-
-            Console.Clear();
+            int i = 0;
 
             foreach (string ip in this.server.GetConnectedIPs())
-                Console.WriteLine(ip);
+            {
+                if (i > 6)
+                    break;
+
+                Vector2 position = Vector2.One * 0.1f;
+                position.Y += 0.1f * i;
+
+                drawHelper.DrawString(ip, position, DrawHelper.Origin.TopLeft, Color.White);
+                i++;
+            }
 
             base.Draw(drawHelper);
         }

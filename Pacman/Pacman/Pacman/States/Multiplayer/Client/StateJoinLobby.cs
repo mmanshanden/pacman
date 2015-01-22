@@ -68,17 +68,10 @@ namespace Pacman
 
         public override void Draw(DrawHelper drawHelper)
         {
-            Console.Visible = true;
-
             if (this.lobbyState != null)
-            {
-                Console.Clear();
-                Console.WriteLine("Players in lobby: " + this.lobbyState.PlayerCount);
-            }
+                drawHelper.DrawString("Players in lobby: " + this.lobbyState.PlayerCount, Vector2.One * 0.1f, DrawHelper.Origin.TopLeft, Color.White);
             else
-            {
-                Console.WriteLine("We don't have lobby!");
-            }
+                drawHelper.DrawString("Connecting to server...", Vector2.One * 0.1f, DrawHelper.Origin.TopLeft, Color.White);
 
             base.Draw(drawHelper);
         }
