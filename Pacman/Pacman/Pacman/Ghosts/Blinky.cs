@@ -10,7 +10,8 @@ namespace Pacman
         {
             if (state == States.Chase)
                 return this.GhostHouse.GetPacman().Center;               
-
+            if (state == States.Wait)
+                    return this.GhostHouse.Center;
             return base.GetTarget(state);
         }
         
