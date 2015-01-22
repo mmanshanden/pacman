@@ -123,13 +123,24 @@ namespace Network
                 this.SendMessage();
                 this.timer = UpdateTimer;
             }
+
+            // login timeout
+            if (!this.loginReplyReceived)
+            {
+                this.loginReplyRetries++;
+
+                if (this.loginReplyRetries > 100)
+                    this.Connected = false;
+            }
             
+            // read msg
             this.inc = this.client.ReadMessage();
 
             if (inc == null)
                 return;
 
 
+            // dc check
             if (inc.MessageType == NetIncomingMessageType.StatusChanged)
             {
                 NetConnectionStatus status = (NetConnectionStatus)inc.ReadByte();
@@ -140,8 +151,11 @@ namespace Network
             if (inc.MessageType != NetIncomingMessageType.Data)
                 return;
 
+
+            // parse message
             NetMessage msg = new NetMessage();
             msg.ReadMessage(inc);
+
 
             if (msg.Type == PacketType.Login)
             {
@@ -149,18 +163,10 @@ namespace Network
                 this.loginReplyReceived = true;
             }
 
-            if (!this.loginReplyReceived)
-            {
-                this.loginReplyRetries++;
-
-                if (this.loginReplyRetries > 20)
-                    this.Connected = false;
-
-                return;
-            }
-
+            // handle message
             this.ReceiveMessage(msg);
             
+            // use same inc object
             this.client.Recycle(this.inc);
         }
         #endregion
