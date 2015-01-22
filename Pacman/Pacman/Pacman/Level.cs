@@ -138,6 +138,8 @@ namespace Pacman
 
         public override void Update(float dt)
         {
+            Game.SoundManager.PlaySong("ambient");
+
             Game.Camera.Target = (this.GameBoard.Size / 2);
             Game.Camera.Target += Vector2.UnitY * 3;
             Game.Camera.SetCameraHeight(2);

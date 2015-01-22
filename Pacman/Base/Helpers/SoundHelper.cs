@@ -27,6 +27,8 @@ namespace Base
             this.soundEffects["live_lost"] = content.Load<SoundEffect>("sounds/lifelost");
             this.soundEffects["bubble"] = content.Load<SoundEffect>("sounds/bubble");
             this.soundEffects["powerup"] = content.Load<SoundEffect>("sounds/powerup");
+
+            this.songs["ambient"] = content.Load<Song>("sounds/ambient");
         }
 
         public void PlaySong(string song)
@@ -46,7 +48,7 @@ namespace Base
                     return;
             }
 
-            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.6f;
             MediaPlayer.Play(this.songs[song]);
             this.songPlaying = song;
         }
