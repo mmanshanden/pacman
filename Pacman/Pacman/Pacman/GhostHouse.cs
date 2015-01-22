@@ -16,7 +16,7 @@ namespace Pacman
             Nearby,
         }
 
-        private List<Pacman> pacmans;
+        private Pacman pacman;
         private List<Ghost> ghosts; 
 
         protected Level Level
@@ -38,7 +38,6 @@ namespace Pacman
 
         public GhostHouse()
         {
-            this.pacmans = new List<Pacman>();
             this.ghosts = new List<Ghost>();
         }
 
@@ -75,9 +74,9 @@ namespace Pacman
         }
         #endregion
 
-        public void AddPacman(Pacman pacman)
+        public void SetPacman(Pacman pacman)
         {
-            this.pacmans.Add(pacman);
+            this.pacman = pacman;
         }
 
         public Pacman GetPacman()
@@ -85,8 +84,7 @@ namespace Pacman
             switch (this.AiMode)
             {
                 case AiModes.Random:
-                    int index = Game.Random.Next(this.pacmans.Count);
-                    return this.pacmans[index];
+                    return this.pacman;
 
                 default:
                     this.AiMode = AiModes.Random;

@@ -26,7 +26,7 @@ namespace Pacman
             GhostHouse ghostHouse = new GhostHouse();
             ghostHouse.Entry = this.levelFile.ReadVector("ghosthouse_entry");
             ghostHouse.Center = this.levelFile.ReadVector("ghosthouse_center");
-            ghostHouse.AddPacman(player);
+            ghostHouse.SetPacman(player);
             this.level.Add(ghostHouse);
 
             Blinky blinky = Blinky.LoadBlinky(levelFile);

@@ -34,7 +34,7 @@ namespace Pacman
 
             ghostHouse = new GhostHouse();
             ghostHouse.Entry = levelFile.ReadVector("ghosthouse_entry");
-            ghostHouse.AddPacman(player);
+            ghostHouse.SetPacman(player);
             this.level.Add(ghostHouse);
 
             Blinky blinky = Blinky.LoadBlinky(levelFile);
@@ -117,7 +117,7 @@ namespace Pacman
                         Pacman pacman = new Pacman();
 
                         this.level.Add(pacman);
-                        this.ghostHouse.AddPacman(pacman);
+                        this.ghostHouse.SetPacman(pacman);
                         this.players.Add(cmsg.Id, pacman);
                     }
 
