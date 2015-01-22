@@ -2,6 +2,7 @@
 using Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Pacman
 {
@@ -46,6 +47,11 @@ namespace Pacman
 
         public IGameState TransitionTo()
         {
+            if (this.level.Player.Lives < 1 || this.level.GetBubbles().Count == 0)
+                return new StateGameOver(this.level.Player);
+
+
+
             return this;
         }
 
