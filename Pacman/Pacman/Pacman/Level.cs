@@ -7,17 +7,25 @@ namespace Pacman
 {
     class Level : GameWorld
     {
-        public Player Player { get; private set; }
-
         private List<GhostHouse> ghosthouses;
         private float countdown;
+
+        public Player Player { get; private set; }
+        public List<GhostHouse> GhostHouses
+        {
+            get { return this.ghosthouses; }
+        }
         
         public Level()
         {
             this.ghosthouses = new List<GhostHouse>();
-            this.countdown = 3;
+            this.countdown = 3.1f;
         }
 
+        public void ResetCountdown()
+        {
+            this.countdown = 3;
+        }
         public List<Vector2> GetBubbles()
         {
             List<Vector2> result = new List<Vector2>();
@@ -30,7 +38,6 @@ namespace Pacman
 
             return result;
         }
-
         public List<Vector2> GetPowerUps()
         {
             List<Vector2> result = new List<Vector2>();
@@ -143,15 +150,13 @@ namespace Pacman
 
         public override void Update(float dt)
         {
-            Game.SoundManager.PlaySong("ambient");
+            if (this.countdown == 3.1f)
+                    Game.SoundManager.PlaySoundEffect("level_start");
 
             Game.Camera.Target = (this.GameBoard.Size / 2);
             Game.Camera.Target += Vector2.UnitY * 3;
             Game.Camera.SetCameraHeight(2);
-
-            if (countdown == 0)
-                Game.SoundManager.PlaySoundEffect("level_start");
-
+            
             countdown -= dt;
 
             if (this.countdown < 0)

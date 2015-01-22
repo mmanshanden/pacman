@@ -105,6 +105,20 @@ namespace Pacman
 
             this.level.Update(dt);
 
+            Pacman alivepacman = null;
+
+            foreach (GhostHouse ghosthouse in this.level.GhostHouses)
+            {
+                Pacman pacman = ghosthouse.GetPacman();
+
+                if (pacman.Lives < 1 && alivepacman != null)
+                    ghosthouse.SetPacman(alivepacman);
+
+                else
+                    alivepacman = pacman;
+            }
+
+
             NetMessage received;
 
             // pull messages from server
@@ -131,7 +145,8 @@ namespace Pacman
                 Console.WriteLine(received.ConnectionId + " Disconnected");
 
             }
-
+            
+            
             NetMessage send = new NetMessage();
             send.Type = PacketType.WorldState;
 
