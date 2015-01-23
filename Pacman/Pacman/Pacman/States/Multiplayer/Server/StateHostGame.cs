@@ -25,7 +25,6 @@ namespace Pacman
         {
             this.server = server; 
 
-            Console.Clear();
             Console.WriteLine("Hosting server");
           
             this.players = new IndexedGameObjectList();

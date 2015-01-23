@@ -19,15 +19,12 @@ namespace Pacman
 
             this.client = new GameClient();
             this.client.ConnectToServer(endpoint);
-
-            Console.Clear();
         }
         public StateJoinLobby(GameClient client)
         {
             base.controlSprite = "back";
 
             this.client = client;
-            Console.Clear();
         }
 
         public override void HandleInput(InputHelper inputHelper)

@@ -19,16 +19,11 @@ namespace Pacman
         public override IGameState TransitionTo()
         {
             if (this.nextState != null)
-            {
-                Console.Clear();
-                Console.Visible = false;
-
                 return this.nextState;
-            }
+
             else
-            {
                 return this;
-            }
+
         }
 
         public override void HandleInput(InputHelper inputHelper)

@@ -30,7 +30,6 @@ namespace Pacman
 
             this.lobbyState = new LobbyMessage();
 
-            Console.Clear();
             Console.WriteLine("Hosting lobby");
         }
 

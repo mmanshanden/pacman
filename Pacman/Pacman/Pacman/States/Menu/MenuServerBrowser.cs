@@ -54,11 +54,8 @@ namespace Pacman
         public override IGameState TransitionTo()
         {
             if (nextState != null)
-            {
-                Console.Visible = false;
                 return nextState;
-            }
-                
+
             return this;
         }
 
