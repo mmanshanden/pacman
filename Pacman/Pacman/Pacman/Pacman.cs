@@ -177,10 +177,10 @@ namespace Pacman
             this.Direction = pmsg.Direction;
             this.Speed = pmsg.Speed;
 
-            if (pmsg.Lives < this.Lives)
+            if (pmsg.Lives != -1)
                 this.Lives = pmsg.Lives;
 
-            if (pmsg.Score > this.Score)
+            if (pmsg.Score != -1)
                 this.Score = pmsg.Score;
         }
     }
