@@ -59,14 +59,6 @@ namespace Pacman
                 this.direction = queued;
         }
 
-        public override void Collision_GameObject(GameObject gameObject)
-        {
-            if (gameObject is Bubble)
-                Game.SoundManager.PlaySoundEffect("bubble");
-            
-            base.Collision_GameObject(gameObject);
-        }
-
         public override void Die()
         {
             this.direction = Vector2.Zero;
@@ -76,6 +68,9 @@ namespace Pacman
         public override void Update(float dt)
         {
             Game.Camera.Target = this.Center + Vector2.UnitY * 2;
+
+            if (this.Velocity != Vector2.Zero)
+                Game.SoundManager.PlaySoundEffect("moving");
 
             base.Update(dt);
         }
