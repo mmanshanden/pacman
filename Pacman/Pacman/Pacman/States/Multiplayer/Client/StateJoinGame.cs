@@ -202,7 +202,7 @@ namespace Pacman
             pmsg.Lives = -1;
             pmsg.Score = -1;
 
-            message.SetData(this.level.Player.UpdateMessage(cmsg));
+            message.SetData(pmsg);
         }
 
         public void Draw(DrawManager drawManager)
