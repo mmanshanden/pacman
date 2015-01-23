@@ -16,6 +16,7 @@ namespace Pacman
         OrderedGameObjectList ghosts;
 
         private bool gameOver;
+        private bool nextLevel;
         private int levelIndex;
 
         private List<Pacman> pacmans;
@@ -32,6 +33,7 @@ namespace Pacman
             this.pacmans = new List<Pacman>();
 
             this.gameOver = false;
+            this.nextLevel = false;
             this.levelIndex = index;
             this.level = this.LoadLevel(index);
             this.players.Add(0, this.level.Player);
@@ -104,6 +106,9 @@ namespace Pacman
         {
             if (this.gameOver)
                 return new StateHostLobby(this.levelIndex, this.server);
+
+            if (this.nextLevel)
+                return new StateHostLobby(this.levelIndex + 1, this.server);
 
             return this;
         }
@@ -212,7 +217,15 @@ namespace Pacman
 
             MapMessage mmsg = new MapMessage();
             mmsg.LevelIndex = this.levelIndex;
-            mmsg.Bubbles = this.level.GetBubbles();
+
+
+            List<Vector2> bubbles = this.level.GetBubbles();
+
+            if (bubbles.Count == 0)
+                this.nextLevel = true;
+
+            mmsg.Bubbles = bubbles;
+
             mmsg.PowerUps = this.level.GetPowerUps();
             message.SetData(mmsg);
         }
