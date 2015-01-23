@@ -63,11 +63,6 @@ namespace Pacman
             base.Add(ghostHouse);
         }
 
-        public void FrightenAllGhosts()
-        {
-            this.ghosthouses.ForEach(g => g.FrightenGhosts());
-        }
-
         public void HandleInput(InputHelper inputHelper)
         {
             this.Player.Direction = inputHelper.GetDirectionalInput();

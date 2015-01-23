@@ -12,19 +12,14 @@ namespace Pacman
         private float time;
         private bool closed;
         private float rotation;
+        private int ghostCombo;
         
         public int Lives
         {
             get;
             set; 
         }
-
-        public int GhostCombo
-        {
-            get;
-            set;
-        }
-
+        
         public int Score
         {
             get;
@@ -43,17 +38,11 @@ namespace Pacman
             }
         }
 
-        public GhostHouse GhostHouse
-        {
-            get;
-            set;
-        }
-
         public Pacman()
         {
             this.Lives = 3;
             this.Score = 0;
-            this.GhostCombo = 1; 
+            this.ghostCombo = 1; 
 
             this.time = AnimationTime;
             this.closed = false;
@@ -68,9 +57,9 @@ namespace Pacman
                     this.Die();
                 if (ghost.State == Ghost.States.Frightened)
                 {
-                    int ghostScore = 10 * this.GhostCombo;
+                    int ghostScore = 10 * this.ghostCombo;
                     this.Score = this.Score + ghostScore;
-                    this.GhostCombo *= 2;
+                    this.ghostCombo *= 2;
                 }
             }
 
@@ -82,9 +71,11 @@ namespace Pacman
 
             else if (gameObject is Powerup)
             {
-                this.GhostCombo = 1; 
+                this.ghostCombo = 1; 
                 Level level = (Level)this.Parent;
-                level.FrightenAllGhosts();
+
+                foreach (GhostHouse ghostHouse in level.GhostHouses)
+                    ghostHouse.FrightenGhosts();
                 
                 Game.SoundManager.PlaySoundEffect("powerup");
             }
@@ -96,8 +87,8 @@ namespace Pacman
             this.Position = this.spawn;
             Level level = (Level)this.Parent;
 
-            if (GhostHouse != null)
-                GhostHouse.ResetGhosts();
+            foreach (GhostHouse ghostHouse in level.GhostHouses)
+                ghostHouse.ResetGhosts();
 
             if (this.Lives > 0)
                 Game.SoundManager.PlaySoundEffect("live_lost");
