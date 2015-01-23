@@ -101,13 +101,13 @@ namespace Base
             this.spriteBatch.Draw(t, position, Color.White);
         }
 
-        public void DrawOverlay(Color color)
+        public void DrawOverlay(Color color, Vector2 position, Vector2 size)
         {
-            Rectangle screen = new Rectangle();
-            screen.Width = (int)this.Screen.X + 1;
-            screen.Height = (int)this.Screen.Y + 1;
+            position *= this.Screen;
+            size *= this.Screen; 
 
-            this.spriteBatch.Draw(this.textures["pixel"], screen, color);
+            Rectangle overlay = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+            this.spriteBatch.Draw(this.textures["pixel"], overlay, color);
         }
 
         public void DrawString(string text, Vector2 position, Origin origin, Color color)

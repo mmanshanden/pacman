@@ -87,17 +87,24 @@ namespace Pacman
                 DiscoveryClient.DiscoveryReply lobby = this.servers[i];
 
                 string line = "";
+                Color color = Color.White; 
 
-                if (i == this.serverIndex)
-                    line += "--> ";
 
                 line += lobby.Endpoint + " ";
-                line += lobby.Connections + "/4";
+                line += " | Players: ";
+                line += lobby.Connections + 1 + "/2";
 
-                Vector2 position = Vector2.One * 0.1f;
+                Vector2 position = new Vector2(0.5f, 0f); 
                 position.Y += 0.1f * i;
 
-                drawHelper.DrawString(line, position, DrawHelper.Origin.TopLeft, Color.White);
+
+                if (i == this.serverIndex)
+                {
+                    drawHelper.DrawOverlay(Color.White, new Vector2(0, position.Y), new Vector2(1f, 0.1f)); 
+                    color = Color.Black;
+                }
+
+                drawHelper.DrawString(line, new Vector2(position.X, position.Y + 0.05f), DrawHelper.Origin.Center, color);
             }
 
             base.Draw(drawHelper);
