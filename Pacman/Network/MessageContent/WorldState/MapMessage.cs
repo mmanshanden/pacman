@@ -6,6 +6,7 @@ namespace Network
 {
     public class MapMessage : NetMessageContent
     {
+        public int LevelIndex;
         public List<Vector2> Bubbles;
         public List<Vector2> PowerUps;
 
@@ -20,6 +21,8 @@ namespace Network
         public override void ReadMessage(NetIncomingMessage msg)
         {
             base.ReadMessage(msg);
+
+            this.LevelIndex = msg.ReadInt32();
 
             int bcount = msg.ReadInt32();
             for (int i = 0; i < bcount; i++)
@@ -39,6 +42,8 @@ namespace Network
         public override void WriteMessage(NetOutgoingMessage msg)
         {
             base.WriteMessage(msg);
+
+            msg.Write(this.LevelIndex);
 
             msg.Write(this.Bubbles.Count);
             foreach (Vector2 bubble in this.Bubbles)

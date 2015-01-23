@@ -18,6 +18,8 @@ namespace Pacman
         GameObjectList bubbles;
         GameObjectList powerups;
 
+        private bool returnToLobby;
+
         public StateJoinGame(GameClient client, NetMessage gamemessage)
         {
             this.client = client;
@@ -40,7 +42,8 @@ namespace Pacman
                         break;
 
                     case DataType.Map:
-                        FileReader levelFile = new FileReader("content/levels/multiplayer/level1.txt");
+                        int levelIndex = (cmsg as MapMessage).LevelIndex;
+                        FileReader levelFile = new FileReader("content/levels/multiplayer/level" + levelIndex + ".txt");
                         this.level.LoadGameBoard(levelFile.ReadGrid("level"));
 
                         break;
@@ -69,7 +72,10 @@ namespace Pacman
         {
             if (!this.client.Connected)
                 return new MenuErrorMessage("Lost connection to server.");
-                
+            
+            if (this.returnToLobby)
+                return new StateJoinLobby(this.client);
+
             return this;
         }
 
@@ -77,15 +83,24 @@ namespace Pacman
         {
             this.level.Update(dt);
             this.client.Update(dt);
-
-            NetMessage received = this.client.GetData();
-            if (received != null)
-                this.ReceiveData(received);
-
+            
             NetMessage send = new NetMessage();
             send.Type = PacketType.WorldState;
             this.SendData(send);
             this.client.SetData(send);
+
+            NetMessage received = this.client.GetData();
+
+            if (received == null)
+                return;
+
+            if (received.Type == PacketType.Lobby)
+            {
+                this.returnToLobby = true;
+                return;
+            }                
+            
+            this.ReceiveData(received);
         }
 
         public void ReceiveData(NetMessage message)

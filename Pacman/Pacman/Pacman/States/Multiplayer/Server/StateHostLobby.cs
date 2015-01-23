@@ -34,10 +34,20 @@ namespace Pacman
             Console.WriteLine("Hosting lobby");
         }
 
+        public StateHostLobby(int levelIndex, GameServer server)
+        {
+            base.controlSprite = "lobbyhost";
+
+            this.levelIndex = levelIndex;
+            this.server = server;
+
+            this.lobbyState = new LobbyMessage();
+        }
+
         public override void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyDown(Keys.X) && this.lobbyState.PlayerCount > 1)
-                this.nextState = new StateHostGame(this.server);
+                this.nextState = new StateHostGame(this.server, 1);
 
             if (inputHelper.KeyDown(Keys.Back))
             {

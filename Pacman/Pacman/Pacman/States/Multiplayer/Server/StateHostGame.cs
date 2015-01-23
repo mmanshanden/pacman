@@ -15,7 +15,12 @@ namespace Pacman
         IndexedGameObjectList players;
         OrderedGameObjectList ghosts;
 
-        public StateHostGame(GameServer server)
+        private bool gameOver;
+        private int levelIndex;
+
+        private List<Pacman> pacmans;
+
+        public StateHostGame(GameServer server, int index = 1)
         {
             this.server = server; 
 
@@ -24,8 +29,11 @@ namespace Pacman
           
             this.players = new IndexedGameObjectList();
             this.ghosts = new OrderedGameObjectList();
-            
-            this.level = this.LoadLevel(1);
+            this.pacmans = new List<Pacman>();
+
+            this.gameOver = false;
+            this.levelIndex = index;
+            this.level = this.LoadLevel(index);
             this.players.Add(0, this.level.Player);
         }
 
@@ -40,12 +48,10 @@ namespace Pacman
             level.LoadGameBoard(levelfile.ReadGrid("level"));
             level.LoadGameBoardObjects(levelfile.ReadGrid("level"));
 
-            List<Pacman> ghosthousetargets = new List<Pacman>();
-
             // load self
             Player player = new Player();
             player.Spawn = levelfile.ReadVector("player1_position");
-            ghosthousetargets.Add(player);
+            this.pacmans.Add(player);
             level.Add(player);
 
             // load other players
@@ -54,7 +60,7 @@ namespace Pacman
                 Pacman pacman = new Pacman();
                 pacman.Spawn = levelfile.ReadVector("player" + i + "_position");
                 this.players.Add(this.server.GetConnectedIDs()[i - 2], pacman);
-                ghosthousetargets.Add(pacman);
+                this.pacmans.Add(pacman);
                 level.Add(pacman);
 
             }
@@ -82,7 +88,7 @@ namespace Pacman
                 ghosthouse.Add(pinky);
                 this.ghosts.Add(pinky);
 
-                Pacman target = ghosthousetargets[i % ghosthousetargets.Count];
+                Pacman target = this.pacmans[i % pacmans.Count];
                 ghosthouse.SetPacman(target);
             }
             
@@ -96,6 +102,9 @@ namespace Pacman
 
         public IGameState TransitionTo()
         {
+            if (this.gameOver)
+                return new StateHostLobby(this.levelIndex, this.server);
+
             return this;
         }
 
@@ -105,17 +114,47 @@ namespace Pacman
 
             this.level.Update(dt);
 
-            Pacman alivepacman = null;
 
-            foreach (GhostHouse ghosthouse in this.level.GhostHouses)
-            {
-                Pacman pacman = ghosthouse.GetPacman();
+            int totalLives = 0;
+            Pacman alivePacman = null;
 
-                if (pacman.Lives < 1 && alivepacman != null)
-                    ghosthouse.SetPacman(alivepacman);
+            for (int i = 0; i < this.pacmans.Count; i++)
+			{
+			    Pacman player = this.pacmans[i];
+                
+                totalLives += player.Lives;
+
+                if (player.Lives <= 0)
+                {
+                    foreach (GhostHouse ghostHouse in this.level.GhostHouses)
+                    {
+                        if (ghostHouse.GetPacman() != player)
+                            continue;
+
+                        if (alivePacman != null)
+                            ghostHouse.SetPacman(alivePacman);
+
+                        else
+                        {
+                            foreach (Pacman pacman in this.pacmans)
+                                if (pacman.Lives > 0)
+                                {
+                                    ghostHouse.SetPacman(pacman);
+                                    alivePacman = pacman;
+                                }
+                        }
+                        // ghosthouse target updates
+                    }
+                }
 
                 else
-                    alivepacman = pacman;
+                    alivePacman = player;
+			}
+
+            if (totalLives <= 0)
+            {
+                this.gameOver = true;
+                return;
             }
 
 
@@ -172,6 +211,7 @@ namespace Pacman
             this.ghosts.WriteAllToMessage(message, baseMessage);
 
             MapMessage mmsg = new MapMessage();
+            mmsg.LevelIndex = this.levelIndex;
             mmsg.Bubbles = this.level.GetBubbles();
             mmsg.PowerUps = this.level.GetPowerUps();
             message.SetData(mmsg);

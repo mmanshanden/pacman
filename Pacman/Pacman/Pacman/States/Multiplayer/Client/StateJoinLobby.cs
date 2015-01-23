@@ -22,6 +22,13 @@ namespace Pacman
 
             Console.Clear();
         }
+        public StateJoinLobby(GameClient client)
+        {
+            base.controlSprite = "back";
+
+            this.client = client;
+            Console.Clear();
+        }
 
         public override void HandleInput(InputHelper inputHelper)
         {
