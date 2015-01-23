@@ -19,6 +19,12 @@ namespace Pacman
             set; 
         }
 
+        public int GhostCombo
+        {
+            get;
+            set;
+        }
+
         public int Score
         {
             get;
@@ -47,6 +53,7 @@ namespace Pacman
         {
             this.Lives = 3;
             this.Score = 0;
+            this.GhostCombo = 1; 
 
             this.time = AnimationTime;
             this.closed = false;
@@ -57,8 +64,14 @@ namespace Pacman
             Ghost ghost = gameObject as Ghost;
             if (ghost != null)
             {
-                if (ghost.State == Ghost.States.Chase || ghost.State == Ghost.States.Scatter)
+                if (ghost.State == Ghost.States.Chase || ghost.State == Ghost.States.Scatter || ghost.State == Ghost.States.Leave)
                     this.Die();
+                if (ghost.State == Ghost.States.Frightened)
+                {
+                    int ghostScore = 10 * this.GhostCombo;
+                    this.Score = this.Score + ghostScore;
+                    this.GhostCombo *= 2;
+                }
             }
 
             else if (gameObject is Bubble)
@@ -69,6 +82,7 @@ namespace Pacman
 
             else if (gameObject is Powerup)
             {
+                this.GhostCombo = 1; 
                 Level level = (Level)this.Parent;
                 level.FrightenAllGhosts();
                 
