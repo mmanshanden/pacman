@@ -80,6 +80,7 @@ namespace Pacman
 
             send.SetData(lobbyState);
             this.server.SetData(send);
+            this.server.ClearData();
         }
         
         public override void Draw(DrawHelper drawHelper)

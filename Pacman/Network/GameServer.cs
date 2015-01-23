@@ -70,6 +70,10 @@ namespace Network
             this.receivedData.Remove(msg);
             return msg;
         }
+        public void ClearData()
+        {
+            this.receivedData.Clear();
+        }
 
         public List<string> GetConnectedIPs()
         {
