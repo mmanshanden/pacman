@@ -164,24 +164,7 @@ namespace Pacman
                         break;
 
                     case DataType.Map:
-                        MapMessage mmsg = cmsg as MapMessage;
-
-                        this.bubbles.Clear();
-                        this.powerups.Clear();
-
-                        foreach (Vector2 bubble in mmsg.Bubbles)
-                        {
-                            Bubble b = new Bubble();
-                            b.Position = bubble;
-                            this.bubbles.Add(b);
-                        }
-
-                        foreach (Vector2 powerup in mmsg.PowerUps)
-                        {
-                            Powerup p = new Powerup();
-                            p.Position = powerup;
-                            this.powerups.Add(p);
-                        }
+                        this.level.UpdateObject(cmsg);
 
                         break;
                 }
