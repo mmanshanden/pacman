@@ -149,7 +149,7 @@ namespace Pacman
                                     alivePacman = pacman;
                                 }
                         }
-                        // ghosthouse target updates
+                        // ghosthouse target updated
                     }
                 }
 

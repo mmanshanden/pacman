@@ -152,14 +152,9 @@ namespace Pacman
             Game.Camera.SetCameraHeight(2);
             
             countdown -= dt;
-
+            
             if (this.countdown < 0)
                 base.Update(dt);
-            else
-            {
-                Game.Camera.Rho = MathHelper.PiOver2 - 0.08f;
-                Game.Camera.Zoom = 26;
-            }
         }
 
         public override void Draw(DrawHelper drawHelper)
@@ -186,7 +181,7 @@ namespace Pacman
         public override void UpdateObject(NetMessageContent cmsg)
         {
             // basically, we overwrite the bubbles and powerups
-            // stores in the level with the data we get from
+            // stored in the level with the data we get from
             // the server
 
             MapMessage mmsg = (MapMessage)cmsg;

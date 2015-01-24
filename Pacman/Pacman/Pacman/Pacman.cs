@@ -65,7 +65,6 @@ namespace Pacman
 
             else if (gameObject is Bubble)
             {
-                this.Speed = 0;
                 this.Score++;
             }
 

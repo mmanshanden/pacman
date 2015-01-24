@@ -11,6 +11,9 @@ namespace Pacman
             Pacman pacman = this.GhostHouse.GetPacman();
             Blinky blinky = this.GhostHouse.Blinky;
 
+            if (blinky == null)
+                return this.Scatter;
+
             if (state == States.Chase)
             {
                 Vector2 pacmanOffset = pacman.Center + pacman.Direction * 2;

@@ -9,6 +9,8 @@ namespace Pacman
 {
     class StateJoinGame : IGameState
     {
+        const float MapUpdateInterval = 2;
+
         GameClient client;
         Level level;
 
@@ -18,47 +20,91 @@ namespace Pacman
         GameObjectList bubbles;
         GameObjectList powerups;
 
+        private float mapUpdateTimer;
         private bool returnToLobby;
 
         public StateJoinGame(GameClient client, NetMessage gamemessage)
         {
             this.client = client;
-
-            Player player = new Player();
+                        
             this.level = new Level();
+            this.players = new IndexedGameObjectList();
+            this.ghosts = new OrderedGameObjectList();
 
             NetMessageContent cmsg;
-            
+            int updatecount = 0;
             while((cmsg = gamemessage.GetData()) != null)
             {
                 switch(cmsg.Type)
                 {
+                    // set spawn position for self
                     case DataType.Pacman:
-                        if (cmsg.Id != this.client.ConnectionID)
-                            continue;
+                        PlayerMessage pmsg = (PlayerMessage)cmsg;
 
-                        player.Spawn = (cmsg as PlayerMessage).Position;
-                        this.level.Add(player);
+                        if (cmsg.Id == this.client.ConnectionID)
+                        {
+                            Player player = new Player();
+                            player.Spawn = pmsg.Position;
+                            this.level.Add(player);
+                        }
+                        else
+                        {
+                            Pacman player = new Pacman();
+                            player.Spawn = pmsg.Position;
+
+                            this.level.Add(player);
+                            this.players.Add(pmsg.Id, player);
+                        }
                         break;
 
+                    // load map and map object
                     case DataType.Map:
                         int levelIndex = (cmsg as MapMessage).LevelIndex;
+
+                        // load board based on index
                         FileReader levelFile = new FileReader("content/levels/multiplayer/level" + levelIndex + ".txt");
                         this.level.LoadGameBoard(levelFile.ReadGrid("level"));
+
+                        // add bubbles and powerups to map
+                        this.level.UpdateObject(cmsg);
+                        break;
+
+                    // load ghosts
+                    case DataType.Ghost:
+                        // ghosts should always be sent and thus received
+                        // in alphabetical order. (Blinky first, Clyde second etc..)
+                        
+                        Ghost ghost;
+
+                        switch (updatecount % 4)
+                        {
+                            case 0:
+                                ghost = new Blinky();
+                                break;
+                            case 1:
+                                ghost = new Clyde();
+                                break;
+                            case 2:
+                                ghost = new Inky();
+                                break;
+                            default:
+                                ghost = new Pinky();
+                                break;
+                        }
+
+                        this.level.Add(ghost);
+                        this.ghosts.Add(ghost);
+                        updatecount++;
 
                         break;
                 }
             }
             
 
-            this.players = new IndexedGameObjectList();
-            this.ghosts = new OrderedGameObjectList();
+            
 
-            this.bubbles = new GameObjectList();
-            this.powerups = new GameObjectList();
-
-            this.level.Add(bubbles);
-            this.level.Add(powerups);
+            this.returnToLobby = false;
+            this.mapUpdateTimer = MapUpdateInterval;
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -81,6 +127,8 @@ namespace Pacman
         {
             this.level.Update(dt);
             this.client.Update(dt);
+
+            this.mapUpdateTimer -= dt;
             
             NetMessage send = new NetMessage();
             send.Type = PacketType.WorldState;
@@ -104,10 +152,7 @@ namespace Pacman
         public void ReceiveData(NetMessage message)
         {
             NetMessageContent cmsg;
-
-
-            int updatecount = 0;
-
+            
             // read all messages
             while((cmsg = message.GetData()) != null)
             {
@@ -118,53 +163,28 @@ namespace Pacman
                         {
                             PlayerMessage pmsg = cmsg as PlayerMessage;
 
+                            // update lives and score with server data
                             this.level.Player.Lives = pmsg.Lives;
                             this.level.Player.Score = pmsg.Score;
                             continue;
-                        }
-
-                        // new player
-                        if (!this.players.Contains(cmsg.Id))
-                        {
-                            Pacman pacman = new Pacman();
-                            this.level.Add(pacman);
-                            this.players.Add(cmsg.Id, pacman);
                         }
 
                         this.players.UpdateObject(cmsg.Id, cmsg);
                         break;
                     
                     case DataType.Ghost:
-                        if (updatecount == this.ghosts.Count)
-                        {
-                            Ghost ghost;
-
-                            switch(updatecount % 4)
-                            {
-                                case 1:
-                                    ghost = new Clyde();
-                                    break;
-                                case 2:
-                                    ghost = new Inky();
-                                    break;
-                                case 3:
-                                    ghost = new Pinky();
-                                    break;
-                                default:
-                                    ghost = new Blinky();
-                                    break;
-                            }
-
-                            this.level.Add(ghost);
-                            this.ghosts.Add(ghost);
-                            updatecount++;
-                        }
-
                         this.ghosts.UpdateObject(cmsg);
                         break;
 
                     case DataType.Map:
-                        this.level.UpdateObject(cmsg);
+                        // Update map only periodically to prevent
+                        // triggering the bubble speed penalty twice
+                        // on each and every bubble
+                        if (this.mapUpdateTimer < 0)
+                        {
+                            this.level.UpdateObject(cmsg);
+                            this.mapUpdateTimer = MapUpdateInterval;
+                        }
 
                         break;
                 }

@@ -62,7 +62,11 @@ namespace Pacman
         public override void Collision_GameObject(GameObject gameObject)
         {
             if (gameObject is Bubble)
+            {
                 Game.SoundManager.PlaySoundEffect("bubble");
+                this.Speed = 0;
+                Console.WriteLine("Speed penalty");
+            }                
             
             base.Collision_GameObject(gameObject);
         }
@@ -75,7 +79,13 @@ namespace Pacman
 
         public override void Update(float dt)
         {
-            Game.Camera.Target = this.Center + Vector2.UnitY * 2;
+            if (this.Lives > 0)
+                Game.Camera.Target = this.Center + Vector2.UnitY * 2;
+            else
+            {
+                Game.Camera.Rho = MathHelper.PiOver2 - 0.08f;
+                Game.Camera.Zoom = 26;
+            }
 
             base.Update(dt);
         }
