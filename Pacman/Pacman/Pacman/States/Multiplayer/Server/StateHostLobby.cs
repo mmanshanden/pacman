@@ -26,7 +26,14 @@ namespace Pacman
 
             this.levelIndex = levelIndex;
             this.server = new GameServer();
-            this.server.StartSimple();
+            try
+            {
+                this.server.StartSimple();
+            }
+            catch (System.Net.Sockets.SocketException e)
+            {
+                this.nextState = new MenuErrorMessage("Could not start server. Socket unavailable.");
+            }
 
             this.lobbyState = new LobbyMessage();
 

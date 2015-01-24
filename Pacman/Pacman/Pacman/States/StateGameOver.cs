@@ -12,7 +12,7 @@ namespace Pacman
 
         IGameState nextState;
         private bool playGameOverSound;
-        private bool Victory;
+        private bool victory;
         private int total_lives = 0;
         private int total_Score = 0; 
 
@@ -24,7 +24,7 @@ namespace Pacman
             this.players.Add(pacman);
 
             if (pacman.Lives > 0)
-                this.Victory = true;
+                this.victory = true;
             else
                 this.playGameOverSound = true;
 
@@ -41,7 +41,7 @@ namespace Pacman
                 this.total_lives += player.Lives;
 
             if (this.total_lives > 0)
-                this.Victory = true;
+                this.victory = true;
             else
                 this.playGameOverSound = true; 
         }
@@ -78,7 +78,7 @@ namespace Pacman
 
             // Adjust to nice looking stuff
 
-            if (Victory)
+            if (victory)
                 drawHelper.DrawStringBig("Victory!", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center, Color.White);
             else
                 drawHelper.DrawStringBig("Game over!", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center, Color.White);
