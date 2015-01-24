@@ -11,7 +11,7 @@ namespace Network
     {
         private bool Debug = false;
 
-        const float UpdateTimer =  1/ 32f;
+        const float SendInterval =  1/ 32f;
         const int ServerPort = 1000;
 
         private Thread serverThread;
@@ -23,7 +23,7 @@ namespace Network
         private NetIncomingMessage inc;
 
         private NetMessage sendData;
-        private List<NetMessage> receivedData;
+        private List<NetMessage> receivedData; // fifo queue
         private List<int> connectedIds;
 
         public bool Visible
@@ -36,7 +36,7 @@ namespace Network
         {
             this.serverRunning = false;
             this.serverStarted = false;
-            this.timer = UpdateTimer;            
+            this.timer = SendInterval;            
 
             NetPeerConfiguration config = new NetPeerConfiguration("game");
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
@@ -61,6 +61,11 @@ namespace Network
         {
             this.sendData = netMessage;
         }
+
+        /// <summary>
+        /// Returns first, unread, received netmessage.
+        /// </summary>
+        /// <returns></returns>
         public NetMessage GetData()
         {
             if (this.receivedData.Count == 0)
@@ -70,11 +75,19 @@ namespace Network
             this.receivedData.Remove(msg);
             return msg;
         }
+
+        /// <summary>
+        /// Removes all received messages. Useful for clearing and
+        /// outdated queue as a result of gamestate transitions.
+        /// </summary>
         public void ClearData()
         {
             this.receivedData.Clear();
         }
 
+        /// <summary>
+        /// Returns a list of connected IP addresses.
+        /// </summary>
         public List<string> GetConnectedIPs()
         {
             List<string> result = new List<string>();
@@ -85,12 +98,18 @@ namespace Network
             return result;
         }
 
+        /// <summary>
+        /// Returns a list of connected client IDs.
+        /// </summary>
         public List<int> GetConnectedIDs()
         {
             return this.connectedIds;
         }
 
         #region Threading
+        /// <summary>
+        /// Starts server in separate thread
+        /// </summary>
         public void Start()
         {
             if (this.serverStarted)
@@ -105,6 +124,9 @@ namespace Network
             this.serverThread.Start();
         }
 
+        /// <summary>
+        /// Stops server if running in separate thread
+        /// </summary>
         public void Stop()
         {
             if (!this.serverStarted)
@@ -114,6 +136,9 @@ namespace Network
             this.serverRunning = false;
         }
 
+        /// <summary>
+        /// Run thread
+        /// </summary>
         private void Run()
         {
             DateTime time = DateTime.Now;
@@ -129,6 +154,9 @@ namespace Network
         
         #endregion
 
+        /// <summary>
+        /// Handle incoming messages of DiscoveryRequest type.
+        /// </summary>
         private void ReceiveDiscoveryRequest()
         {
             if (!this.Visible)
@@ -141,6 +169,9 @@ namespace Network
             server.SendDiscoveryResponse(respone, inc.SenderEndpoint);
         }
 
+        /// <summary>
+        /// Handle incoming messages of ConnectionApproval type.
+        /// </summary>
         private void ReceiveLogin()
         {
             if (!this.Visible)
@@ -169,6 +200,9 @@ namespace Network
                 Console.WriteLine("Login reply send back to " + inc.SenderEndpoint.Address.ToString());
         }
 
+        /// <summary>
+        /// Send message to all client when send interval elapses.
+        /// </summary>
         private void SendMessage()
         {
             if (this.sendData == null)
@@ -184,32 +218,44 @@ namespace Network
             // send
             this.server.SendToAll(msg, NetDeliveryMethod.ReliableSequenced);
 
-            // message has been send, dont send again
+            // message has been send, don't send again
             this.sendData = null;
 
             if (Debug)
                 Console.WriteLine("Message sent to connected clients");
         }
 
+        /// <summary>
+        /// Handles receiving messages.
+        /// </summary>
+        /// <param name="message">Received message</param>
         private void ReceiveMessage(NetMessage message)
         {
             message.ConnectionId = inc.SenderConnection.GetHashCode();
             this.receivedData.Add(message);
         }
 
+        /// <summary>
+        /// Updates the send interval timer, 
+        /// receives data and
+        /// send data when send timer elapses
+        /// </summary>
+        /// <param name="dt">Elapsed time in seconds</param>
         public void Update(float dt)
-        {
+        {   
+            // update timer, send msg
             this.timer -= dt;
             if (this.timer < 0)
             {
                 this.SendMessage();
-                this.timer = UpdateTimer;
+                this.timer = SendInterval;
             }
 
+            // receive message
             this.inc = server.ReadMessage();
 
             if (inc == null)
-                return;
+                return; // empty
 
             switch (inc.MessageType)
             {
@@ -222,22 +268,24 @@ namespace Network
                     break;
 
                 case NetIncomingMessageType.StatusChanged:
+                    // only interested in disconnect types
                     if (inc.SenderConnection.Status != NetConnectionStatus.Disconnected &&
                         inc.SenderConnection.Status != NetConnectionStatus.Disconnecting)
                         break;
 
+                    // prepare message to lest host know who disconnected
                     NetMessage dcMessage = new NetMessage();
                     dcMessage.ConnectionId = inc.SenderConnection.GetHashCode();
                     dcMessage.Type = PacketType.Logout;
-
-                    this.connectedIds.Remove(dcMessage.ConnectionId);
-
                     this.receivedData.Add(dcMessage);
+
+                    // remove from ids
+                    this.connectedIds.Remove(dcMessage.ConnectionId);                    
                     break;
 
                 case NetIncomingMessageType.Data:
                     NetMessage message = new NetMessage();
-                    message.ReadMessage(inc);
+                    message.ReadMessage(inc); // parse
                     this.ReceiveMessage(message);
                     break;
             }

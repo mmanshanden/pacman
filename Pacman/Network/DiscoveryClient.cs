@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace Network
 {
+    /// <summary>
+    /// A small network client only capable of
+    /// sending discovery requests and receiving
+    /// discovery replies.
+    /// </summary>
     public class DiscoveryClient
     {
         const int ServerPort = 1000;
@@ -30,10 +35,11 @@ namespace Network
         public void Discover()
         {
             this.Replies.Clear();
-
+            
+            // LAN
             this.client.DiscoverLocalPeers(ServerPort);
 
-            // vpn
+            // vpn (for testing)
             this.client.DiscoverKnownPeer("10.0.0.1", ServerPort);
             this.client.DiscoverKnownPeer("10.0.0.2", ServerPort);
             this.client.DiscoverKnownPeer("10.0.0.3", ServerPort);
@@ -46,6 +52,9 @@ namespace Network
             this.client.DiscoverKnownPeer("10.0.0.10", ServerPort);
         }
 
+        /// <summary>
+        /// Read discovery replies.
+        /// </summary>
         public void Update()
         {
             NetIncomingMessage inc = this.client.ReadMessage();

@@ -5,16 +5,24 @@ using System.Text;
 
 namespace Network
 {
+    /// <summary>
+    /// Controls and maintains a NetClient form Lidgren framework.
+    /// 
+    /// Handles receiving and sending netmessages and logging in to 
+    /// a gameserver.
+    /// </summary>
     public class GameClient
     {
+        // write debug messages to console
         private bool Debug = false;
 
-        const float UpdateTimer = 1 / 32f;
+        // interval in which to send messages to server.
+        const float SendInterval = 1 / 32f;
 
         private int clientConnectionId;
         private int loginReplyRetries;
         private bool loginReplyReceived;
-        private float timer;
+        private float timer; // used for send interval
 
         private NetClient client;
         private NetIncomingMessage inc;
@@ -37,7 +45,7 @@ namespace Network
         {
             this.loginReplyReceived = false;
             this.loginReplyRetries = 0;
-            this.timer = UpdateTimer;
+            this.timer = SendInterval;
 
             NetPeerConfiguration config = new NetPeerConfiguration("game");
             config.ConnectionTimeout = 15;
@@ -48,6 +56,11 @@ namespace Network
             this.Connected = true;
         }
 
+        /// <summary>
+        /// Tries to establish a connection with server at 
+        /// provided endpoint.
+        /// </summary>
+        /// <param name="endpoint">A string containing the ip address</param>
         public void ConnectToServer(string endpoint)
         {
             NetOutgoingMessage msg = this.client.CreateMessage();
@@ -56,11 +69,18 @@ namespace Network
             this.client.Connect(endpoint, 1000, msg);
         }
 
+        /// <summary>
+        /// This lets server know that client was disconnected.
+        /// </summary>
         public void Disconnect()
         {
             this.client.Disconnect("leaving");
         }
 
+        /// <summary>
+        /// Returns the last received netmessage.
+        /// </summary>
+        /// <returns>Last received netmessage</returns>
         public NetMessage GetData()
         {
             NetMessage message = this.receivedData;
@@ -68,12 +88,21 @@ namespace Network
             return message;
         }
 
+        /// <summary>
+        /// Updates the message that needs to be send when
+        /// send interval elapses.
+        /// </summary>
+        /// <param name="message">Message to send</param>
         public void SetData(NetMessage message)
         {
             this.sendData = message;
         }
 
-        #region NetRoutine
+        #region Login, receive and send
+        /// <summary>
+        /// Receive connection id from server,
+        /// </summary>
+        /// <param name="message">Message containing login reply</param>
         private void RecieveLogin(NetMessage message)
         {
             if (Debug)
@@ -81,12 +110,19 @@ namespace Network
 
             this.clientConnectionId = message.ConnectionId;
         }
-
+        
+        /// <summary>
+        /// Handles received messages.
+        /// </summary>
+        /// <param name="message">Received message</param>
         private void ReceiveMessage(NetMessage message)
         {
             this.receivedData = message;
         }
 
+        /// <summary>
+        /// Handles sending messages when send interval elapses.
+        /// </summary>
         private void SendMessage()
         {
             if (this.sendData == null)
@@ -95,18 +131,25 @@ namespace Network
             NetOutgoingMessage msg = this.client.CreateMessage();
             this.sendData.WriteMessage(msg);
 
+            // UnrealiableSequenced because losing messages is not a deal
+            // and it reduces the overhead by some amount.
             this.client.SendMessage(msg, NetDeliveryMethod.UnreliableSequenced);
             
             if (Debug)
             {
                 Console.WriteLine("Message sent to server: ");
                 Console.WriteLine(sendData.ToString());
-                Console.WriteLine("");
             }
 
+            // data sent, don't send again.
             this.sendData = null;
         }
 
+        /// <summary>
+        /// Returns message content object. The id field is set to
+        /// clients connection id.
+        /// </summary>
+        /// <returns>Message content object</returns>
         public NetMessageContent ConstructContentMessage()
         {
             NetMessageContent cmsg = new NetMessageContent();
@@ -115,13 +158,19 @@ namespace Network
             return cmsg;
         }
 
+        /// <summary>
+        /// Updates the send interval timer, 
+        /// receives data and
+        /// send data when send timer elapses
+        /// </summary>
+        /// <param name="dt">Elapsed time in seconds</param>
         public void Update(float dt)
         {
             this.timer -= dt;
             if (this.timer < 0)
             {
                 this.SendMessage();
-                this.timer = UpdateTimer;
+                this.timer = SendInterval;
             }
 
             // login timeout

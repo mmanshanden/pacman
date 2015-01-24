@@ -11,6 +11,13 @@ namespace Network
         WorldState
     }
 
+    /// <summary>
+    /// A message contains content following a predefined
+    /// structure. Content can written to a
+    /// netmessage which then gets send over the network.
+    /// On the receiving end, that same content can be 
+    /// read again.
+    /// </summary>
     public class NetMessage
     {
         private int index = 0;
@@ -25,6 +32,12 @@ namespace Network
             this.content = new List<NetMessageContent>();
         }
 
+        /// <summary>
+        /// Returns the appropiate content type based on datatype
+        /// for message of packet type "WorldState".
+        /// </summary>
+        /// <param name="type">Datatype inside worldstate packet</param>
+        /// <returns>Content type</returns>
         private NetMessageContent ParseWorldState(DataType type)
         {
             switch (type)
@@ -40,11 +53,16 @@ namespace Network
             return new NetMessageContent();
         }
 
+        /// <summary>
+        /// Reads and parses network data.
+        /// </summary>
+        /// <param name="msg">Network data</param>
         public virtual void ReadMessage(NetIncomingMessage msg)
         {            
             this.Type = (PacketType)msg.ReadByte();
             this.ConnectionId = msg.ReadInt32();
 
+            // read until end reached
             while(msg.Position != msg.LengthBits)
             {
                 DataType type = (DataType)msg.ReadByte();
@@ -69,9 +87,14 @@ namespace Network
                 this.content.Add(c);
             }
         }
+
+        /// <summary>
+        /// Convert content to network data.
+        /// </summary>
+        /// <param name="msg">Network data container</param>
         public virtual void WriteMessage(NetOutgoingMessage msg)
         {
-            msg.Write((byte)this.Type);
+            msg.Write((byte)this.Type); // cast enums to byte
             msg.Write(this.ConnectionId);
 
             foreach (NetMessageContent cmsg in this.content) 
@@ -80,6 +103,10 @@ namespace Network
             }
         }
 
+        /// <summary>
+        /// Get first, unread, entry in content list.
+        /// </summary>
+        /// <returns>Message content</returns>
         public NetMessageContent GetData()
         {
             if (index >= this.content.Count)
@@ -90,11 +117,20 @@ namespace Network
 
             return cmsg;
         }
+
+        /// <summary>
+        /// Adds content to content list
+        /// </summary>
+        /// <param name="cmsg">Message content</param>
         public void SetData(NetMessageContent cmsg)
         {
             this.content.Add(cmsg);
         }
 
+        /// <summary>
+        /// Writes message data to string
+        /// </summary>
+        /// <returns>Message data</returns>
         public override string ToString()
         {
             string result = "";
