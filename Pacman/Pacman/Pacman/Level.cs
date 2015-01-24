@@ -8,6 +8,9 @@ namespace Pacman
     class Level : GameWorld
     {
         private List<GhostHouse> ghosthouses;
+        private List<Bubble> bubbles;
+        private List<Powerup> powerups;
+
         private float countdown;
 
         public Player Player { get; private set; }
@@ -19,6 +22,8 @@ namespace Pacman
         public Level()
         {
             this.ghosthouses = new List<GhostHouse>();
+            this.bubbles = new List<Bubble>();
+            this.powerups = new List<Powerup>();
             this.countdown = 3.1f;
         }
 
@@ -26,15 +31,13 @@ namespace Pacman
         {
             this.countdown = 3;
         }
+
         public List<Vector2> GetBubbles()
         {
             List<Vector2> result = new List<Vector2>();
 
-            foreach (GameObject gameObject in this.gameObjects)
-            {
-                if (gameObject is Bubble)
-                    result.Add(gameObject.Position);
-            }
+            foreach (Bubble b in this.bubbles)
+                result.Add(b.Position);
 
             return result;
         }
@@ -42,11 +45,8 @@ namespace Pacman
         {
             List<Vector2> result = new List<Vector2>();
 
-            foreach (GameObject gameObject in this.gameObjects)
-            {
-                if (gameObject is Powerup)
-                    result.Add(gameObject.Position);
-            }
+            foreach (Powerup p in this.powerups)
+                result.Add(p.Position);
 
             return result;
         }
@@ -61,6 +61,18 @@ namespace Pacman
         {
             this.ghosthouses.Add(ghostHouse);
             base.Add(ghostHouse);
+        }
+
+        public void Add(Bubble bubble)
+        {
+            this.bubbles.Add(bubble);
+            base.Add(bubble);
+        }
+
+        public void Add(Powerup powerup)
+        {
+            this.powerups.Add(powerup);
+            base.Add(powerup);
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -121,24 +133,19 @@ namespace Pacman
             {
                 for (int y = 0; y < grid.GetLength(1); y++)
                 {
-                    GameObject gameObject = null;
-
                     switch (grid[x, y])
                     {
-                        case '@':
-                            gameObject = new Powerup();
-                            break;
                         case '.':
-                            gameObject = new Bubble();
+                            Bubble bubble = new Bubble();
+                            bubble.Position = new Vector2(x, y);
+                            this.Add(bubble);
+                            break;
+                        case '@':
+                            Powerup powerup = new Powerup();
+                            powerup.Position = new Vector2(x, y);
+                            this.Add(powerup);
                             break;
                     }
-
-                    if (gameObject == null)
-                        continue;
-
-                    gameObject.Position = new Vector2(x, y);
-                    this.Add(gameObject);
-
                 }
             }
         }
