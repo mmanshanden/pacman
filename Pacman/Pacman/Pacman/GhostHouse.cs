@@ -9,13 +9,6 @@ namespace Pacman
 {
     class GhostHouse : GameObject
     {
-        public enum AiModes
-        {
-            First,
-            Random,
-            Nearby,
-        }
-
         public float FrightenedDuration
         {
             get;
@@ -32,8 +25,6 @@ namespace Pacman
                 return this.Parent as Level;
             }
         }
-
-        public AiModes AiMode { get; set; }
 
         public Vector2 Entry { get; set; }
         
@@ -88,23 +79,18 @@ namespace Pacman
 
         public Pacman GetPacman()
         {
-            switch (this.AiMode)
-            {
-                case AiModes.Random:
-                    return this.pacman;
-
-                default:
-                    this.AiMode = AiModes.Random;
-                    return GetPacman();
-            }
+            return this.pacman;
         }
 
+        // Set all ghosts to begin state
         public void ResetGhosts()
         {
             foreach (Ghost ghost in this.ghosts)
                 ghost.Respawn(); 
         }
 
+        // All ghosts that are outside the ghosthouse
+        // Will be frightened unless they are dead
         public void FrightenGhosts()
         {
             foreach (Ghost ghost in this.ghosts)
@@ -113,7 +99,7 @@ namespace Pacman
 
         public override void Update(float dt)
         {
-            // perhaps do something with ghosts here...
+            
         }
     }
 }

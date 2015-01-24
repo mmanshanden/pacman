@@ -58,9 +58,11 @@ namespace Pacman
 
         public IGameState TransitionTo()
         {
+            // Go to next level if it has been set
             if (nextLevel != null)
                 return nextLevel; 
 
+            // If lives are 0 we go to game over state
             if (this.level.Player.Lives < 1)
                 return new StateGameOver(this.level.Player);
 
@@ -80,10 +82,11 @@ namespace Pacman
 
             if (this.level.GetBubbles().Count == 0)
             {
-                if (this.index != 2)
+                if (this.index != 2) // Go to next level
                     this.nextLevel = new StatePlaying(index + 1, this.level.Player.Score);
                 else
                     this.nextLevel = new StateGameOver(this.level.Player);
+                    // Go to GameOver state and handle Victory there.
             }
                 
         }

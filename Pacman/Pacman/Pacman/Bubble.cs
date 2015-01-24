@@ -11,6 +11,7 @@ namespace Pacman
 
         }
 
+        // If bubble collides with Pacman remove it from the game
         public override void Collision_GameObject(GameObject gameObject)
         {
             base.Collision_GameObject(gameObject);
@@ -23,7 +24,7 @@ namespace Pacman
             gameObjectList.Remove(this);
         }
 
-
+        // Load the 3D model for the bubble
         public static void Load(ModelLibrary modelLibrary)
         {
             ModelBuilder mb = modelLibrary.BeginModel();
@@ -36,6 +37,7 @@ namespace Pacman
             modelLibrary.EndModel("bubble");
         }
         
+        // Draw the 3D model for the bubble
         public override void Draw(DrawManager drawManager)
         {
             drawManager.Translate(this.Position);

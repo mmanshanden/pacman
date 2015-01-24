@@ -15,7 +15,7 @@ namespace Pacman
 
         public StatePaused(IGameState gameState, bool includeUpdate = false)
         {
-            base.controlSprite = "gamemode"; // Add Pause Controls here
+            base.controlSprite = "gamemode"; 
             this.savedState = gameState;
             this.includeUpdate = includeUpdate;
         }
@@ -38,21 +38,22 @@ namespace Pacman
 
             if (inputHelper.KeyPressed(Keys.Enter))
             {
+                // Return to game
                 if (this.selectedMenu == 0)
                 {
                     this.nextState = savedState;
                 }
-
+                // Return to main menu
                 if (this.selectedMenu == 1)
                 {
                     this.nextState = new MenuGameMode(); 
                 }
             }
-            
+            // Return to game
             if (inputHelper.KeyPressed(Keys.Escape))
-            {
                 nextState = savedState;
-            }
+
+            // Return to main menu
             if (inputHelper.KeyPressed(Keys.Back))
                 nextState = new MenuGameMode(); 
         }

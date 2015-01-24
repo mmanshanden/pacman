@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Input;
 
 namespace Pacman
 {
@@ -28,7 +29,8 @@ namespace Pacman
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            if (inputHelper.KeyDown(Microsoft.Xna.Framework.Input.Keys.Back))
+            // Return to MainMenu
+            if (inputHelper.KeyDown(Keys.Back))
                 this.mainmenu = new MenuGameMode();
         } 
 

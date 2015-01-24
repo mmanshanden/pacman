@@ -17,6 +17,7 @@ namespace Pacman
         {
             base.controlSprite = "back";
 
+            // Connect to given serveraddress
             this.client = new GameClient();
             this.client.ConnectToServer(endpoint);
         }
@@ -29,6 +30,7 @@ namespace Pacman
 
         public override void HandleInput(InputHelper inputHelper)
         {
+            // Go back to serverlist
             if (inputHelper.KeyDown(Keys.Back))
             {
                 this.client.Disconnect();

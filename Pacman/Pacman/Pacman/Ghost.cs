@@ -103,13 +103,18 @@ namespace Pacman
         }
         public virtual void Collision_Target(GameBoard board, GameTile tile)
         {
+            // If a ghost is leaving and is on the ghosthouse entry set its state to Chase.
             if (this.Center == GhostHouse.Entry && this.State == States.Leave)
             {
                 this.State = States.Chase;
             }
+
+            // If ghost is dead and is on the Ghosthouse entry set its State to wait.
             if (this.Center == GhostHouse.Entry && this.State == States.Dead)
             {
                 this.State = States.Wait;
+
+                //Let ghost wait 3 seconds before leaving ghosthouse again
                 this.waitTimer = 3; 
             }
 
@@ -177,7 +182,9 @@ namespace Pacman
             base.Move(board, tile, dt - t);
         }
         #endregion
-
+        
+        // If the ghost is outside the ghosthouse while pacman eats a powerup
+        // set it's state to frightened
         public void Frighten()
         {
             if (this.State == States.Scatter || this.State == States.Chase || this.State == States.Frightened)
@@ -187,6 +194,7 @@ namespace Pacman
             }
         }
     
+        // Sets ghost's target location depending on its state
         public virtual Vector2 GetTarget(States state)
         {
             switch (state)
@@ -214,6 +222,7 @@ namespace Pacman
 
         }
 
+        // Returns ghostmessage containing information about the ghost
         public override NetMessageContent UpdateMessage(NetMessageContent cmsg)
         {
             GhostMessage gmsg = new GhostMessage();
@@ -228,6 +237,9 @@ namespace Pacman
 
             return gmsg;
         }
+
+        // Update Ghost according to Data received
+        // from the server
         public override void UpdateObject(NetMessageContent cmsg)
         {
             GhostMessage gmsg = (GhostMessage)cmsg;
@@ -240,6 +252,7 @@ namespace Pacman
             this.frightenedTime = gmsg.FrightenTime;
         }
 
+        // Reset Ghost to begin state
         public void Respawn()
         {
             this.Position = this.Spawn;
@@ -258,6 +271,7 @@ namespace Pacman
                 return;
             }
 
+            // Set speed of ghost depending on its state
             switch (this.State)
             {
                 case States.Chase:
@@ -361,6 +375,7 @@ namespace Pacman
             modelLibrary.EndModel("scared_blink");
         }
 
+        // Draw 3D model of ghosts depending on their State
         public override void Draw(DrawManager drawManager)
         {
             float radians = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);

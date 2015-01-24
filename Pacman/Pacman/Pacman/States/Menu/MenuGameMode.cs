@@ -36,11 +36,13 @@ namespace Pacman
 
             if (inputHelper.KeyPressed(Keys.Enter))
             {
+                // Start a Singleplayer game
                 if (this.selectedMenu == 0)
                 {
                     this.nextState = new StatePlaying(1);
                 }
 
+                // Go to Multiplayer Server Selection
                 if (this.selectedMenu == 1)
                 {
                     this.nextState = new MenuServerBrowser(); 

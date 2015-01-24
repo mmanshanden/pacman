@@ -6,6 +6,7 @@ namespace Pacman
 {
     class Inky : Ghost
     {
+        // Returns target of Inky depending on its state
         public override Vector2 GetTarget(Ghost.States state)
         {
             Pacman pacman = this.GhostHouse.GetPacman();
@@ -24,6 +25,7 @@ namespace Pacman
             return base.GetTarget(state);
         }
 
+        // Load Inky's 3D Model
         public new static void Load(ModelLibrary modelLibrary)
         {
             ModelBuilder mb = modelLibrary.BeginModel();
@@ -38,8 +40,10 @@ namespace Pacman
             modelLibrary.EndModel("inky");
         }
 
+        // Draw Inky's 3D model
         public override void Draw(DrawManager drawManager)
         {
+            // If Dead or Frightened we draw a Blue/White ghost model
             if (this.State == States.Dead ||
                 this.State == States.Frightened)
             {

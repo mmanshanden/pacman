@@ -19,18 +19,22 @@ namespace Pacman
         {
             base.controlSprite = "serverbrowser";
 
+            // Initialize a client and let it check for any servers.
             this.client = new DiscoveryClient();
             this.client.Discover();
         }
 
         public override void HandleInput(InputHelper inputHelper)
         {
+            // Host a game.
             if (inputHelper.KeyPressed(Keys.X))
                 this.nextState = new StateHostLobby(1);
 
+            // Refresh serverlist.
             if (inputHelper.KeyPressed(Keys.R))
                 this.client.Discover();
 
+            // Return to Main Menu.
             if (inputHelper.KeyPressed(Keys.Back))
                 this.nextState = new MenuGameMode();
 
@@ -45,6 +49,7 @@ namespace Pacman
                 if (this.servers.Count == 0)
                     return;
 
+                // Connect to selected server's Endpoint
                 string endpoint = this.servers[this.serverIndex].Endpoint;
                 this.nextState = new StateJoinLobby(endpoint);
             }
@@ -80,6 +85,7 @@ namespace Pacman
 
         }
 
+        // Display servers in a list
         public override void Draw(DrawHelper drawHelper)
         {
             for (int i = 0; i < MathHelper.Min(this.servers.Count, 6); i++)
@@ -97,7 +103,7 @@ namespace Pacman
                 Vector2 position = new Vector2(0.5f, 0f); 
                 position.Y += 0.1f * i;
 
-
+                // If server selected draw a white background and set text color to black.
                 if (i == this.serverIndex)
                 {
                     drawHelper.DrawOverlay(Color.White, new Vector2(0, position.Y), new Vector2(1f, 0.1f)); 

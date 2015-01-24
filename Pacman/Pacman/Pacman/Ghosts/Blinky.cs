@@ -6,6 +6,7 @@ namespace Pacman
 {
     class Blinky : Ghost
     {
+        // Returns target of Blinky depending on its state
         public override Vector2 GetTarget(Ghost.States state)
         {
             if (state == States.Chase)
@@ -17,7 +18,7 @@ namespace Pacman
         
         public new static void Load(ModelLibrary modelLibrary)
         {
-            // load blinky
+            // load blinky's 3D Model
             ModelBuilder mb = modelLibrary.BeginModel();
 
             mb.PrimitiveBatch.Translate(new Vector3(0, 1, 0));
@@ -31,8 +32,10 @@ namespace Pacman
             modelLibrary.EndModel("blinky");
         }
 
+        // Draw Blinky's 3D Model
         public override void Draw(DrawManager drawManager)
         {
+            // If Dead or Frightened we draw a Blue/White ghost model
             if (this.State == States.Dead || 
                 this.State == States.Frightened)
             {
