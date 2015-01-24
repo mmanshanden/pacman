@@ -1,5 +1,6 @@
 ﻿using Base;
 using Microsoft.Xna.Framework;
+using Network;
 using System.Collections.Generic;
 using System.IO;
 
@@ -8,9 +9,6 @@ namespace Pacman
     class Level : GameWorld
     {
         private List<GhostHouse> ghosthouses;
-        private List<Bubble> bubbles;
-        private List<Powerup> powerups;
-
         private float countdown;
 
         public Player Player { get; private set; }
@@ -22,8 +20,6 @@ namespace Pacman
         public Level()
         {
             this.ghosthouses = new List<GhostHouse>();
-            this.bubbles = new List<Bubble>();
-            this.powerups = new List<Powerup>();
             this.countdown = 3.1f;
         }
 
@@ -36,20 +32,28 @@ namespace Pacman
         {
             List<Vector2> result = new List<Vector2>();
 
-            foreach (Bubble b in this.bubbles)
-                result.Add(b.Position);
+            foreach (GameObject gameObject in this.gameObjects)
+            {
+                if (gameObject is Bubble)
+                    result.Add(gameObject.Position);
+            }
 
             return result;
         }
+
         public List<Vector2> GetPowerUps()
         {
             List<Vector2> result = new List<Vector2>();
 
-            foreach (Powerup p in this.powerups)
-                result.Add(p.Position);
+            foreach (GameObject gameObject in this.gameObjects)
+            {
+                if (gameObject is Powerup)
+                    result.Add(gameObject.Position);
+            }
 
             return result;
         }
+
 
         public void Add(Player player)
         {
@@ -61,18 +65,6 @@ namespace Pacman
         {
             this.ghosthouses.Add(ghostHouse);
             base.Add(ghostHouse);
-        }
-
-        public void Add(Bubble bubble)
-        {
-            this.bubbles.Add(bubble);
-            base.Add(bubble);
-        }
-
-        public void Add(Powerup powerup)
-        {
-            this.powerups.Add(powerup);
-            base.Add(powerup);
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -178,6 +170,48 @@ namespace Pacman
 
             if (this.countdown > 0)
                 drawHelper.DrawStringBig(countdown.ToString(), Vector2.One * 0.5f, DrawHelper.Origin.Center, Color.White);
+        }
+
+
+        public override NetMessageContent UpdateMessage(NetMessageContent cmsg)
+        {
+            MapMessage mapMessage = (MapMessage)cmsg;
+
+            mapMessage.Bubbles = this.GetBubbles();
+            mapMessage.PowerUps = this.GetPowerUps();
+
+            return mapMessage as NetMessageContent;
+        }
+
+        public override void UpdateObject(NetMessageContent cmsg)
+        {
+            // basically, we overwrite the bubbles and powerups
+            // stores in the level with the data we get from
+            // the server
+
+            MapMessage mmsg = (MapMessage)cmsg;
+
+            // clear list from all bubbles and powerups
+            foreach (GameObject gameObject in base.gameObjects) 
+            {
+                if (gameObject is Bubble || gameObject is Powerup)
+                    base.gameObjects.Remove(gameObject);
+            }
+
+            // refill lists
+            foreach (Vector2 b in mmsg.Bubbles)
+            {
+                Bubble bubble = new Bubble();
+                bubble.Position = b;
+                base.Add(bubble);
+            }
+
+            foreach (Vector2 p in mmsg.PowerUps)
+            {
+                Powerup powerup = new Powerup();
+                powerup.Position = p;
+                this.Add(powerup);
+            }
         }
     }
 }

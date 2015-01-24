@@ -18,6 +18,15 @@ namespace Network
             this.PowerUps = new List<Vector2>();
         }
 
+        public MapMessage(int levelIndex)
+        {
+            this.Type = DataType.Map;
+
+            this.LevelIndex = levelIndex;
+            this.Bubbles = new List<Vector2>();
+            this.PowerUps = new List<Vector2>();
+        }
+
         public override void ReadMessage(NetIncomingMessage msg)
         {
             base.ReadMessage(msg);

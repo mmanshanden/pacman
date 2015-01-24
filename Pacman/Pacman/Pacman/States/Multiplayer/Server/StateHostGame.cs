@@ -216,18 +216,9 @@ namespace Pacman
             this.players.WriteAllToMessage(message, baseMessage);
             this.ghosts.WriteAllToMessage(message, baseMessage);
 
-            MapMessage mmsg = new MapMessage();
-            mmsg.LevelIndex = this.levelIndex;
-
-
-            List<Vector2> bubbles = this.level.GetBubbles();
-
-            if (bubbles.Count == 0)
-                this.nextLevel = true;
-
-            mmsg.Bubbles = bubbles;
-
-            mmsg.PowerUps = this.level.GetPowerUps();
+            // add map data to message
+            NetMessageContent mmsg = new MapMessage(this.levelIndex);
+            mmsg = this.level.UpdateMessage(mmsg);
             message.SetData(mmsg);
         }
 
