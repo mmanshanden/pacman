@@ -163,6 +163,11 @@ namespace Pacman
                 return;
             }
 
+            if (this.level.GetBubbles().Count == 0)
+            {
+                this.nextLevel = true;
+                return;
+            }
 
             NetMessage received;
 
