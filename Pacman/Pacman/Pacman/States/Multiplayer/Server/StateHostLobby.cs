@@ -66,8 +66,8 @@ namespace Pacman
 
         public override void Update(float dt)
         {
-            if (this.levelIndex == 1)
-                this.server.Visible = true;
+            if (this.server.GetConnectedIPs().Count == 0 && this.levelIndex == 1)
+                this.server.Visible = true; 
 
             this.server.Update(dt);
 

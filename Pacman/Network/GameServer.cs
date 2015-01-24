@@ -42,7 +42,7 @@ namespace Network
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
             config.ConnectionTimeout = 15;
-            config.MaximumConnections = 8;
+            config.MaximumConnections = 1;
             config.Port = ServerPort;
 
             this.server = new NetServer(config);

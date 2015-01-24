@@ -103,6 +103,9 @@ namespace Pacman
 
         public IGameState TransitionTo()
         {
+            if (this.server.GetConnectedIPs().Count == 0)
+                return new MenuErrorMessage("All clients have left the game.");
+
             if (this.gameOver)
                 return new StateHostLobby(this.levelIndex, this.server);
 
@@ -117,7 +120,6 @@ namespace Pacman
             this.server.Update(dt);
 
             this.level.Update(dt);
-
 
             int totalLives = 0;
             Pacman alivePacman = null;
