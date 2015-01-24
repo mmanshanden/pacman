@@ -243,7 +243,6 @@ namespace Network
             }
 
             this.server.Recycle(this.inc);
-            this.Visible = false;
         }
     }
 }

@@ -23,7 +23,8 @@ namespace Pacman
 
         public StateHostGame(GameServer server, int index = 1)
         {
-            this.server = server; 
+            this.server = server;
+            this.server.Visible = false;
 
             Console.WriteLine("Hosting server");
           
@@ -117,8 +118,6 @@ namespace Pacman
 
         public void Update(float dt)
         {
-            this.server.Update(dt);
-
             this.level.Update(dt);
 
             int totalLives = 0;

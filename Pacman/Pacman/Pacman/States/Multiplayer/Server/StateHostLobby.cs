@@ -28,7 +28,7 @@ namespace Pacman
             this.server = new GameServer();
             try
             {
-                this.server.StartSimple();
+                this.server.Start();
             }
             catch (System.Net.Sockets.SocketException e)
             {
@@ -74,10 +74,11 @@ namespace Pacman
         public override void Update(float dt)
         {
             if (this.server.GetConnectedIPs().Count == 0 && this.levelIndex == 1)
-                this.server.Visible = true; 
+                this.server.Visible = true;
 
-            this.server.Update(dt);
-
+            else
+                this.server.Visible = false;
+            
             NetMessage send = new NetMessage();
             send.Type = PacketType.Lobby;
 
