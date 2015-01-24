@@ -11,6 +11,7 @@ namespace Pacman
 
         }
 
+        //If PowerUp is in collision with Pacman we need to remove it from the map
         public override void Collision_GameObject(GameObject gameObject)
         {
             base.Collision_GameObject(gameObject);
@@ -23,6 +24,7 @@ namespace Pacman
 
         }
 
+        // Load the 3D Model of the powerup
         public static void Load(ModelLibrary modelLibrary)
         {
             ModelBuilder modelBuilder = modelLibrary.BeginModel();
@@ -36,6 +38,7 @@ namespace Pacman
 
         }
 
+        // Draw the 3D Model of the Powerup
         public override void Draw(DrawManager drawManager)
         {
             drawManager.Translate(this.Position);

@@ -45,11 +45,13 @@ namespace Pacman
             }
         }
 
+        // If player can't go further that way we set his direction to Zero.
         public override void Collision_InvalidDirection(GameBoard gameBoard, GameTile tile)
         {
             this.direction = Vector2.Zero;
         }
 
+        
         public override void Collision_Junction(GameBoard gameBoard, GameTile tile)
         {
             // position of next tile 
@@ -59,11 +61,13 @@ namespace Pacman
                 this.direction = queued;
         }
 
+        // Check whether we collide with certain object
         public override void Collision_GameObject(GameObject gameObject)
         {
             if (gameObject is Bubble)
             {
                 Game.SoundManager.PlaySoundEffect("bubble");
+                // Set speed to 0 to make ghosts able to catch up
                 this.Speed = 0;
                 Console.WriteLine("Speed penalty");
             }                
@@ -73,12 +77,15 @@ namespace Pacman
 
         public override void Die()
         {
+            // Set direction to Zero when there is collision with a ghost that isn't frightened
             this.direction = Vector2.Zero;
+
             base.Die();
         }
 
         public override void Update(float dt)
         {
+            //  Zoom out and show map from above when player is dead
             if (this.Lives > 0)
                 Game.Camera.Target = this.Center + Vector2.UnitY * 2;
             else
@@ -97,6 +104,7 @@ namespace Pacman
 
         public override void Draw(DrawHelper drawHelper)
         {
+            // Draw the score on the screen
             drawHelper.DrawString(this.Score.ToString(), new Vector2(0.98f, 0.02f), DrawHelper.Origin.TopRight, Color.White);
         }
     }

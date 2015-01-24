@@ -28,6 +28,7 @@ namespace Pacman
             this.countdown = 3;
         }
 
+        // Returns list of all Powerups in the level
         public List<Vector2> GetBubbles()
         {
             List<Vector2> result = new List<Vector2>();
@@ -41,6 +42,7 @@ namespace Pacman
             return result;
         }
 
+        // Returns list of all Powerups in the Level
         public List<Vector2> GetPowerUps()
         {
             List<Vector2> result = new List<Vector2>();
@@ -84,6 +86,7 @@ namespace Pacman
                     // standard ground tile
                     GameTile tile = new Ground();
 
+                    // Add tiles according to symbols in .txt file
                     switch (grid[x, y])
                     {
                         case '#':
@@ -119,6 +122,7 @@ namespace Pacman
             this.Add(maze);
         }
 
+        // Add game objects to the level according to symbols in .txt file
         public void LoadGameBoardObjects(char[,] grid)
         {
             for (int x = 0; x < grid.GetLength(0); x++)
@@ -144,6 +148,7 @@ namespace Pacman
 
         public override void Update(float dt)
         {
+            // Play start sound
             if (this.countdown == 3.1f)
                     Game.SoundManager.PlaySoundEffect("level_start");
 
@@ -151,10 +156,11 @@ namespace Pacman
             Game.Camera.Target += Vector2.UnitY * 3;
             Game.Camera.SetCameraHeight(2);
             
-            countdown -= dt;
-            
+            // If countdown is over update the Level
             if (this.countdown < 0)
                 base.Update(dt);
+            else
+                countdown -= dt;
         }
 
         public override void Draw(DrawHelper drawHelper)
@@ -162,12 +168,12 @@ namespace Pacman
             base.Draw(drawHelper);
 
             int countdown = (int)this.countdown + 1;
-
+            // Draw countdown on the screen
             if (this.countdown > 0)
                 drawHelper.DrawStringBig(countdown.ToString(), Vector2.One * 0.5f, DrawHelper.Origin.Center, Color.White);
         }
 
-
+        // Returns a mapMessage containing all bubbles and powerups 
         public override NetMessageContent UpdateMessage(NetMessageContent cmsg)
         {
             MapMessage mapMessage = (MapMessage)cmsg;

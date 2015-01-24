@@ -70,9 +70,11 @@ namespace Pacman
 
             else if (gameObject is Powerup)
             {
+                // Reset the ghostcombo
                 this.ghostCombo = 1; 
-                Level level = (Level)this.Parent;
 
+                Level level = (Level)this.Parent;
+                // Set all Ghosts that are outside to frightened
                 foreach (GhostHouse ghostHouse in level.GhostHouses)
                     ghostHouse.FrightenGhosts();
                 
@@ -83,21 +85,24 @@ namespace Pacman
         public virtual void Die()
         {
             this.Lives--;
+            // Reset position to Spawn
             this.Position = this.spawn;
-            Level level = (Level)this.Parent;
 
+            Level level = (Level)this.Parent;
+            //Reset all Ghosts to their Spawnposition
             foreach (GhostHouse ghostHouse in level.GhostHouses)
                 ghostHouse.ResetGhosts();
 
-            if (this.Lives > 0)
-                Game.SoundManager.PlaySoundEffect("live_lost");
+            Game.SoundManager.PlaySoundEffect("live_lost");
         }
 
         public override void Update(float dt)
         {
+            // if no lives left set position out of the map
             if (this.Lives < 1)
                 this.Position = Vector2.One * -20;
 
+            // Animation update if moving
             if (this.Velocity != Vector2.Zero)
                 this.time -= dt;
 
@@ -108,9 +113,11 @@ namespace Pacman
 
             base.Update(dt);
 
+            // Set speed to 6 every update since bubble sets speed to 0.
             this.Speed = 6;
         }
 
+        // Load the Pacman 3D model (open and closed)
         public static void Load(ModelLibrary modelLibrary)
         {
             ModelBuilder mb = modelLibrary.BeginModel();
@@ -133,6 +140,7 @@ namespace Pacman
             modelLibrary.EndModel("pacman_closed");
         }
 
+        // Draw the Pacman 3D Model 
         public override void Draw(DrawManager drawManager)
         {
             if (this.Lives < 1)
@@ -144,16 +152,16 @@ namespace Pacman
             drawManager.RotateOver(this.rotation, Vector2.One * 0.5f);
             drawManager.Translate(this.Position.X, this.Position.Y);
 
-            if (this.closed)
+            if (this.closed) 
                 drawManager.DrawModel("pacman_closed");
-            else
+            else 
                 drawManager.DrawModel("pacman_open");
 
             drawManager.Translate(-this.Position.X, -this.Position.Y);
             drawManager.RotateOver(-rotation, Vector2.One * 0.5f);
         }
 
-
+        // Set data for outgoing message
         public override NetMessageContent UpdateMessage(NetMessageContent cmsg)
         {
             PlayerMessage pmsg = new PlayerMessage();
@@ -168,6 +176,7 @@ namespace Pacman
             return pmsg;
         }
 
+        // Updates gameObjects from received message
         public override void UpdateObject(NetMessageContent cmsg)
         {
             PlayerMessage pmsg = (PlayerMessage)cmsg;
@@ -175,10 +184,10 @@ namespace Pacman
             this.Position = pmsg.Position;
             this.Direction = pmsg.Direction;
             this.Speed = pmsg.Speed;
-
+            // -1 lets server know to keep own Live value
             if (pmsg.Lives != -1)
                 this.Lives = pmsg.Lives;
-
+            // -1 lets server know to keep own Score value
             if (pmsg.Score != -1)
                 this.Score = pmsg.Score;
         }
