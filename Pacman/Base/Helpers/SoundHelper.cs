@@ -43,12 +43,15 @@ namespace Base
         {
             this.soundEffects["live_lost"] = content.Load<SoundEffect>("sounds/lifelost");
             this.soundEffects["ghost_dead"] = content.Load<SoundEffect>("sounds/ghostdead");
-            this.soundEffects["moving"] = content.Load<SoundEffect>("sounds/moving");
+            this.soundEffects["bubble"] = content.Load<SoundEffect>("sounds/bubble");
             this.soundEffects["powerup"] = content.Load<SoundEffect>("sounds/powerup");
             this.soundEffects["level_start"] = content.Load<SoundEffect>("sounds/levelstart");
 
-            this.durations["moving"] = new TimeSpan(0, 0, 0, 0, 600);
-            this.startTimes["moving"] = DateTime.Now;
+            this.durations["bubble"] = new TimeSpan(0, 0, 0, 0, 565);
+            this.startTimes["bubble"] = DateTime.Now;
+
+            this.durations["powerup"] = new TimeSpan(0, 0, 0, 1, 200);
+            this.startTimes["powerup"] = DateTime.Now;
         }
 
         public void PlaySong(string song)

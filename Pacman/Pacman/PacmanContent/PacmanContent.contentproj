@@ -224,8 +224,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sounds\Moving.wav">
-      <Name>Moving</Name>
+    <Compile Include="Sounds\Bubble.wav">
+      <Name>Bubble</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

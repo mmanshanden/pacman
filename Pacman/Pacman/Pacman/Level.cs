@@ -192,10 +192,10 @@ namespace Pacman
             MapMessage mmsg = (MapMessage)cmsg;
 
             // clear list from all bubbles and powerups
-            foreach (GameObject gameObject in base.gameObjects) 
+            for (int i = base.gameObjects.Count - 1; i >= 0; i--)
             {
-                if (gameObject is Bubble || gameObject is Powerup)
-                    base.gameObjects.Remove(gameObject);
+                if (base.gameObjects[i] is Bubble || base.gameObjects[i] is Powerup)
+                    base.gameObjects.RemoveAt(i);
             }
 
             // refill lists
