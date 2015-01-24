@@ -6,9 +6,14 @@ using System.Text;
 
 namespace _3dgl
 {
+    /// <summary>
+    /// Batches quads together. 
+    /// </summary>
     public class PrimitiveBatch
     {
+        // transformations applied to quads
         Matrix transformations;
+
         List<Vertex> vertices;
         List<short> indices;
         Color color;
@@ -44,34 +49,46 @@ namespace _3dgl
             this.transformations = Matrix.CreateRotationZ(radians) * this.transformations;
         }
         #endregion
-
+        
+        /// <summary>
+        /// Sets the color for all new vertices added to the batch.
+        /// </summary>
+        /// <param name="color">Vertex color</param>
         public void SetColor(Color color)
         {
             this.color = color;
         }
 
+        /// <summary>
+        /// Draws a quad between four points.
+        /// </summary>
         public void DrawQuad(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
-        {
-           
+        {           
             Vertex v1, v2, v3, v4;
-            v1.Color = v2.Color = v3.Color = v4.Color = this.color;
+            v1.Color = v2.Color = v3.Color = v4.Color = this.color; 
 
+            // Transform 4 given points with transformation matrix
             v1.Position = Vector3.Transform(p1, this.transformations);
             v2.Position = Vector3.Transform(p2, this.transformations);
             v3.Position = Vector3.Transform(p3, this.transformations);
             v4.Position = Vector3.Transform(p4, this.transformations);
 
+            // calculate new normal using transformed points. Using transformed positions are
+            // vital for proper lighting.
             Vector3 normal = Vector3.Cross(v2.Position - v1.Position, v3.Position - v1.Position);
-            normal.Normalize();
+            normal.Normalize(); // convert to normal vector (vector of length 1).
             v1.Normal = v2.Normal = v3.Normal = v4.Normal = normal;
 
-            int vertexCount = this.vertices.Count;
+            int vertexCount = this.vertices.Count; // get current vertex count to base indices on
 
             this.vertices.Add(v1);
             this.vertices.Add(v2);
             this.vertices.Add(v3);
             this.vertices.Add(v4);            
 
+            // A quad contains 2 triangles. Each triangle contains 3 vertices. 
+            // The indices tell the graphicsdevice which vertices to use for 
+            // drawing a triangle.
             this.indices.Add((short)(vertexCount + 0));
             this.indices.Add((short)(vertexCount + 1));
             this.indices.Add((short)(vertexCount + 2));
@@ -80,13 +97,17 @@ namespace _3dgl
             this.indices.Add((short)(vertexCount + 0));
         }
 
+        /// <summary>
+        /// Draws 6 quads to form a cube. The original dimensions of
+        /// the cube will be 1x1x1.
+        /// </summary>
         public void DrawCube()
         {
-            Vector3 tlf = new Vector3(0, 0, 0);
-            Vector3 blf = new Vector3(0, 1, 0);
-            Vector3 brf = new Vector3(1, 1, 0);
-            Vector3 trf = new Vector3(1, 0, 0);
-            Vector3 tlb = new Vector3(0, 0, 1);
+            Vector3 tlf = new Vector3(0, 0, 0); // top left front corner
+            Vector3 blf = new Vector3(0, 1, 0); // bottom left front
+            Vector3 brf = new Vector3(1, 1, 0); // bottom right ..
+            Vector3 trf = new Vector3(1, 0, 0); // top right..
+            Vector3 tlb = new Vector3(0, 0, 1); // etc..
             Vector3 blb = new Vector3(0, 1, 1);
             Vector3 brb = new Vector3(1, 1, 1);
             Vector3 trb = new Vector3(1, 0, 1);
@@ -99,11 +120,21 @@ namespace _3dgl
             this.DrawQuad(tlf, trf, trb, tlb); // top
         }
 
+        /// <summary>
+        /// Returns the array of vertices. Useful for setting
+        /// vertex buffer data.
+        /// </summary>
+        /// <returns>Array of vertices.</returns>
         public Vertex[] GetVertexBatch()
         {
             return this.vertices.ToArray();
         }
 
+        /// <summary>
+        /// Returns the array of indices. Every 6 indices form 1
+        /// quad. Useful for setting index buffer data.
+        /// </summary>
+        /// <returns>Array of indices</returns>
         public short[] GetIndexBatch()
         {
             return this.indices.ToArray();

@@ -7,12 +7,16 @@ using System.Text;
 
 namespace _3dgl
 {
+    /// <summary>
+    /// Custom vertex decleration.
+    /// </summary>
     public struct Vertex : IVertexType
     {
         public Vector3 Position;
         public Vector3 Normal;
         public Color Color;
 
+        // as required by IVertexType
         public VertexDeclaration VertexDeclaration
         {
             get

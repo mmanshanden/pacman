@@ -7,6 +7,10 @@ using System.Text;
 
 namespace _3dgl
 {
+    /// <summary>
+    /// Contains properties which alter the view
+    /// matrix.
+    /// </summary>
     public class Camera
     {
         public bool FreeAim
@@ -18,11 +22,13 @@ namespace _3dgl
         private BasicEffect effect;
         private Vector3 target;
 
+
         public float Rho
         {
             get;
             set;
         }
+
         public float Phi
         {
             get;
@@ -36,6 +42,9 @@ namespace _3dgl
 
         public Vector2 Target
         {
+            // translate position in 2d space
+            // to position in 3d space:
+            // v2.x = v3.x; v2.y = v3.z;
             get
             {
                 Vector2 target = new Vector2();
@@ -50,6 +59,7 @@ namespace _3dgl
                 this.target.Z = value.Y;
             }
         }
+
         public void SetCameraHeight(float height)
         {
             this.target.Y = height;
@@ -63,7 +73,10 @@ namespace _3dgl
 
         public void Update()
         {
-  
+            // calculate camera position using phi and rho angles.
+            // Rho is angle between camera y position and x,z plane
+            // Phi is angle between camera z position and x axis
+            // zoom is distance between origin and camera position.
             Vector3 cameraPos = new Vector3();
             cameraPos.X = (float)Math.Cos(Rho) * Zoom * (float)Math.Sin(Phi);
             cameraPos.Y = (float)Math.Sin(Rho) * Zoom;
@@ -74,11 +87,12 @@ namespace _3dgl
 
             if (!this.FreeAim)
             {
+                // difference from rho=1
                 float dy = Math.Abs(this.Rho - 1);
 
-                // rest at 0.7, allow more movement up
+                // rest at 0.7
                 if (this.Rho > 1)                    
-                    this.Rho -= dy * 0.06f;
+                    this.Rho -= dy * 0.06f; // allow more movement up
 
                 if (this.Rho < 1)
                     this.Rho += dy * 0.09f;

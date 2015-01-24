@@ -105,7 +105,7 @@ namespace Pacman
             if (this.inputHelper.KeyPressed(Keys.F1))
                 Game.SoundManager.Enabled = !Game.SoundManager.Enabled;
 
-            // enable/disable freeaim
+            // enable/disable free aim
             if (this.inputHelper.KeyPressed(Keys.F2))
                 Game.Camera.FreeAim = !Game.Camera.FreeAim;
 
