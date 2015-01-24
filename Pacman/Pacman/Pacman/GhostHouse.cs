@@ -16,6 +16,12 @@ namespace Pacman
             Nearby,
         }
 
+        public float FrightenedDuration
+        {
+            get;
+            set;
+        }
+
         private Pacman pacman;
         private List<Ghost> ghosts; 
 
@@ -39,6 +45,7 @@ namespace Pacman
         public GhostHouse()
         {
             this.ghosts = new List<Ghost>();
+            this.FrightenedDuration = 6.9f;
         }
 
         #region Ghost Adding

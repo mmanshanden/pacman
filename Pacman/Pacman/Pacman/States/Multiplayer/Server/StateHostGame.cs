@@ -122,6 +122,7 @@ namespace Pacman
             this.level.Update(dt);
 
             int totalLives = 0;
+            int alivePlayers = 0;
             Pacman alivePacman = null;
 
             for (int i = 0; i < this.pacmans.Count; i++)
@@ -154,7 +155,11 @@ namespace Pacman
                 }
 
                 else
+                {
                     alivePacman = player;
+                    alivePlayers++;
+                }
+                    
 			}
 
             if (totalLives <= 0)
@@ -167,6 +172,15 @@ namespace Pacman
             {
                 this.nextLevel = true;
                 return;
+            }
+
+            foreach (GhostHouse ghosthouse in this.level.GhostHouses)
+            {
+                if (alivePlayers == 2)
+                    ghosthouse.FrightenedDuration = 10;
+
+                if (alivePlayers == 1)
+                    ghosthouse.FrightenedDuration = 16;
             }
 
             NetMessage received;

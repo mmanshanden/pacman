@@ -183,7 +183,7 @@ namespace Pacman
             if (this.State == States.Scatter || this.State == States.Chase || this.State == States.Frightened)
             {
                 this.State = States.Frightened;
-                this.frightenedTime = 6;
+                this.frightenedTime = this.GhostHouse.FrightenedDuration;
             }
         }
     
