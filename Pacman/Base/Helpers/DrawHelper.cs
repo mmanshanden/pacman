@@ -60,6 +60,8 @@ namespace Base
 
             //pause
             this.textures["PauseOverlay"] = content.Load<Texture2D>("sprites/menu/pause/pausebackground");
+            this.textures["PauseResume"] = content.Load<Texture2D>("sprites/menu/pause/pauseresume");
+            this.textures["PauseMainMenu"] = content.Load<Texture2D>("sprites/menu/pause/pausemainmenu"); 
 
             this.spriteFont    = content.Load<SpriteFont>("fonts/ui");
             this.spriteFontBig = content.Load<SpriteFont>("fonts/bigui");
