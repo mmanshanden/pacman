@@ -79,7 +79,7 @@ namespace Pacman
 
         public override void Draw(DrawHelper drawHelper)
         {
-            drawHelper.DrawBox("PauseOverlay", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center);
+            drawHelper.DrawOverlay(Color.Black * 0.8f, Vector2.Zero, Vector2.One);
 
             switch (this.selectedMenu)
             {
