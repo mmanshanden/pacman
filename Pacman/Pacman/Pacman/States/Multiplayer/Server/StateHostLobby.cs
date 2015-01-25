@@ -83,7 +83,6 @@ namespace Pacman
             send.Type = PacketType.Lobby;
 
             lobbyState.PlayerCount = 1 + this.server.GetConnectedIPs().Count;
-            lobbyState.GameMode = Network.GameModes.Multi;
 
             send.SetData(lobbyState);
             this.server.SetData(send);

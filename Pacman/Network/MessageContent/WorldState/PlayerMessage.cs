@@ -3,6 +3,10 @@ using Microsoft.Xna.Framework;
 
 namespace Network
 {
+    /// <summary>
+    /// Used as a container for sending player data
+    /// across the network.
+    /// </summary>
     public class PlayerMessage : NetMessageContent
     {
         public Vector2 Position;

@@ -97,7 +97,7 @@
     <Compile Include="States\Menu\MenuServerBrowser.cs" />
     <Compile Include="States\Multiplayer\Server\StateHostGame.cs" />
     <Compile Include="States\Multiplayer\Client\StateJoinGame.cs" />
-    <Compile Include="States\StateGameOver.cs" />
+    <Compile Include="States\SinglePlayer\StateGameOver.cs" />
     <Compile Include="States\StateLoad.cs" />
     <Compile Include="Tiles\Boundary.cs" />
     <Compile Include="Tiles\GhostHouseVoid.cs" />
