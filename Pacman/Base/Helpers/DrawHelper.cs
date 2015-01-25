@@ -6,6 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Base
 {
+    /// <summary>
+    /// Draw 2d textures on screen. Positions are relative, meaning
+    /// that (1, 1) is bottom right corner of the screen and (0, 0)
+    /// is top left corner of the screen. Screen property must be
+    /// set to resolution of screen.
+    /// </summary>
     public class DrawHelper
     {
         public enum Origin
@@ -24,7 +30,9 @@ namespace Base
 
         private Dictionary<string, Texture2D> textures;
         
-        public Vector2 Screen { get; set; }     
+        // set to resolution
+        public Vector2 Screen { get; set; }
+        // used for drawing
         public SpriteBatch SpriteBatch
         {
             get { return this.spriteBatch; }
@@ -37,6 +45,7 @@ namespace Base
             this.textures = new Dictionary<string, Texture2D>();
         }
 
+        // loads textures
         public void LoadTextures(ContentManager content)
         {
             Texture2D pixel = new Texture2D(this.graphicsDevice, 1, 1);
@@ -59,14 +68,20 @@ namespace Base
             this.textures["menu_gamemode_multiplayer"]  = content.Load<Texture2D>("sprites/menu/gamemode/multiplayer");
 
             //pause
-            this.textures["PauseOverlay"] = content.Load<Texture2D>("sprites/menu/pause/pausebackground");
-            this.textures["PauseResume"] = content.Load<Texture2D>("sprites/menu/pause/pauseresume");
-            this.textures["PauseMainMenu"] = content.Load<Texture2D>("sprites/menu/pause/pausemainmenu"); 
+            this.textures["menu_pause_resume"]   = content.Load<Texture2D>("sprites/menu/pause/resume");
+            this.textures["menu_pause_mainmenu"] = content.Load<Texture2D>("sprites/menu/pause/mainmenu"); 
 
             this.spriteFont    = content.Load<SpriteFont>("fonts/ui");
             this.spriteFontBig = content.Load<SpriteFont>("fonts/bigui");
         }
 
+        /// <summary>
+        /// Moves position over given size in a direction determined by origin enum value.
+        /// </summary>
+        /// <param name="position">Relative position on screen</param>
+        /// <param name="size">Size of object</param>
+        /// <param name="origin">Corner of object that should not be moved</param>
+        /// <returns>New position to draw</returns>
         private Vector2 TranslatePosition(Vector2 position, Vector2 size, Origin origin)
         {
             switch (origin)
@@ -91,6 +106,9 @@ namespace Base
             return position;
         }
 
+        /// <summary>
+        /// Draws texture on screen at relative position.
+        /// </summary>
         public void DrawBox(string texture, Vector2 position, Origin origin)
         {
             position *= this.Screen;
@@ -103,6 +121,12 @@ namespace Base
             this.spriteBatch.Draw(t, position, Color.White);
         }
 
+        /// <summary>
+        /// Draws a box filled with given color at relative position and of relative size
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="position"></param>
+        /// <param name="size"></param>
         public void DrawOverlay(Color color, Vector2 position, Vector2 size)
         {
             position *= this.Screen;
@@ -112,20 +136,32 @@ namespace Base
             this.spriteBatch.Draw(this.textures["pixel"], overlay, color);
         }
 
+        /// <summary>
+        /// Draws string on screen at relative position.
+        /// </summary>
         public void DrawString(string text, Vector2 position, Origin origin, Color color)
         {
             this.DrawString(this.spriteFont, text, position, origin, color);
         }
+
+        /// <summary>
+        /// Draws big string on screen at relative position.
+        /// </summary>
         public void DrawStringBig(string text, Vector2 position, Origin origin, Color color)
         {
             this.DrawString(this.spriteFontBig, text, position, origin, color);
         }
 
+        /// <summary>
+        /// Draws string of given spritefont such that it will be aligned to
+        /// at given position and origin.
+        /// </summary>
         private void DrawString(SpriteFont spriteFont, string text, Vector2 position, Origin origin, Color color)
         {
             position *= this.Screen;
             Vector2 size = spriteFont.MeasureString(text);
 
+            // update position to origin and screen size
             position = this.TranslatePosition(position, size, origin);
 
             this.spriteBatch.DrawString(spriteFont, text, position, color);

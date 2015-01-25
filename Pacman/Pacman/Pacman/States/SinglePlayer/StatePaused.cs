@@ -84,10 +84,10 @@ namespace Pacman
             switch (this.selectedMenu)
             {
                 case 0:
-                    drawHelper.DrawBox("PauseResume", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center);
+                    drawHelper.DrawBox("menu_pause_resume", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center);
                     break;
                 case 1:
-                    drawHelper.DrawBox("PauseMainMenu", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center);
+                    drawHelper.DrawBox("menu_pause_mainmenu", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center);
                     break;
             }
 

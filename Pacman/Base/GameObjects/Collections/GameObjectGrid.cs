@@ -7,6 +7,12 @@ using System.Text;
 
 namespace Base
 {
+    /// <summary>
+    /// Adds objects to a grid of given size and width.
+    /// Added objects will get position set to position
+    /// in grid. Draw and Update methods will be called
+    /// for all objects added to the list.
+    /// </summary>
     public class GameObjectGrid : GameObject
     {
         protected GameObject[,] grid;

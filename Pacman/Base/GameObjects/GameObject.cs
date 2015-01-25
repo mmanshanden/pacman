@@ -55,6 +55,10 @@ namespace Base
 
         }
 
+        /// <summary>
+        /// Returns the tree of parent objects.
+        /// </summary>
+        /// <returns></returns>
         public List<GameObject> GetTree()
         {
             List<GameObject> tree = new List<GameObject>();
@@ -69,13 +73,20 @@ namespace Base
             return tree;
         }
 
+        /// <summary>
+        /// Is called when gameobject collides with another gameobject.
+        /// </summary>
         public virtual void Collision_GameObject(GameObject gameObject)
         {
 
         }
 
+        /// <summary>
+        /// Checks whether this gameobject collides with given gameobject.
+        /// </summary>
         public virtual bool CollidesWith(GameObject gameObject)
         {
+            // AABB
             return (
               this.Position.X < gameObject.Position.X + 1 &&
               this.Position.X + 1 > gameObject.Position.X &&

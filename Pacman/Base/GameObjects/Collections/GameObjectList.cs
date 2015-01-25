@@ -6,6 +6,10 @@ using System.Text;
 
 namespace Base
 {
+    /// <summary>
+    /// Adds objects to the list. Draw and Update methods
+    /// will be called for every object in the list.
+    /// </summary>
     public class GameObjectList : GameObject
     {
         protected List<GameObject> gameObjects, toRemove;

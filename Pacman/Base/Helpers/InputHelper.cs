@@ -16,6 +16,10 @@ namespace Base
             ksPrevious = ksCurrent = Keyboard.GetState();
         }
 
+        /// <summary>
+        /// Check whether corresponding controller button was pressed in
+        /// given state.
+        /// </summary>
         private bool TranslateController(Keys key, GamePadState state)
         {
             if (!this.gsCurrent.IsConnected)
@@ -66,6 +70,11 @@ namespace Base
             get { return GamePad.GetState(PlayerIndex.One).IsConnected; }
         }
 
+        /// <summary>
+        /// Returns keyboard direction input (W,A,S,D) or
+        /// controller input when no keyboard input is 
+        /// given.
+        /// </summary>
         public Vector2 GetDirectionalInput()
         {
             if (KeyDown(Keys.W))
@@ -103,6 +112,10 @@ namespace Base
             return stick;
         }
 
+        /// <summary>
+        /// Updates gameboard and gamepad states.
+        /// Necessary for keypressed functionality.
+        /// </summary>
         public void Update()
         {
             KeyboardState ks = Keyboard.GetState();

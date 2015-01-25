@@ -217,13 +217,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Menu\Pause\pausebackground.png">
-      <Name>pausebackground</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Sounds\Bubble.wav">
       <Name>Bubble</Name>
       <Importer>WavImporter</Importer>
@@ -251,13 +244,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Menu\Pause\pausemainmenu.png">
-      <Name>pausemainmenu</Name>
+    <Compile Include="Sprites\Menu\Pause\MainMenu.png">
+      <Name>MainMenu</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Menu\Pause\pauseresume.png">
-      <Name>pauseresume</Name>
+    <Compile Include="Sprites\Menu\Pause\Resume.png">
+      <Name>Resume</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

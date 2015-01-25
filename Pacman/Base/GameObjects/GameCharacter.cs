@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Base
 {
+    /// <summary>
+    /// A movable game object
+    /// </summary>
     public class GameCharacter : GameObject
     {
         #region Movement
@@ -13,6 +16,7 @@ namespace Base
             get { return this.direction; }
             set
             {
+                // movement can only be aligned to x or y axis
                 this.direction = Collision.ToDirectionVector(value);
             }
         }
@@ -49,17 +53,30 @@ namespace Base
             this.Speed = 6;
         }
 
-
+        /// <summary>
+        /// Gets called when an gamecharacter will move into an invalid direction.
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="tile"></param>
         public virtual void Collision_InvalidDirection(GameBoard board, GameTile tile)
         {
             this.Direction = Vector2.Zero;
         }
 
+        /// <summary>
+        /// Gets called when a gamecharacter crosses a junction of non-collidable tiles.
+        /// (3 or more neighbors).
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="tile"></param>
         public virtual void Collision_Junction(GameBoard board, GameTile tile)
         {
             
         }
 
+        /// <summary>
+        /// Handles movement and collision checks.
+        /// </summary>
         protected virtual void Move(GameBoard board, GameTile tile, float dt)
         {
             Vector2 junction = tile.Center;
@@ -135,6 +152,7 @@ namespace Base
 
         public override void Update(float dt)
         {
+            // pre movement checks.
             if (this.Velocity == Vector2.Zero)
                 return;
 
@@ -159,7 +177,8 @@ namespace Base
                 this.Position += this.Velocity * dt;
                 return;
             }
-
+            
+            // do collision check move
             this.Move(board, tile, dt);
         }
 

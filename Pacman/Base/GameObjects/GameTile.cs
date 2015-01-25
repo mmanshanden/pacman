@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Base
 {
+    /// <summary>
+    /// Gameobject placed in a grid (GameBoard)
+    /// </summary>
     public class GameTile : GameObject
     {
         public GameBoard Board
@@ -57,11 +60,5 @@ namespace Base
         {
             return this.GetNeighbourList(gameObject).Count;
         }
-
-        public virtual void Load(_3dgl.ModelBuilder model)
-        {
-
-        }
-
     }
 }

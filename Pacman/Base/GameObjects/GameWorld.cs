@@ -7,6 +7,11 @@ using System.Text;
 
 namespace Base
 {
+    /// <summary>
+    /// Contains gameobjects and gamecharacters.
+    /// Checks whether gamecharacters collide
+    /// with gameobjects. 
+    /// </summary>
     public class GameWorld : GameObjectList
     {
         public GameBoard GameBoard
@@ -25,27 +30,29 @@ namespace Base
         public void Add(GameCharacter gameCharacter)
         {
             this.gameCharacters.Add(gameCharacter);
-            this.Add(gameCharacter as GameObject);
+            base.Add(gameCharacter);
         }
         public void Add(GameBoard gameBoard)
         {
             this.GameBoard = gameBoard;
-            this.Add(gameBoard as GameObject);
+            base.Add(gameBoard);
         }
 
         public override void Update(float dt)
         {
             foreach (GameCharacter character in this.gameCharacters)
             {
-                foreach (GameObject gameObject in this.gameObjects)
+                foreach (GameObject obstacle in this.gameObjects)
                 {
-                    if (character == gameObject)
+                    // dont collide with self
+                    if (character == obstacle)
                         continue;
 
-                    if (character.CollidesWith(gameObject))
+                    if (character.CollidesWith(obstacle))
                     {
-                        character.Collision_GameObject(gameObject);
-                        gameObject.Collision_GameObject(character);
+                        // call collision event for both
+                        character.Collision_GameObject(obstacle);
+                        obstacle.Collision_GameObject(character);
                     }
                 }
 

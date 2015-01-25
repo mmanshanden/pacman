@@ -14,7 +14,7 @@ namespace Base
         private Dictionary<string, TimeSpan> durations;
         private Dictionary<string, Song> songs;
 
-        private string songPlaying;
+        private string songPlaying; // current song
 
         private bool enabled;
 
@@ -41,19 +41,24 @@ namespace Base
 
         public void LoadAudio(ContentManager content)
         {
-            this.soundEffects["live_lost"] = content.Load<SoundEffect>("sounds/lifelost");
-            this.soundEffects["ghost_dead"] = content.Load<SoundEffect>("sounds/ghostdead");
-            this.soundEffects["bubble"] = content.Load<SoundEffect>("sounds/bubble");
-            this.soundEffects["powerup"] = content.Load<SoundEffect>("sounds/powerup");
+            this.soundEffects["live_lost"]   = content.Load<SoundEffect>("sounds/lifelost");
+            this.soundEffects["ghost_dead"]  = content.Load<SoundEffect>("sounds/ghostdead");
+            this.soundEffects["bubble"]      = content.Load<SoundEffect>("sounds/bubble");
+            this.soundEffects["powerup"]     = content.Load<SoundEffect>("sounds/powerup");
             this.soundEffects["level_start"] = content.Load<SoundEffect>("sounds/levelstart");
 
-            this.durations["bubble"] = new TimeSpan(0, 0, 0, 0, 565);
+            this.durations["bubble"]  = new TimeSpan(0, 0, 0, 0, 565);
             this.startTimes["bubble"] = DateTime.Now;
 
-            this.durations["powerup"] = new TimeSpan(0, 0, 0, 1, 200);
+            this.durations["powerup"]  = new TimeSpan(0, 0, 0, 1, 200);
             this.startTimes["powerup"] = DateTime.Now;
         }
 
+        /// <summary>
+        /// Plays song unless song already playing.
+        /// Stops music when no name is given.
+        /// </summary>
+        /// <param name="song">Song name</param>
         public void PlaySong(string song)
         {
             if (!this.Enabled)
@@ -72,10 +77,16 @@ namespace Base
             }
 
             MediaPlayer.Volume = 0.6f;
-            //MediaPlayer.Play(this.songs[song]);
+            MediaPlayer.Play(this.songs[song]);
             this.songPlaying = song;
         }
 
+        /// <summary>
+        /// Plays soundeffect. 
+        /// If a duration for given soundeffect is available and has
+        /// not elapsed, this request will be ignored.
+        /// </summary>
+        /// <param name="soundEffect"></param>
         public void PlaySoundEffect(string soundEffect)
         {
             if (!this.Enabled)
@@ -85,6 +96,7 @@ namespace Base
             {
                 DateTime now = DateTime.Now;
 
+                // if elapsed time is bigger than duration
                 if (now - this.startTimes[soundEffect] > this.durations[soundEffect])
                 {
                     this.soundEffects[soundEffect].Play();
