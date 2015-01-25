@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 namespace Network
 {
+    /// <summary>
+    /// Used as a container for map player data
+    /// across the network.
+    /// </summary>
     public class MapMessage : NetMessageContent
     {
         public int LevelIndex;
@@ -54,7 +58,7 @@ namespace Network
 
             msg.Write(this.LevelIndex);
 
-            msg.Write(this.Bubbles.Count);
+            msg.Write(this.Bubbles.Count); // write count for read
             foreach (Vector2 bubble in this.Bubbles)
                 MessageParser.WriteVector2(bubble, msg);
 

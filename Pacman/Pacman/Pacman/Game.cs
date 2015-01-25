@@ -19,7 +19,6 @@ namespace Pacman
         private InputHelper inputHelper;
 
         public static Camera Camera { get; private set; }
-        public static Vector2 Screen { get; private set; }
         public static Random Random { get; private set; }
         public static SoundHelper SoundManager { get; private set; }
 

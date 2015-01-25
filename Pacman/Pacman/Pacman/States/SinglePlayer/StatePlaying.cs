@@ -18,6 +18,7 @@ namespace Pacman
         {
             this.index = index;
 
+            // load level and game objects.
             string path = "Content/Levels/singleplayer/level" + index + ".txt";
 
             this.levelFile = new FileReader(path);
@@ -68,6 +69,9 @@ namespace Pacman
 
             if (nextState != null)
             {
+                // set next state to null such that returning
+                // to this state won't result into an immediate
+                // transition back into pause state.
                 IGameState paused = nextState;
                 nextState = null;
                 return paused;

@@ -6,16 +6,9 @@ using System.Text;
 
 namespace Network
 {
-    public enum GameModes
-    {
-        Multi,
-        Player,
-    }
-
     public class LobbyMessage : NetMessageContent
     {
         public int PlayerCount;
-        public GameModes GameMode;
 
         public LobbyMessage()
         {
@@ -27,7 +20,6 @@ namespace Network
             base.ReadMessage(msg);
 
             this.PlayerCount = msg.ReadInt32();
-            this.GameMode = (GameModes)msg.ReadByte();
         }
 
         public override void WriteMessage(NetOutgoingMessage msg)
@@ -35,7 +27,6 @@ namespace Network
             base.WriteMessage(msg);
 
             msg.Write(this.PlayerCount);
-            msg.Write((byte)this.GameMode);
         }
     }
 }

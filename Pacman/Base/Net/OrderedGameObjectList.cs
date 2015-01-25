@@ -47,7 +47,14 @@ namespace Base
         {
             this.index = 0;
         }
-
+        
+        /// <summary>
+        /// Updates the baseMessage for every game object in
+        /// the collection. Then adds updates message content
+        /// to the netmessage container.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="baseMessage"></param>
         public void WriteAllToMessage(NetMessage msg, NetMessageContent baseMessage)
         {
             for (int i = 0; i < this.Count; i++)

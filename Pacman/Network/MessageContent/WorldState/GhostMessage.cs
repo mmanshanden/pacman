@@ -2,6 +2,10 @@
 
 namespace Network
 {
+    /// <summary>
+    /// Used as a container for sending ghost data
+    /// across the network.
+    /// </summary>
     public class GhostMessage : NetMessageContent
     {
         public Vector2 Position;
@@ -9,7 +13,7 @@ namespace Network
         public float Speed;
         public Vector2 Target;
         public byte State;
-        public float FrightenTime;
+        public float FrightenTime; // blink ghosts on client
 
         public GhostMessage()
         {

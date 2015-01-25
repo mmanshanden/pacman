@@ -5,6 +5,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Pacman
 {
+    /// <summary>
+    /// First state. Loads all 3d models on 
+    /// graphics device.
+    /// </summary>
     class StateLoad : IGameState
     {
         ModelLibrary modelLibrary;
@@ -12,11 +16,6 @@ namespace Pacman
         public StateLoad(ModelLibrary modelLibrary)
         {
             this.modelLibrary = modelLibrary;
-        }
-
-        public void HandleInput(InputHelper inputHelper)
-        {
-
         }
 
         public IGameState TransitionTo()
@@ -34,22 +33,14 @@ namespace Pacman
             Bubble.Load(this.modelLibrary);
             Powerup.Load(this.modelLibrary);
 
+            // first real game state
             return new MenuGameMode();
         }
 
-        public void Update(float dt)
-        {
-
-        }
-
-        public void Draw(DrawManager drawManager)
-        {
-
-        }
-        public void Draw(DrawHelper drawHelper)
-        {
-
-        }
+        public void HandleInput(InputHelper inputHelper) { }
+        public void Update(float dt) { }
+        public void Draw(DrawManager drawManager) { }
+        public void Draw(DrawHelper drawHelper) { }
 
     }
 }

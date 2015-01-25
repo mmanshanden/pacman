@@ -7,6 +7,10 @@ using System.Text;
 
 namespace Base
 {
+    /// <summary>
+    /// Reads a .txt level file.
+    /// </summary>
+
     public class FileReader
     {
         Dictionary<string, string> data;
@@ -16,6 +20,12 @@ namespace Base
             this.data = FileReader.ParseFile(path);
         }
 
+        /// <summary>
+        /// Converts two floats separated by a ';' into a
+        /// vector2.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public Vector2 ReadVector(string key)
         {
             string[] values = this.data[key].Split(';');
@@ -26,7 +36,13 @@ namespace Base
             return vector;
         }
 
-        // do not rely on "Culture settings"
+        /// <summary>
+        /// Parse a float. Always uses dot as decimal separator 
+        /// because float.Parse() could use either a comma or a
+        /// dot depending on "Culture Settings".
+        /// </summary>
+        /// <param name="s">String containing float</param>
+        /// <returns></returns>
         private float ParseFloat(string s)
         {
             string[] parts = s.Split('.');
@@ -52,6 +68,13 @@ namespace Base
             return this.ParseFloat(this.data[key]);
         }
 
+        /// <summary>
+        /// Returns the string associated to given key
+        /// ad a 2d char array. The ';' symbol is used
+        /// for line separation.
+        /// </summary>
+        /// <param name="key">Key in dictionary</param>
+        /// <returns>2d char array</returns>
         public char[,] ReadGrid(string key)
         {
             string[] lines = data[key].Split(';');
@@ -72,6 +95,18 @@ namespace Base
             return grid;
         }
 
+        /// <summary>
+        /// Parses the file. Stores the key and value pair in a
+        /// dictionary. A key value pair is read as
+        /// "key=value"
+        /// where key is the key and value is the value.
+        /// Every line forms a new pair, unless the line
+        /// doesn't contain the "=" symbol. If this is the
+        /// case, every line extends the value until a line
+        /// containing the "=" symbol is reached.
+        /// </summary>
+        /// <param name="path">Path to level file</param>
+        /// <returns>Key value pairs contained in file</returns>
         public static Dictionary<string, string> ParseFile(string path)
         {
             StreamReader reader = new StreamReader(path);
@@ -87,10 +122,12 @@ namespace Base
 
                 if (line.Contains("="))
                 {
+                    // we have a key from a previous line.
+                    // value is complete.
                     if (key != "")
                     {
                         data[key] = value;
-                        value = "";
+                        value = ""; // recycle value 
                     }
 
                     key = parts[0];
@@ -98,11 +135,18 @@ namespace Base
                 }
                 else
                 {
+                    // Add line to value.
+                    // Lines are seperated by ";" in resulting
+                    // dictionary..
                     value += line + ';';
                 }
 
+                // read next line
                 line = reader.ReadLine();
 
+                // loop ends if next line is equal to null
+                // save current key value pair if that is
+                // the case.
                 if (line == null)
                     data[key] = value;
             }

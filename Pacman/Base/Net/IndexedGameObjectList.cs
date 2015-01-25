@@ -6,6 +6,11 @@ using Network;
 
 namespace Base
 {
+    /// <summary>
+    /// Stores gameobject by id key. Updating
+    /// the object with netdata requires the objects
+    /// id.
+    /// </summary>
     public class IndexedGameObjectList : GameObject
     {
         Dictionary<int, GameObject> gameObjects;
@@ -34,7 +39,12 @@ namespace Base
         {
             this.gameObjects[id].UpdateMessage(cmsg);
         }
-        
+
+        /// <summary>
+        /// Updates the baseMessage for every game object in
+        /// the collection. Then adds updates message content
+        /// to the netmessage container.
+        /// </summary>
         public void WriteAllToMessage(NetMessage msg, NetMessageContent baseMessage)
         {
             foreach(KeyValuePair<int, GameObject> entry in this.gameObjects)

@@ -11,7 +11,6 @@ namespace Pacman
         Pacman player;
 
         IGameState nextState;
-        private bool playGameOverSound;
         private bool victory;
 
         public StateGameOver(Pacman pacman)
@@ -19,11 +18,7 @@ namespace Pacman
             base.controlSprite = "back";
 
             this.player = pacman;
-
-            if (pacman.Lives > 0)
-                this.victory = true;
-            else
-                this.playGameOverSound = true;
+            this.victory = (pacman.Lives > 0);
         }
 
         public override IGameState TransitionTo()
@@ -39,18 +34,7 @@ namespace Pacman
             if (inputHelper.KeyPressed(Keys.Back))
                 this.nextState = new MenuGameMode();
         }
-
-        public override void Update(float dt)
-        {
-            if (this.playGameOverSound)
-            {
-                //Game.SoundManager.PlaySoundEffect("game_over");
-                this.playGameOverSound = false;
-            }
-
-            base.Update(dt);
-        }
-
+        
         public override void Draw(DrawHelper drawHelper)
         {
             base.Draw(drawHelper);

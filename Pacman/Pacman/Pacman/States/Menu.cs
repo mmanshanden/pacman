@@ -5,6 +5,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Pacman
 {
+    /// <summary>
+    /// Basic menu class. Shows a control sprite
+    /// in bottom right corner of the screen.
+    /// </summary>
     class Menu : IGameState
     {
         protected string controlSprite;

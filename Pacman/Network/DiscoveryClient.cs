@@ -32,6 +32,9 @@ namespace Network
             this.client.Start();
         }
 
+        /// <summary>
+        /// Send discovery message to local network.
+        /// </summary>
         public void Discover()
         {
             this.Replies.Clear();
