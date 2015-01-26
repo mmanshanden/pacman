@@ -18,7 +18,10 @@ namespace Pacman
 
         public StateHostLobby(int levelIndex)
         {
-            base.controlSprite = "lobbyhost";
+            if (levelIndex < 3)
+                base.controlSprite = "lobbyhost";
+            else
+                base.controlSprite = "back";
 
             this.levelIndex = levelIndex;
             this.server = new GameServer();
@@ -42,7 +45,10 @@ namespace Pacman
 
         public StateHostLobby(int levelIndex, GameServer server)
         {
-            base.controlSprite = "lobbyhost";
+            if (levelIndex < 3)
+                base.controlSprite = "lobbyhost";
+            else
+                base.controlSprite = "back";
 
             this.levelIndex = levelIndex;
             this.server = server;
@@ -55,7 +61,7 @@ namespace Pacman
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            if (inputHelper.KeyDown(Keys.X) && this.players.Count > 1)
+            if (inputHelper.KeyDown(Keys.X) && this.players.Count > 1 && this.levelIndex < 3)
                 this.nextState = new StateHostGame(this.server, this.levelIndex);
 
             if (inputHelper.KeyDown(Keys.Back))
