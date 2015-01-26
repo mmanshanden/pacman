@@ -93,6 +93,7 @@
     <Compile Include="States\Menu\MenuGameMode.cs" />
     <Compile Include="States\Multiplayer\Client\StateJoinLobby.cs" />
     <Compile Include="States\Multiplayer\Server\StateHostLobby.cs" />
+    <Compile Include="States\Multiplayer\StateMultiplayerPaused.cs" />
     <Compile Include="States\SinglePlayer\StatePaused.cs" />
     <Compile Include="States\SinglePlayer\StatePlaying.cs" />
     <Compile Include="States\Menu\MenuServerBrowser.cs" />

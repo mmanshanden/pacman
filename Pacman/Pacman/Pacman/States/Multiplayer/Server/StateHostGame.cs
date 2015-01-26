@@ -15,6 +15,8 @@ namespace Pacman
         IndexedGameObjectList players;
         OrderedGameObjectList ghosts;
 
+        IGameState nextState; 
+
         private bool gameOver;
         private bool nextLevel;
         private int levelIndex;
@@ -105,6 +107,9 @@ namespace Pacman
         public void HandleInput(InputHelper inputHelper)
         {
             this.level.HandleInput(inputHelper);
+
+            if (inputHelper.KeyPressed(Keys.Escape))
+                this.nextState = new StateMultiplayerPaused(this, this.server, true); 
         }
 
         public IGameState TransitionTo()
@@ -117,6 +122,18 @@ namespace Pacman
 
             if (this.nextLevel)
                 return new StateHostLobby(this.levelIndex + 1, this.server);
+
+            if (this.nextState != null)
+            {
+                // set next state to null such that returning
+                // to this state won't result into an immediate
+                // transition back into pause state.
+                IGameState paused;
+                paused = nextState;
+                nextState = null; 
+                return paused; 
+            }
+                
 
             return this;
         }
