@@ -57,9 +57,9 @@ namespace Pacman
                     this.Die();
                 if (ghost.State == Ghost.States.Frightened)
                 {
-                    int ghostScore = 100 * this.ghostCombo;
+                    int ghostScore = 200 * this.ghostCombo;
                     this.Score = this.Score + ghostScore;
-                    if (ghostCombo != 16)
+                    if (ghostCombo != 8)
                         this.ghostCombo *= 2;
 
                     Game.SoundManager.PlaySoundEffect("ghost_dead");
