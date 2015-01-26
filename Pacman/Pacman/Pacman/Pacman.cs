@@ -107,7 +107,7 @@ namespace Pacman
             // if no lives left set position out of the map
             if (this.Lives < 1)
             {
-                this.Position = Vector2.One * -20;
+                this.Position = this.World.VoidPoint;
                 return;
             }
                 
@@ -153,8 +153,8 @@ namespace Pacman
         // Draw the Pacman 3D Model 
         public override void Draw(DrawManager drawManager)
         {
-            //if (this.Lives < 1)
-                //return;
+            if (this.Lives < 1)
+                return;
             
             if (this.Velocity != Vector2.Zero)
                 this.rotation = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);
@@ -206,6 +206,8 @@ namespace Pacman
                         this.Position = pmsg.Position;
                         this.Direction = pmsg.Direction;
                         this.Speed = pmsg.Speed;
+                        this.Lives = pmsg.Lives;
+                        this.Score = pmsg.Score;
                     }
                 }
             }
