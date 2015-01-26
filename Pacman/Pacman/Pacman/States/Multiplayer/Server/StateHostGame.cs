@@ -115,7 +115,11 @@ namespace Pacman
         public IGameState TransitionTo()
         {
             if (this.server.GetConnections().Count == 0)
+            {
+                this.server.Stop();
                 return new MenuErrorMessage("All clients have left the game.");
+            }
+                
 
             if (this.gameOver)
                 return new StateHostLobby(this.levelIndex, this.server);
