@@ -199,8 +199,8 @@ namespace Pacman
                     this.Die();
                 else
                 {
-                    // debug
-                    throw new System.Exception("Client and server to much out of sync.");
+                    if (pmsg.Lives != this.Lives)
+                        throw new System.Exception("Client and server too much out of sync.");
                 }
             }
 
