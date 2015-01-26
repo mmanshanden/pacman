@@ -3,6 +3,7 @@ using Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Network;
+using System.Collections.Generic;
 
 namespace Pacman
 {
@@ -43,7 +44,7 @@ namespace Pacman
             Console.WriteLine("Hosting lobby");            
         }
 
-        public StateHostLobby(int levelIndex, GameServer server)
+        public StateHostLobby(int levelIndex, GameServer server, NetMessage gamedata)
         {
             if (levelIndex < 3)
                 base.controlSprite = "lobbyhost";
@@ -53,17 +54,40 @@ namespace Pacman
             this.levelIndex = levelIndex;
             this.server = server;
 
-            this.self = new LobbyPlayer();
-            this.self.Position = new Vector2(0.1f, 0.1f);
             this.players = new IndexedGameObjectList();
-            this.players.Add(0, self);
+
+            NetMessageContent cmsg;
+            while ((cmsg = gamedata.GetData()) != null)
+            {
+                if (cmsg.Type != DataType.Pacman)
+                    continue;
+
+                PlayerMessage pmsg = (PlayerMessage)cmsg;
+
+                if (pmsg.Id == 0)
+                {
+                    this.self = new LobbyPlayer();
+                    this.self.Score = pmsg.Score;
+                    this.players.Add(0, self);
+                }
+                else
+                {
+                    LobbyPlayer player = new LobbyPlayer();
+                    player.Score = pmsg.Score;
+                    this.players.Add(pmsg.Id, player);
+                }
+            }
+
         }
 
         public override void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyDown(Keys.X) && this.players.Count > 1 && this.levelIndex < 3)
+            {
                 this.nextState = new StateHostGame(this.server, this.levelIndex);
-
+                this.server.Visible = false;
+            }
+            
             if (inputHelper.KeyDown(Keys.Back))
             {
                 this.server.Stop();
