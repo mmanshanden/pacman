@@ -79,6 +79,27 @@ namespace _3dgl
             this.ModelLibrary.DrawModel(name, this.effect);
         }
 
+        public RenderTarget2D DrawModelToTexture(string name, int width, int height)
+        {
+            RenderTarget2D texture = new RenderTarget2D(
+                this.graphicsDevice, 
+                width, 
+                height, 
+                false, 
+                SurfaceFormat.Color, 
+                DepthFormat.Depth24Stencil8
+            );
+
+            this.graphicsDevice.SetRenderTarget(texture);
+            this.graphicsDevice.Clear(Color.Transparent);
+
+            this.DrawModel(name);
+            this.graphicsDevice.SetRenderTarget(null);
+            this.graphicsDevice.Clear(Color.Transparent);
+
+            return texture;
+        }
+
         #region Transformations
         // Following transformations translates given 2d x and y
         // values to 3d space.

@@ -23,8 +23,6 @@ namespace _3dgl
         private BasicEffect effect;
         private Vector3 target;
 
-        private bool orthoMode;
-
         public float Rho
         {
             get;
@@ -74,39 +72,9 @@ namespace _3dgl
             this.FreeAim = false;
         }
 
-        public void SwitchToOrtho()
-        {
-            this.orthoMode = true;
-            this.effect.Projection = Matrix.CreateOrthographic(1, 1, -1, 10);
-        }
-
-        public void SwitchToPerspective()
-        {
-            this.orthoMode = false;
-            this.effect.Projection = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver2,
-                this.graphicsDevice.Viewport.AspectRatio,
-                0.1f,
-                100f
-            );
-        }
-
+       
         public void Update()
         {
-            if (this.orthoMode)
-            {
-                effect.LightingEnabled = false;
-                effect.View = Matrix.CreateLookAt(
-                    new Vector3(0.5f, 1, 0.5f), 
-                    new Vector3(0.5f, 0, 0.5f), 
-                    new Vector3(0, 0, -1)
-                );
-                
-                this.SwitchToPerspective();
-                return;
-            }
-
-            this.effect.LightingEnabled = true;
             // calculate camera position using phi and rho angles.
             // Rho is angle between camera y position and x,z plane
             // Phi is angle between camera z position and x axis

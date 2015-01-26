@@ -128,8 +128,6 @@ namespace Pacman
             if (!this.ready)
                 return;
 
-            Game.Camera.SwitchToOrtho();
-
             this.self.Position = new Vector2(0.25f, 0.25f);
             this.self.Draw(drawManager);
 

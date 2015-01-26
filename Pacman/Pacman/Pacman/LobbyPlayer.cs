@@ -1,5 +1,6 @@
 ﻿using Base;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Network;
 
 namespace Pacman
@@ -24,6 +25,7 @@ namespace Pacman
             set;
         }
 
+        private Texture2D model;
         private float rotation;
 
         public LobbyPlayer()
@@ -65,34 +67,22 @@ namespace Pacman
 
         public override void Draw(_3dgl.DrawManager drawManager)
         {
+            Game.Camera.Zoom = 3;
+            Game.Camera.Phi = 0;
+            Game.Camera.Rho = 0.4f;
+            drawManager.RotateOver(this.rotation, Vector2.One * 0.5f);
             drawManager.Translate(-0.5f, -0.5f);
-            drawManager.RotateX(-MathHelper.PiOver2);
+            this.model = drawManager.DrawModelToTexture("pacman_open", 300, 300);
             drawManager.Translate(0.5f, 0.5f);
-
-            drawManager.Translate(-0.5f, -0.5f);
-            drawManager.RotateY(this.rotation);
-            drawManager.Translate(0.5f, 0.5f);
-
-            drawManager.Translate(-0.5f, 5);
-            drawManager.Scale(0.05f, 0.05f);
-            drawManager.Translate(this.Position);
-            drawManager.DrawModel("pacman_open");
-            drawManager.Translate(-this.Position);
-            drawManager.Scale(20f, 20f);
-            drawManager.Translate(0.5f, -5);
+            drawManager.RotateOver(-this.rotation, Vector2.One * 0.5f);
             
-            drawManager.Translate(-0.5f, -0.5f);
-            drawManager.RotateY(-this.rotation);
-            drawManager.Translate(0.5f, 0.5f);
-
-            drawManager.Translate(-0.5f, -0.5f);
-            drawManager.RotateX(MathHelper.PiOver2);
-            drawManager.Translate(0.5f, 0.5f);
         }
 
         public override void Draw(DrawHelper drawHelper)
         {
             drawHelper.DrawString(this.Name, this.Position, DrawHelper.Origin.Center, Color.White);
+            drawHelper.DrawBox(this.model, this.Position + Vector2.UnitY * 0.2f, DrawHelper.Origin.Center);
+
             if (this.Score != 0)
                 drawHelper.DrawString(this.Score.ToString(), this.Position + Vector2.UnitY * 0.4f, DrawHelper.Origin.Center, Color.White);
         }

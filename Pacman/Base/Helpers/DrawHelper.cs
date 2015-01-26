@@ -121,6 +121,15 @@ namespace Base
             this.spriteBatch.Draw(t, position, Color.White);
         }
 
+        public void DrawBox(Texture2D texture, Vector2 position, Origin origin)
+        {
+            position *= this.Screen;
+            Vector2 size = new Vector2(texture.Width, texture.Height);
+
+            position = this.TranslatePosition(position, size, origin);
+            this.spriteBatch.Draw(texture, position, Color.White);
+        }
+
         /// <summary>
         /// Draws a box filled with given color at relative position and of relative size
         /// </summary>
