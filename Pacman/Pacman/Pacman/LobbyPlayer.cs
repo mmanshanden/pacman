@@ -27,6 +27,7 @@ namespace Pacman
 
         private Texture2D model;
         private float rotation;
+        private bool closed;
 
         public LobbyPlayer()
         {
@@ -40,6 +41,12 @@ namespace Pacman
 
             if (inputHelper.KeyDown(Microsoft.Xna.Framework.Input.Keys.D))
                 this.rotation -= 0.05f;
+
+            if (inputHelper.KeyPressed(Microsoft.Xna.Framework.Input.Keys.W) ||
+                inputHelper.KeyPressed(Microsoft.Xna.Framework.Input.Keys.S))
+            {
+                this.closed = !this.closed;
+            }
         }
 
         // Set data for outgoing message
@@ -50,6 +57,7 @@ namespace Pacman
 
             lmsg.Score = this.Score;
             lmsg.Rotation = this.rotation;
+            lmsg.Closed = this.closed;
 
             return lmsg;
         }
@@ -63,6 +71,7 @@ namespace Pacman
                 this.Score = lmsg.Score;
 
             this.rotation = lmsg.Rotation;
+            this.closed = lmsg.Closed;
         }
 
         public override void Draw(_3dgl.DrawManager drawManager)
@@ -81,7 +90,13 @@ namespace Pacman
 
             drawManager.RotateOver(this.rotation, Vector2.One * 0.5f);
             drawManager.Translate(-0.5f, -0.5f);
-            this.model = drawManager.DrawModelToTexture("pacman_open", 300, 300);
+
+            string m = "pacman_open";
+
+            if (this.closed)
+                m = "pacman_closed";
+
+            this.model = drawManager.DrawModelToTexture(m, 300, 300);
             drawManager.Translate(0.5f, 0.5f);
             drawManager.RotateOver(-this.rotation, Vector2.One * 0.5f);
             

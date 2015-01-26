@@ -10,6 +10,7 @@ namespace Network
     {
         public float Rotation;
         public int Score;
+        public bool Closed;
 
         public LobbyMessage()
         {
@@ -22,6 +23,8 @@ namespace Network
 
             this.Rotation = msg.ReadFloat();
             this.Score = msg.ReadInt32();
+            this.Closed = msg.ReadBoolean();
+
         }
 
         public override void WriteMessage(NetOutgoingMessage msg)
@@ -30,6 +33,7 @@ namespace Network
 
             msg.Write(this.Rotation);
             msg.Write(this.Score);
+            msg.Write(this.Closed);
         }
     }
 }
