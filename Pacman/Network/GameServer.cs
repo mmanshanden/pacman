@@ -275,7 +275,7 @@ namespace Network
 
                     // prepare message to lest host know who disconnected
                     NetMessage dcMessage = new NetMessage();
-                    dcMessage.ConnectionId = inc.SenderConnection.GetHashCode();
+                    dcMessage.ConnectionId = this.connections[inc.SenderConnection].Id;
                     dcMessage.Type = PacketType.Logout;
                     this.receivedData.Add(dcMessage);
 

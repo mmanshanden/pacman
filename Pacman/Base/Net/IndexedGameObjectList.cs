@@ -30,6 +30,11 @@ namespace Base
             this.gameObjects[id] = gameObject;
         }
 
+        public void Remove(int id)
+        {
+            this.gameObjects.Remove(id);
+        }
+
         public GameObject Get(int id)
         {
             return this.gameObjects[id];

@@ -98,8 +98,16 @@ namespace Pacman
             if (received == null)
                 return;
 
+
+            if (received.Type == PacketType.Logout)
+            {
+                this.players.Remove(received.ConnectionId);
+                return;
+            }
+            
             if (received.Type != PacketType.Lobby)
                 return;
+
 
             int i = 2;
             NetMessageContent cmsg;
@@ -126,7 +134,7 @@ namespace Pacman
             this.self.Position = new Vector2(0.25f, 0.25f);
             this.self.Draw(drawManager);
 
-            if (this.players.Count < 2)
+            if (this.server.GetConnections().Count < 1 || this.players.Count < 2)
                 return;
 
             int partnerId = this.server.GetConnections()[0].Id;
@@ -142,7 +150,7 @@ namespace Pacman
             this.self.Name = "You";
             this.self.Draw(drawHelper);
 
-            if (this.players.Count < 2)
+            if (this.server.GetConnections().Count < 1 || this.players.Count < 2)
                 return;
 
             int partnerId = this.server.GetConnections()[0].Id;
