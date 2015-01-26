@@ -95,8 +95,12 @@ namespace _3dgl
         {
             if (this.orthoMode)
             {
-                this.effect.LightingEnabled = false;
-                effect.View = Matrix.CreateLookAt(new Vector3(0.5f, -1, 0.5f), new Vector3(0.5f, 0, 0.5f), new Vector3(-1, 0, 0));
+                effect.LightingEnabled = false;
+                effect.View = Matrix.CreateLookAt(
+                    new Vector3(0.5f, -1, 0.5f), 
+                    new Vector3(0.5f, 0, 0.5f), 
+                    new Vector3(-1, 0, 0)
+                );
                 
                 return;
             }

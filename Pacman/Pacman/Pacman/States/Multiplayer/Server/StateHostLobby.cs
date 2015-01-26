@@ -107,7 +107,7 @@ namespace Pacman
                     this.players.Add(lmsg.Id, new LobbyPlayer());
 
                 this.players.UpdateObject(lmsg.Id, lmsg);
-                this.players.Get(lmsg.Id).Position = new Vector2(0.1f, 0.1f * i);
+                this.players.Get(lmsg.Id).Position = new Vector2(0.1f, 0.2f * i);
 
                 i++;
             }

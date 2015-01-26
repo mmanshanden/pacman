@@ -81,11 +81,13 @@ namespace Pacman
             drawManager.RotateX(this.rotation);
             drawManager.Translate(0.5f, 0.5f);
 
+            drawManager.Translate(1.1f, 0.9f);
             drawManager.Scale(0.05f, 0.05f);
             drawManager.Translate(this.Position);
             drawManager.DrawModel("pacman_open");
             drawManager.Translate(-this.Position);
-            drawManager.Scale(20, 20);
+            drawManager.Scale(20f, 20f);
+            drawManager.Translate(-1.1f, -0.9f);
 
             drawManager.Translate(-0.5f, -0.5f);
             drawManager.RotateX(-this.rotation);
