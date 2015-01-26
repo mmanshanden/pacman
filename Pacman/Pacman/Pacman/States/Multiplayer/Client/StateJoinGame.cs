@@ -9,7 +9,7 @@ namespace Pacman
 {
     class StateJoinGame : IGameState
     {
-        const float MapUpdateInterval = 2;
+        const float MapUpdateInterval = 6;
 
         GameClient client;
         Level level;

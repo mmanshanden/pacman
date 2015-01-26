@@ -25,20 +25,10 @@ namespace Base
         #endregion
 
         #region Position
-        private Vector2 position;
         public Vector2 Position
         {
-            get { return this.position; }
-            set
-            {
-                if (value.X == 33 && value.Y == 11 ||
-                    value.X == 11 && value.Y == 33)
-                {
-                    Console.WriteLine("ZOMG");
-                }
-
-                this.position = value;
-            }
+            get;
+            set;
         }
         public Vector2 Center
         {
