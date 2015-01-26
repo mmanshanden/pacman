@@ -80,6 +80,7 @@
     <Compile Include="Ghosts\Inky.cs" />
     <Compile Include="Ghosts\Pinky.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="LobbyPlayer.cs" />
     <Compile Include="Maze.cs" />
     <Compile Include="Pacman.cs" />
     <Compile Include="Player.cs" />

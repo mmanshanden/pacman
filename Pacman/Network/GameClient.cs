@@ -95,6 +95,7 @@ namespace Network
         /// <param name="message">Message to send</param>
         public void SetData(NetMessage message)
         {
+            message.ConnectionId = this.ConnectionID;
             this.sendData = message;
         }
 

@@ -9,9 +9,12 @@ namespace Pacman
     class StateJoinLobby : Menu
     {
         GameClient client;
-        LobbyMessage lobbyState;
         IGameState nextState;
         StateJoinGame game;
+
+        LobbyPlayer self;
+        IndexedGameObjectList others;
+        private bool ready;
 
         public StateJoinLobby(string endpoint)
         {
@@ -20,6 +23,10 @@ namespace Pacman
             // Connect to given serveraddress
             this.client = new GameClient();
             this.client.ConnectToServer(endpoint);
+
+            this.self = new LobbyPlayer();
+            this.others = new IndexedGameObjectList();
+            this.ready = false;
         }
         public StateJoinLobby(GameClient client)
         {
@@ -56,29 +63,59 @@ namespace Pacman
         {
             this.client.Update(dt);
 
+            if (this.ready)
+            {
+                NetMessage send = new NetMessage();
+                send.Type = PacketType.Lobby;
+
+                NetMessageContent basemsg = new NetMessageContent();
+                basemsg.Id = this.client.ConnectionID;
+
+                if (basemsg.Id == 0)
+                    return;
+
+                send.SetData(this.self.UpdateMessage(basemsg));
+                this.client.SetData(send);
+            }
+
+
             NetMessage received = this.client.GetData();
 
             if (received == null)
                 return;
 
-            switch (received.Type)
+            this.ready = true;
+            
+            if (received.Type == PacketType.WorldState)
             {
-                case PacketType.Lobby:
-                    this.lobbyState = received.GetData() as LobbyMessage;
-                    break;
-                case PacketType.WorldState:
-                    this.game = new StateJoinGame(client, received);
-                    break;                    
+                this.game = new StateJoinGame(client, received);
+                return;
             }
+
+            if (received.Type != PacketType.Lobby)
+                return;
+
+            NetMessageContent cmsg;
+            while ((cmsg = received.GetData()) != null)
+            {
+                LobbyMessage lmsg = (LobbyMessage)cmsg;
+
+                if (!this.others.Contains(lmsg.Id))
+                    this.others.Add(lmsg.Id, new LobbyPlayer());
+
+                this.others.UpdateObject(lmsg);                
+            }
+
         }
 
         public override void Draw(DrawHelper drawHelper)
         {
-            if (this.lobbyState != null)
-                drawHelper.DrawString("Players in lobby: " + this.lobbyState.PlayerCount, Vector2.One * 0.1f, DrawHelper.Origin.TopLeft, Color.White);
+            if (this.ready)
+                this.self.Draw(drawHelper);
             else
-                drawHelper.DrawString("Connecting to server...", Vector2.One * 0.1f, DrawHelper.Origin.TopLeft, Color.White);
-
+            {
+                drawHelper.DrawString("Connecting to server...", Vector2.One * 0.5f, DrawHelper.Origin.Center, Color.White);
+            }
             base.Draw(drawHelper);
         }
 

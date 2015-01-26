@@ -62,7 +62,7 @@ namespace Pacman
 
             for (int i = 0; i < connections.Count; i++)
             {
-                int playernr = i % supportedPlayerAmount;
+                int playernr = ((i + 1) % supportedPlayerAmount) + 1; 
 
                 Pacman pacman = new Pacman();
                 pacman.Spawn = levelfile.ReadVector("player" + playernr + "_position");

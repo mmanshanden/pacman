@@ -15,6 +15,11 @@ namespace Base
     {
         Dictionary<int, GameObject> gameObjects;
 
+        public int Count
+        {
+            get { return this.gameObjects.Count; }
+        }
+
         public IndexedGameObjectList()
         {
             this.gameObjects = new Dictionary<int, GameObject>();
@@ -25,11 +30,15 @@ namespace Base
             this.gameObjects[id] = gameObject;
         }
 
+        public GameObject Get(int id)
+        {
+            return this.gameObjects[id];
+        }
+
         public bool Contains(int id)
         {
             return this.gameObjects.ContainsKey(id);
         }
-
 
         public void UpdateObject(int id, NetMessageContent cmsg)
         {
@@ -54,6 +63,12 @@ namespace Base
 
                 msg.SetData(cmsg);
             }
+        }
+
+        public override void Draw(DrawHelper drawHelper)
+        {
+            foreach (GameObject gameobject in this.gameObjects.Values)
+                gameobject.Draw(drawHelper);
         }
     }
 }

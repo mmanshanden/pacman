@@ -232,7 +232,6 @@ namespace Network
         /// <param name="message">Received message</param>
         private void ReceiveMessage(NetMessage message)
         {
-            message.ConnectionId = inc.SenderConnection.GetHashCode();
             this.receivedData.Add(message);
         }
 

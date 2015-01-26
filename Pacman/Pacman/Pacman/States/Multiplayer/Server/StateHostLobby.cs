@@ -10,15 +10,11 @@ namespace Pacman
     {
         int levelIndex;
         GameServer server;
-        LobbyMessage lobbyState;
+
+        LobbyPlayer self;
+        IndexedGameObjectList players;
 
         IGameState nextState;
-
-        public enum GameModes
-        {
-            Multi,
-            Player
-        }
 
         public StateHostLobby(int levelIndex)
         {
@@ -36,9 +32,13 @@ namespace Pacman
                 Console.WriteLine(e.ToString());
             }
 
-            this.lobbyState = new LobbyMessage();
+            this.self = new LobbyPlayer();
+            this.self.Position = new Vector2(0.1f, 0.1f);
+            this.players = new IndexedGameObjectList();
+            this.players.Add(0, self);
 
             Console.WriteLine("Hosting lobby");
+            
         }
 
         public StateHostLobby(int levelIndex, GameServer server)
@@ -47,13 +47,11 @@ namespace Pacman
 
             this.levelIndex = levelIndex;
             this.server = server;
-
-            this.lobbyState = new LobbyMessage();
         }
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            if (inputHelper.KeyDown(Keys.X) && this.lobbyState.PlayerCount > 1)
+            if (inputHelper.KeyDown(Keys.X) && this.players.Count > 1)
                 this.nextState = new StateHostGame(this.server, this.levelIndex);
 
             if (inputHelper.KeyDown(Keys.Back))
@@ -74,37 +72,49 @@ namespace Pacman
 
         public override void Update(float dt)
         {
-            if (this.server.GetConnections().Count == 0 && this.levelIndex == 1)
+            if (this.players.Count < 2 && this.levelIndex == 1)
                 this.server.Visible = true;
 
             else
                 this.server.Visible = false;
-            
+
+
             NetMessage send = new NetMessage();
             send.Type = PacketType.Lobby;
 
-            lobbyState.PlayerCount = 1 + this.server.GetConnections().Count;
+            NetMessageContent basemsg = new NetMessageContent();
+            this.players.WriteAllToMessage(send, basemsg);
 
-            send.SetData(lobbyState);
             this.server.SetData(send);
-            this.server.ClearData();
+
+            NetMessage received = this.server.GetData();
+
+            if (received == null)
+                return;
+
+            int i = 2;
+            NetMessageContent cmsg;
+            while((cmsg = received.GetData()) != null)
+            {
+                if (cmsg.Id == 0)
+                    return;
+
+                LobbyMessage lmsg = (LobbyMessage)cmsg;
+
+                if (!this.players.Contains(lmsg.Id))
+                    this.players.Add(lmsg.Id, new LobbyPlayer());
+
+                this.players.UpdateObject(lmsg.Id, lmsg);
+                this.players.Get(lmsg.Id).Position = new Vector2(0.1f, 0.1f * i);
+
+                i++;
+            }
+
         }
         
         public override void Draw(DrawHelper drawHelper)
         {
-            int i = 0;
-
-            foreach (GameServer.Connection connection in this.server.GetConnections())
-            {
-                if (i > 6)
-                    break;
-
-                Vector2 position = Vector2.One * 0.1f;
-                position.Y += 0.1f * i;
-
-                drawHelper.DrawString(connection.Id + " (" + connection.Ip + ") ", position, DrawHelper.Origin.TopLeft, Color.White);
-                i++;
-            }
+            this.players.Draw(drawHelper);
 
             base.Draw(drawHelper);
         }
