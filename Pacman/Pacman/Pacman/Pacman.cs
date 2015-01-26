@@ -84,6 +84,9 @@ namespace Pacman
 
         public virtual void Die()
         {
+            if (this.Lives < 1)
+                return;
+
             this.Lives--;
             // Reset position to Spawn
             this.Position = this.spawn;
@@ -100,7 +103,11 @@ namespace Pacman
         {
             // if no lives left set position out of the map
             if (this.Lives < 1)
+            {
                 this.Position = Vector2.One * -20;
+                return;
+            }
+                
 
             // Animation update if moving
             if (this.Velocity != Vector2.Zero)
@@ -184,10 +191,18 @@ namespace Pacman
             this.Position = pmsg.Position;
             this.Direction = pmsg.Direction;
             this.Speed = pmsg.Speed;
-            // -1 lets server know to keep own Live value
+
             if (pmsg.Lives != -1)
-                this.Lives = pmsg.Lives;
-            // -1 lets server know to keep own Score value
+            {
+                if (pmsg.Lives == this.Lives - 1)
+                    this.Die();
+                else
+                {
+                    // debug
+                    throw new System.Exception("Client and server to much out of sync.");
+                }
+            }
+
             if (pmsg.Score != -1)
                 this.Score = pmsg.Score;
         }
