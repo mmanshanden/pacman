@@ -85,9 +85,7 @@ namespace Pacman
 
             if (received == null)
                 return;
-
-            this.ready = true;
-            
+                        
             if (received.Type == PacketType.WorldState)
             {
                 this.game = new StateJoinGame(client, received);
@@ -108,17 +106,40 @@ namespace Pacman
                 this.others.UpdateObject(lmsg);                
             }
 
+            this.ready = true;
+
+        }
+
+        public override void Draw(DrawManager drawManager)
+        {
+            if (!this.ready)
+                return;
+
+            Game.Camera.SwitchToOrtho();
+
+            this.self.Position = new Vector2(0.25f, 0.25f);
+            this.self.Draw(drawManager);
+
+            GameObject partner = this.others.Get(0);
+            partner.Position = new Vector2(0.75f, 0.25f);
+            partner.Draw(drawManager);
         }
 
         public override void Draw(DrawHelper drawHelper)
         {
-            if (this.ready)
-                this.self.Draw(drawHelper);
-            else
+            base.Draw(drawHelper);
+
+            if (!this.ready)
             {
                 drawHelper.DrawString("Connecting to server...", Vector2.One * 0.5f, DrawHelper.Origin.Center, Color.White);
+                return;
             }
-            base.Draw(drawHelper);
+
+            this.self.Draw(drawHelper);
+            GameObject partner = this.others.Get(0);
+            partner.Position = new Vector2(0.75f, 0.25f);
+            partner.Draw(drawHelper);
+
         }
 
     }

@@ -74,33 +74,33 @@ namespace Pacman
         public override void Draw(_3dgl.DrawManager drawManager)
         {
             drawManager.Translate(-0.5f, -0.5f);
-            drawManager.RotateY(-MathHelper.PiOver2);
+            drawManager.RotateX(-MathHelper.PiOver2);
             drawManager.Translate(0.5f, 0.5f);
 
             drawManager.Translate(-0.5f, -0.5f);
-            drawManager.RotateX(this.rotation);
+            drawManager.RotateY(this.rotation);
             drawManager.Translate(0.5f, 0.5f);
 
-            drawManager.Translate(1.1f, 0.9f);
+            drawManager.Translate(-0.5f, 5);
             drawManager.Scale(0.05f, 0.05f);
             drawManager.Translate(this.Position);
             drawManager.DrawModel("pacman_open");
             drawManager.Translate(-this.Position);
             drawManager.Scale(20f, 20f);
-            drawManager.Translate(-1.1f, -0.9f);
-
+            drawManager.Translate(0.5f, -5);
+            
             drawManager.Translate(-0.5f, -0.5f);
-            drawManager.RotateX(-this.rotation);
+            drawManager.RotateY(-this.rotation);
             drawManager.Translate(0.5f, 0.5f);
 
             drawManager.Translate(-0.5f, -0.5f);
-            drawManager.RotateY(MathHelper.PiOver2);
+            drawManager.RotateX(MathHelper.PiOver2);
             drawManager.Translate(0.5f, 0.5f);
         }
 
         public override void Draw(DrawHelper drawHelper)
         {
-            drawHelper.DrawString(this.Name, this.Position, DrawHelper.Origin.TopLeft, Color.White);
+            drawHelper.DrawString(this.Name, this.Position, DrawHelper.Origin.Center, Color.White);
         }
     }
 }

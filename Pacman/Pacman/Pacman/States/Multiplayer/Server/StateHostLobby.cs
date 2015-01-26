@@ -107,8 +107,6 @@ namespace Pacman
                     this.players.Add(lmsg.Id, new LobbyPlayer());
 
                 this.players.UpdateObject(lmsg.Id, lmsg);
-                this.players.Get(lmsg.Id).Position = new Vector2(0.1f, 0.2f * i);
-
                 i++;
             }
 
@@ -118,14 +116,32 @@ namespace Pacman
         {
             Game.Camera.SwitchToOrtho();
 
-            this.players.Draw(drawManager);
+            this.self.Position = new Vector2(0.25f, 0.25f);
+            this.self.Draw(drawManager);
+
+            if (this.players.Count < 2)
+                return;
+
+            int partnerId = this.server.GetConnections()[0].Id;
+            GameObject other = this.players.Get(partnerId);
+            other.Position = new Vector2(0.75f, 0.25f);
+            other.Draw(drawManager);
         }
 
         public override void Draw(DrawHelper drawHelper)
         {
-            this.players.Draw(drawHelper);
-
             base.Draw(drawHelper);
+
+            this.self.Draw(drawHelper);
+
+            if (this.players.Count < 2)
+                return;
+
+            int partnerId = this.server.GetConnections()[0].Id;
+            GameObject other = this.players.Get(partnerId);
+            other.Position = new Vector2(0.75f, 0.25f);
+            other.Draw(drawHelper);
+
         }
     }
 }

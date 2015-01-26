@@ -84,7 +84,7 @@ namespace _3dgl
         {
             this.orthoMode = false;
             this.effect.Projection = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver4,
+                MathHelper.PiOver2,
                 this.graphicsDevice.Viewport.AspectRatio,
                 0.1f,
                 100f
@@ -97,11 +97,12 @@ namespace _3dgl
             {
                 effect.LightingEnabled = false;
                 effect.View = Matrix.CreateLookAt(
-                    new Vector3(0.5f, -1, 0.5f), 
+                    new Vector3(0.5f, 1, 0.5f), 
                     new Vector3(0.5f, 0, 0.5f), 
-                    new Vector3(-1, 0, 0)
+                    new Vector3(0, 0, -1)
                 );
                 
+                this.SwitchToPerspective();
                 return;
             }
 
