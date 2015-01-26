@@ -139,6 +139,7 @@ namespace Pacman
         {
             base.Draw(drawHelper);
 
+            this.self.Name = "You";
             this.self.Draw(drawHelper);
 
             if (this.players.Count < 2)
@@ -146,6 +147,7 @@ namespace Pacman
 
             int partnerId = this.server.GetConnections()[0].Id;
             GameObject other = this.players.Get(partnerId);
+            (other as LobbyPlayer).Name = "Partner";
             other.Position = new Vector2(0.75f, 0.25f);
             other.Draw(drawHelper);
 

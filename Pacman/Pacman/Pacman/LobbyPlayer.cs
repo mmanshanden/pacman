@@ -5,19 +5,7 @@ using Network;
 namespace Pacman
 {
     class LobbyPlayer : GameObject
-    {
-        public readonly string[] names = new string[] 
-        {
-            "Peaceful Pacman",
-            "Perfect Pacman",
-            "Passionate Pacman",
-            "Infamous Inky",
-            "Immortal Inky",
-            "Incredible Inky",
-            "Illogical Inky",
-            "Cataclysmic Clyde"
-        };
-      
+    {      
         public int Score
         {
             get;
@@ -26,15 +14,15 @@ namespace Pacman
 
         public string Name
         {
-            get { return this.names[this.name]; }
+            get;
+            set;
         }
 
-        private int name;
         private float rotation;
 
         public LobbyPlayer()
         {
-            this.name = Game.Random.Next(this.names.Length);
+
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -54,7 +42,6 @@ namespace Pacman
 
             lmsg.Score = this.Score;
             lmsg.Rotation = this.rotation;
-            lmsg.Name = this.name;
 
             return lmsg;
         }
@@ -67,7 +54,6 @@ namespace Pacman
             if (lmsg.Score != -1)
                 this.Score = lmsg.Score;
 
-            this.name = lmsg.Name;
             this.rotation = lmsg.Rotation;
         }
 

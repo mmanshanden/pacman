@@ -139,8 +139,11 @@ namespace Pacman
                 return;
             }
 
+            this.self.Name = "You";
             this.self.Draw(drawHelper);
+           
             GameObject partner = this.others.Get(0);
+            (partner as LobbyPlayer).Name = "Partner"; 
             partner.Position = new Vector2(0.75f, 0.25f);
             partner.Draw(drawHelper);
 

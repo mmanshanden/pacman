@@ -8,10 +8,7 @@ namespace Network
 {
     public class LobbyMessage : NetMessageContent
     {
-        public int PlayerCount;
-
         public float Rotation;
-        public int Name;
         public int Score;
 
         public LobbyMessage()
@@ -23,9 +20,7 @@ namespace Network
         {
             base.ReadMessage(msg);
 
-            this.PlayerCount = msg.ReadInt32();
             this.Rotation = msg.ReadFloat();
-            this.Name = msg.ReadInt32();
             this.Score = msg.ReadInt32();
         }
 
@@ -33,9 +28,7 @@ namespace Network
         {
             base.WriteMessage(msg);
 
-            msg.Write(this.PlayerCount);
             msg.Write(this.Rotation);
-            msg.Write(this.Name);
             msg.Write(this.Score);
         }
     }
