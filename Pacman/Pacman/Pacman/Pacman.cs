@@ -202,7 +202,11 @@ namespace Pacman
                 else
                 {
                     if (pmsg.Lives != this.Lives)
-                        Console.WriteLine("Client and server too much out of sync.");
+                    {
+                        this.Position = pmsg.Position;
+                        this.Direction = pmsg.Direction;
+                        this.Speed = pmsg.Speed;
+                    }
                 }
             }
 

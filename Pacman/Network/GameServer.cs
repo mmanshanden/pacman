@@ -51,7 +51,7 @@ namespace Network
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
             config.ConnectionTimeout = 15;
-            config.MaximumConnections = 1;
+            config.MaximumConnections = 2;
             config.Port = ServerPort;
 
             this.server = new NetServer(config);
@@ -195,7 +195,7 @@ namespace Network
             Thread.Sleep(200);
 
             // send reply
-            server.SendMessage(outmsg, inc.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+            server.SendMessage(outmsg, inc.SenderConnection, NetDeliveryMethod.UnreliableSequenced, 0);
 
             if (Debug)
                 Console.WriteLine("Login reply send back to " + inc.SenderEndpoint.Address.ToString());

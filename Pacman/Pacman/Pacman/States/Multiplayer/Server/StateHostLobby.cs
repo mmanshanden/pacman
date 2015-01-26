@@ -78,7 +78,7 @@ namespace Pacman
 
         public override void Update(float dt)
         {
-            if (this.players.Count < 2 && this.levelIndex == 1)
+            if (this.players.Count < 3 && this.levelIndex == 1)
                 this.server.Visible = true;
 
             else
