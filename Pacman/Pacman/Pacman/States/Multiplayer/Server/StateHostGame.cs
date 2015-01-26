@@ -21,7 +21,7 @@ namespace Pacman
 
         private List<Pacman> pacmans;
 
-        public StateHostGame(GameServer server, int index = 1)
+        public StateHostGame(GameServer server, List<LobbyPlayer> players, int index = 1)
         {
             this.server = server;
             this.server.Visible = false;
@@ -35,6 +35,16 @@ namespace Pacman
             this.levelIndex = index;
             this.level = this.LoadLevel(index);
             this.players.Add(0, this.level.Player);
+
+            foreach (LobbyPlayer player in players)
+            {
+                Pacman pl = this.players.Get(player.Id) as Pacman;
+
+                if (pl != null)
+                {
+                    pl.Score = player.Score;
+                }
+            }
         }
 
         private Level LoadLevel(int index)
@@ -227,7 +237,7 @@ namespace Pacman
 
             if (this.level.GetBubbles().Count == 0)
             {
-                this.nextState = new StateHostLobby(this.levelIndex + 1, this.server, send);
+                this.nextState = new StateHostLobby(this.levelIndex + 1, this.server, send, true);
                 return;
             }
 

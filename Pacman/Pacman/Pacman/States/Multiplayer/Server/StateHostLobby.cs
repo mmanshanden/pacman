@@ -14,6 +14,9 @@ namespace Pacman
 
         LobbyPlayer self;
         IndexedGameObjectList players;
+        List<LobbyPlayer> lplayers;
+
+        private bool keepScore = false;
 
         IGameState nextState;
 
@@ -40,11 +43,13 @@ namespace Pacman
             this.self.Position = new Vector2(0.1f, 0.1f);
             this.players = new IndexedGameObjectList();
             this.players.Add(0, self);
+            this.lplayers = new List<LobbyPlayer>();
+            this.lplayers.Add(self);
 
             Console.WriteLine("Hosting lobby");            
         }
 
-        public StateHostLobby(int levelIndex, GameServer server, NetMessage gamedata)
+        public StateHostLobby(int levelIndex, GameServer server, NetMessage gamedata, bool keepScore = false)
         {
             if (levelIndex < 3)
                 base.controlSprite = "lobbyhost";
@@ -54,7 +59,9 @@ namespace Pacman
             this.levelIndex = levelIndex;
             this.server = server;
 
+            this.keepScore = keepScore;
             this.players = new IndexedGameObjectList();
+            this.lplayers = new List<LobbyPlayer>();
 
             NetMessageContent cmsg;
             while ((cmsg = gamedata.GetData()) != null)
@@ -68,13 +75,17 @@ namespace Pacman
                 {
                     this.self = new LobbyPlayer();
                     this.self.Score = pmsg.Score;
+                    this.self.Id = 0;
                     this.players.Add(0, self);
+                    this.lplayers.Add(self);
                 }
                 else
                 {
                     LobbyPlayer player = new LobbyPlayer();
                     player.Score = pmsg.Score;
+                    player.Id = pmsg.Id;
                     this.players.Add(pmsg.Id, player);
+                    this.lplayers.Add(player);
                 }
             }
 
@@ -84,7 +95,13 @@ namespace Pacman
         {
             if (inputHelper.KeyDown(Keys.X) && this.players.Count > 1 && this.levelIndex < 3)
             {
-                this.nextState = new StateHostGame(this.server, this.levelIndex);
+                if (this.keepScore == false)
+                {
+                    foreach (LobbyPlayer l in this.lplayers)
+                        l.Score = 0;
+                }
+
+                this.nextState = new StateHostGame(this.server, this.lplayers, this.levelIndex);
                 this.server.Visible = false;
             }
             
@@ -149,7 +166,12 @@ namespace Pacman
                 LobbyMessage lmsg = (LobbyMessage)cmsg;
 
                 if (!this.players.Contains(lmsg.Id))
-                    this.players.Add(lmsg.Id, new LobbyPlayer());
+                {   
+                    LobbyPlayer pl = new LobbyPlayer();
+                    pl.Id = lmsg.Id;
+                    this.players.Add(lmsg.Id, pl);
+                    this.lplayers.Add(pl);
+                }
 
                 this.players.UpdateObject(lmsg.Id, lmsg);
                 i++;
@@ -189,6 +211,13 @@ namespace Pacman
             other.Position = new Vector2(0.75f, 0.25f);
             other.Draw(drawHelper);
 
+            int totalscore = 0;
+
+            foreach (LobbyPlayer lplayer in this.lplayers)
+                totalscore += lplayer.Score;
+
+            if (totalscore > 0)
+                drawHelper.DrawStringBig("Total Score: " + totalscore, new Vector2(0.5f, 0.2f), DrawHelper.Origin.Center, Color.White);
         }
     }
 }

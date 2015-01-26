@@ -54,6 +54,11 @@ namespace Base
             this.gameObjects[id].UpdateMessage(cmsg);
         }
 
+        public List<GameObject> GetList()
+        {
+            return this.gameObjects.Values.ToList();
+        }
+        
         /// <summary>
         /// Updates the baseMessage for every game object in
         /// the collection. Then adds updates message content

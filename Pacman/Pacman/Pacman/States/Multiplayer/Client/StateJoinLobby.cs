@@ -156,6 +156,14 @@ namespace Pacman
             partner.Position = new Vector2(0.75f, 0.25f);
             partner.Draw(drawHelper);
 
+            int totalscore = self.Score;
+
+            foreach (GameObject lplayer in this.others.GetList())
+                totalscore += (lplayer as LobbyPlayer).Score;
+
+            if (totalscore > 0)
+                drawHelper.DrawStringBig("Total Score: " + totalscore, new Vector2(0.5f, 0.2f), DrawHelper.Origin.Center, Color.White);
+
         }
 
     }
