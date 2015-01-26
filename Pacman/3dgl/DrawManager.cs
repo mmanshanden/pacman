@@ -100,6 +100,11 @@ namespace _3dgl
             return texture;
         }
 
+        public void Reset()
+        {
+            this.effect.World = Matrix.Identity;
+        }
+
         #region Transformations
         // Following transformations translates given 2d x and y
         // values to 3d space.

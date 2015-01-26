@@ -64,6 +64,7 @@ namespace Pacman
 
         protected override void Update(GameTime gameTime)
         {
+            drawHelper3d.Reset();
             drawHelper3d.Camera.Update();
 
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;

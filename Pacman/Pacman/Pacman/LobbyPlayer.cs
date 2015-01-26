@@ -70,6 +70,15 @@ namespace Pacman
             Game.Camera.Zoom = 3;
             Game.Camera.Phi = 0;
             Game.Camera.Rho = 0.4f;
+            Game.Camera.Target = Vector2.Zero;
+            Game.Camera.SetCameraHeight(0);
+
+            if (this.model != null)
+            {
+                this.model.Dispose();
+                this.model = null;
+            }
+
             drawManager.RotateOver(this.rotation, Vector2.One * 0.5f);
             drawManager.Translate(-0.5f, -0.5f);
             this.model = drawManager.DrawModelToTexture("pacman_open", 300, 300);
