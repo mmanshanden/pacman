@@ -216,7 +216,7 @@ namespace Network
             this.sendData.WriteMessage(msg);
 
             // send
-            this.server.SendToAll(msg, NetDeliveryMethod.ReliableSequenced);
+            this.server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);
 
             // message has been send, don't send again
             this.sendData = null;
