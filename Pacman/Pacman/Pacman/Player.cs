@@ -69,7 +69,6 @@ namespace Pacman
                 Game.SoundManager.PlaySoundEffect("bubble");
                 // Set speed to 0 to make ghosts able to catch up
                 this.Speed = 0;
-                Console.WriteLine("Speed penalty");
             }                
             
             base.Collision_GameObject(gameObject);

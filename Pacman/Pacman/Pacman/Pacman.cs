@@ -57,9 +57,10 @@ namespace Pacman
                     this.Die();
                 if (ghost.State == Ghost.States.Frightened)
                 {
-                    int ghostScore = 10 * this.ghostCombo;
+                    int ghostScore = 100 * this.ghostCombo;
                     this.Score = this.Score + ghostScore;
-                    this.ghostCombo *= 2;
+                    if (ghostCombo != 16)
+                        this.ghostCombo *= 2;
                 }
             }
 
@@ -150,8 +151,8 @@ namespace Pacman
         // Draw the Pacman 3D Model 
         public override void Draw(DrawManager drawManager)
         {
-            if (this.Lives < 1)
-                return;
+            //if (this.Lives < 1)
+                //return;
             
             if (this.Velocity != Vector2.Zero)
                 this.rotation = (float)System.Math.Atan2(this.Direction.X, this.Direction.Y);

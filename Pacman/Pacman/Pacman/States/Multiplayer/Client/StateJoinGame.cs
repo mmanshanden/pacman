@@ -126,6 +126,9 @@ namespace Pacman
         public void Update(float dt)
         {
             this.level.Update(dt);
+            Console.Clear();
+            Console.WriteLine(this.level.Player.Position.ToString()); 
+            Console.WriteLine(this.level.Player.Lives.ToString()); 
             this.client.Update(dt);
 
             this.mapUpdateTimer -= dt;
