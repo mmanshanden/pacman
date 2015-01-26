@@ -134,7 +134,7 @@ namespace Network
 
             // UnrealiableSequenced because losing messages is not a deal
             // and it reduces the overhead by some amount.
-            this.client.SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
+            this.client.SendMessage(msg, NetDeliveryMethod.UnreliableSequenced);
             
             if (Debug)
             {
