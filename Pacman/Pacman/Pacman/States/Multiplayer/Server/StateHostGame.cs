@@ -57,14 +57,19 @@ namespace Pacman
             level.Add(player);
 
             // load other players
-            for (int i = 2; i <= levelfile.ReadFloat("players"); i++)
-            {
-                Pacman pacman = new Pacman();
-                pacman.Spawn = levelfile.ReadVector("player" + i + "_position");
-                this.players.Add(this.server.GetConnectedIDs()[i - 2], pacman);
-                this.pacmans.Add(pacman);
-                level.Add(pacman);
+            List<GameServer.Connection> connections = this.server.GetConnections();
+            int supportedPlayerAmount = (int)levelfile.ReadFloat("players");
 
+            for (int i = 0; i < connections.Count; i++)
+            {
+                int playernr = i % supportedPlayerAmount;
+
+                Pacman pacman = new Pacman();
+                pacman.Spawn = levelfile.ReadVector("player" + playernr + "_position");
+                this.players.Add(connections[i].Id, pacman);
+                this.pacmans.Add(pacman);
+
+                level.Add(pacman);
             }
             
             for (int i = 1; i <= levelfile.ReadFloat("ghosthouses"); i++)
@@ -104,7 +109,7 @@ namespace Pacman
 
         public IGameState TransitionTo()
         {
-            if (this.server.GetConnectedIPs().Count == 0)
+            if (this.server.GetConnections().Count == 0)
                 return new MenuErrorMessage("All clients have left the game.");
 
             if (this.gameOver)

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 
@@ -24,7 +25,15 @@ namespace Network
 
         private NetMessage sendData;
         private List<NetMessage> receivedData; // fifo queue
-        private List<int> connectedIds;
+
+        private int lastDistributedId;
+        private Dictionary<NetConnection, Connection> connections;
+
+        public struct Connection
+        {
+            public int Id;
+            public string Ip;
+        }
 
         public bool Visible
         {
@@ -48,7 +57,9 @@ namespace Network
             this.server = new NetServer(config);
 
             this.receivedData = new List<NetMessage>();
-            this.connectedIds = new List<int>();
+
+            this.lastDistributedId = 0;
+            this.connections = new Dictionary<NetConnection, Connection>();
         }
         
         public void StartSimple()
@@ -60,6 +71,11 @@ namespace Network
         public void SetData(NetMessage netMessage)
         {
             this.sendData = netMessage;
+        }
+
+        public List<Connection> GetConnections()
+        {
+            return this.connections.Values.ToList();
         }
 
         /// <summary>
@@ -83,27 +99,6 @@ namespace Network
         public void ClearData()
         {
             this.receivedData.Clear();
-        }
-
-        /// <summary>
-        /// Returns a list of connected IP addresses.
-        /// </summary>
-        public List<string> GetConnectedIPs()
-        {
-            List<string> result = new List<string>();
-
-            foreach(NetConnection connection in this.server.Connections)
-                result.Add(connection.RemoteEndpoint.Address.ToString());
-
-            return result;
-        }
-
-        /// <summary>
-        /// Returns a list of connected client IDs.
-        /// </summary>
-        public List<int> GetConnectedIDs()
-        {
-            return this.connectedIds;
         }
 
         #region Threading
@@ -184,11 +179,17 @@ namespace Network
             NetOutgoingMessage outmsg = server.CreateMessage();
             NetMessage message = new NetMessage();
             message.Type = PacketType.Login;
-            message.ConnectionId = inc.SenderConnection.GetHashCode();
+            message.ConnectionId = this.lastDistributedId + 1;
             message.WriteMessage(outmsg);
 
             // add to list
-            this.connectedIds.Add(message.ConnectionId);
+            Connection connection = new Connection();
+            connection.Id = message.ConnectionId;
+            connection.Ip = inc.SenderEndpoint.Address.ToString();
+            this.connections[inc.SenderConnection] = connection;
+
+            // update id for new connections
+            this.lastDistributedId++;
             
             // allow start up time
             Thread.Sleep(200);
@@ -280,7 +281,7 @@ namespace Network
                     this.receivedData.Add(dcMessage);
 
                     // remove from ids
-                    this.connectedIds.Remove(dcMessage.ConnectionId);                    
+                    this.connections.Remove(inc.SenderConnection);
                     break;
 
                 case NetIncomingMessageType.Data:

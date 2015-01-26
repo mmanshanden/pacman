@@ -32,7 +32,8 @@ namespace Pacman
             }
             catch (System.Net.Sockets.SocketException e)
             {
-                this.nextState = new MenuErrorMessage("Could not start server. Socket unavailable.");
+                this.nextState = new MenuErrorMessage("Could not start server.");
+                Console.WriteLine(e.ToString());
             }
 
             this.lobbyState = new LobbyMessage();
@@ -73,7 +74,7 @@ namespace Pacman
 
         public override void Update(float dt)
         {
-            if (this.server.GetConnectedIPs().Count == 0 && this.levelIndex == 1)
+            if (this.server.GetConnections().Count == 0 && this.levelIndex == 1)
                 this.server.Visible = true;
 
             else
@@ -82,7 +83,7 @@ namespace Pacman
             NetMessage send = new NetMessage();
             send.Type = PacketType.Lobby;
 
-            lobbyState.PlayerCount = 1 + this.server.GetConnectedIPs().Count;
+            lobbyState.PlayerCount = 1 + this.server.GetConnections().Count;
 
             send.SetData(lobbyState);
             this.server.SetData(send);
@@ -93,7 +94,7 @@ namespace Pacman
         {
             int i = 0;
 
-            foreach (string ip in this.server.GetConnectedIPs())
+            foreach (GameServer.Connection connection in this.server.GetConnections())
             {
                 if (i > 6)
                     break;
@@ -101,7 +102,7 @@ namespace Pacman
                 Vector2 position = Vector2.One * 0.1f;
                 position.Y += 0.1f * i;
 
-                drawHelper.DrawString(ip, position, DrawHelper.Origin.TopLeft, Color.White);
+                drawHelper.DrawString(connection.Id + " (" + connection.Ip + ") ", position, DrawHelper.Origin.TopLeft, Color.White);
                 i++;
             }
 
