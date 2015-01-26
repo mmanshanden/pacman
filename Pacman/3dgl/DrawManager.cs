@@ -37,7 +37,7 @@ namespace _3dgl
             this.graphicsDevice = graphicsDevice;
             this.effect = new BasicEffect(graphicsDevice);
             this.ModelLibrary = new ModelLibrary(graphicsDevice, content);
-            this.Camera = new Camera(this.effect);
+            this.Camera = new Camera(this.effect, graphicsDevice);
         }
 
         /// <summary>
@@ -100,6 +100,17 @@ namespace _3dgl
         public void Rotate(float radians)
         {
             this.effect.World *= Matrix.CreateRotationY(radians);
+        }
+
+        // y = z axis
+        public void RotateY(float radians)
+        {
+            this.effect.World *= Matrix.CreateRotationZ(radians);
+        }
+
+        public void RotateX(float radians)
+        {
+            this.effect.World *= Matrix.CreateRotationX(radians);
         }
 
         /// <summary>

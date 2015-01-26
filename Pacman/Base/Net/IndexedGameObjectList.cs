@@ -65,10 +65,16 @@ namespace Base
             }
         }
 
+        public override void Draw(_3dgl.DrawManager drawManager)
+        {
+            foreach (GameObject gameObject in this.gameObjects.Values)
+                gameObject.Draw(drawManager);
+        }
         public override void Draw(DrawHelper drawHelper)
         {
-            foreach (GameObject gameobject in this.gameObjects.Values)
-                gameobject.Draw(drawHelper);
+            foreach (GameObject gameObject in this.gameObjects.Values)
+                gameObject.Draw(drawHelper);
         }
+        
     }
 }

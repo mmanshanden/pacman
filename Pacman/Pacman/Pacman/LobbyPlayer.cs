@@ -37,6 +37,15 @@ namespace Pacman
             this.name = Game.Random.Next(this.names.Length);
         }
 
+        public void HandleInput(InputHelper inputHelper)
+        {
+            if (inputHelper.KeyDown(Microsoft.Xna.Framework.Input.Keys.A))
+                this.rotation -= 0.05f;
+
+            if (inputHelper.KeyDown(Microsoft.Xna.Framework.Input.Keys.D))
+                this.rotation += 0.05f;
+        }
+
         // Set data for outgoing message
         public override NetMessageContent UpdateMessage(NetMessageContent cmsg)
         {
@@ -60,6 +69,31 @@ namespace Pacman
 
             this.name = lmsg.Name;
             this.rotation = lmsg.Rotation;
+        }
+
+        public override void Draw(_3dgl.DrawManager drawManager)
+        {
+            drawManager.Translate(-0.5f, -0.5f);
+            drawManager.RotateY(-MathHelper.PiOver2);
+            drawManager.Translate(0.5f, 0.5f);
+
+            drawManager.Translate(-0.5f, -0.5f);
+            drawManager.RotateX(this.rotation);
+            drawManager.Translate(0.5f, 0.5f);
+
+            drawManager.Scale(0.05f, 0.05f);
+            drawManager.Translate(this.Position);
+            drawManager.DrawModel("pacman_open");
+            drawManager.Translate(-this.Position);
+            drawManager.Scale(20, 20);
+
+            drawManager.Translate(-0.5f, -0.5f);
+            drawManager.RotateX(-this.rotation);
+            drawManager.Translate(0.5f, 0.5f);
+
+            drawManager.Translate(-0.5f, -0.5f);
+            drawManager.RotateY(MathHelper.PiOver2);
+            drawManager.Translate(0.5f, 0.5f);
         }
 
         public override void Draw(DrawHelper drawHelper)

@@ -43,6 +43,8 @@ namespace Pacman
                 this.client.Disconnect();
                 this.nextState = new MenuServerBrowser(); 
             }
+
+            this.self.HandleInput(inputHelper);
         }
 
         public override IGameState TransitionTo()

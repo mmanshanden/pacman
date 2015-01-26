@@ -60,6 +60,8 @@ namespace Pacman
 
                 this.nextState = new MenuServerBrowser();
             }
+
+            this.self.HandleInput(inputHelper);
         }
 
         public override IGameState TransitionTo()
@@ -111,7 +113,14 @@ namespace Pacman
             }
 
         }
-        
+
+        public override void Draw(DrawManager drawManager)
+        {
+            Game.Camera.SwitchToOrtho();
+
+            this.players.Draw(drawManager);
+        }
+
         public override void Draw(DrawHelper drawHelper)
         {
             this.players.Draw(drawHelper);

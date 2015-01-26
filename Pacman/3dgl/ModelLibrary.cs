@@ -37,7 +37,7 @@ namespace _3dgl
 
             // immediately add a simple block/cube model
             ModelBuilder block = this.BeginModel();
-            block.PrimitiveBatch.SetColor(Color.Black);
+            block.PrimitiveBatch.SetColor(Color.White);
             block.PrimitiveBatch.DrawCube();
             this.EndModel("block");
         }
