@@ -103,7 +103,7 @@ namespace Pacman
                 if (!this.others.Contains(lmsg.Id))
                     this.others.Add(lmsg.Id, new LobbyPlayer());
 
-                this.others.UpdateObject(lmsg);                
+                this.others.UpdateObject(lmsg.Id, lmsg);                
             }
 
             this.ready = true;

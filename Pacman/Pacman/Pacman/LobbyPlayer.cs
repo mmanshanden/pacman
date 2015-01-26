@@ -40,10 +40,10 @@ namespace Pacman
         public void HandleInput(InputHelper inputHelper)
         {
             if (inputHelper.KeyDown(Microsoft.Xna.Framework.Input.Keys.A))
-                this.rotation -= 0.05f;
+                this.rotation += 0.05f;
 
             if (inputHelper.KeyDown(Microsoft.Xna.Framework.Input.Keys.D))
-                this.rotation += 0.05f;
+                this.rotation -= 0.05f;
         }
 
         // Set data for outgoing message

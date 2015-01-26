@@ -37,8 +37,7 @@ namespace Pacman
             this.players = new IndexedGameObjectList();
             this.players.Add(0, self);
 
-            Console.WriteLine("Hosting lobby");
-            
+            Console.WriteLine("Hosting lobby");            
         }
 
         public StateHostLobby(int levelIndex, GameServer server)
@@ -47,6 +46,11 @@ namespace Pacman
 
             this.levelIndex = levelIndex;
             this.server = server;
+
+            this.self = new LobbyPlayer();
+            this.self.Position = new Vector2(0.1f, 0.1f);
+            this.players = new IndexedGameObjectList();
+            this.players.Add(0, self);
         }
 
         public override void HandleInput(InputHelper inputHelper)
