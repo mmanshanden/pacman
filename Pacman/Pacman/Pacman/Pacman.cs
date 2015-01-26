@@ -61,6 +61,8 @@ namespace Pacman
                     this.Score = this.Score + ghostScore;
                     if (ghostCombo != 16)
                         this.ghostCombo *= 2;
+
+                    Game.SoundManager.PlaySoundEffect("ghost_dead");
                 }
             }
 
@@ -200,7 +202,7 @@ namespace Pacman
                 else
                 {
                     if (pmsg.Lives != this.Lives)
-                        throw new System.Exception("Client and server too much out of sync.");
+                        Console.WriteLine("Client and server too much out of sync.");
                 }
             }
 
