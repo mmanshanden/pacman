@@ -68,11 +68,14 @@ namespace Pacman
 
             else if (gameObject is Bubble)
             {
-                this.Score++;
+                this.Score += 10;
             }
 
             else if (gameObject is Powerup)
             {
+                // Get some fancy points
+                this.Score += 50; 
+
                 // Reset the ghostcombo
                 this.ghostCombo = 1; 
 
