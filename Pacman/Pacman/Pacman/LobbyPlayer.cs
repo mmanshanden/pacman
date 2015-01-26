@@ -87,6 +87,8 @@ namespace Pacman
         public override void Draw(DrawHelper drawHelper)
         {
             drawHelper.DrawString(this.Name, this.Position, DrawHelper.Origin.Center, Color.White);
+            if (this.Score != 0)
+                drawHelper.DrawString(this.Score.ToString(), this.Position + Vector2.UnitY * 0.4f, DrawHelper.Origin.Center, Color.White);
         }
     }
 }

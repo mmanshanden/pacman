@@ -17,8 +17,6 @@ namespace Pacman
 
         IGameState nextState; 
 
-        private bool gameOver;
-        private bool nextLevel;
         private int levelIndex;
 
         private List<Pacman> pacmans;
@@ -34,8 +32,6 @@ namespace Pacman
             this.ghosts = new OrderedGameObjectList();
             this.pacmans = new List<Pacman>();
 
-            this.gameOver = false;
-            this.nextLevel = false;
             this.levelIndex = index;
             this.level = this.LoadLevel(index);
             this.players.Add(0, this.level.Player);
@@ -121,12 +117,6 @@ namespace Pacman
             }
                 
 
-            if (this.gameOver)
-                return new StateHostLobby(this.levelIndex, this.server);
-
-            if (this.nextLevel)
-                return new StateHostLobby(this.levelIndex + 1, this.server);
-
             if (this.nextState != null)
             {
                 // set next state to null such that returning
@@ -187,18 +177,7 @@ namespace Pacman
                     
 			}
 
-            if (totalLives <= 0)
-            {
-                this.gameOver = true;
-                return;
-            }
-
-            if (this.level.GetBubbles().Count == 0)
-            {
-                this.nextLevel = true;
-                return;
-            }
-
+        
             foreach (GhostHouse ghosthouse in this.level.GhostHouses)
             {
                 if (alivePlayers == 2)
@@ -238,8 +217,20 @@ namespace Pacman
             
             NetMessage send = new NetMessage();
             send.Type = PacketType.WorldState;
-
             this.SendData(send);
+
+            if (totalLives <= 0)
+            {
+                this.nextState = new StateHostLobby(this.levelIndex, this.server, send);
+                return;
+            }
+
+            if (this.level.GetBubbles().Count == 0)
+            {
+                this.nextState = new StateHostLobby(this.levelIndex + 1, this.server, send);
+                return;
+            }
+
             this.server.SetData(send);
         }
 

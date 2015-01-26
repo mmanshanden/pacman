@@ -80,6 +80,9 @@ namespace Pacman
                 if (basemsg.Id == 0)
                     return;
 
+                NetMessageContent m = this.self.UpdateMessage(basemsg);
+                (m as LobbyMessage).Score = -1;
+
                 send.SetData(this.self.UpdateMessage(basemsg));
                 this.client.SetData(send);
             }
@@ -103,6 +106,12 @@ namespace Pacman
             while ((cmsg = received.GetData()) != null)
             {
                 LobbyMessage lmsg = (LobbyMessage)cmsg;
+
+                if (lmsg.Id == this.client.ConnectionID)
+                {
+                    this.self.Score = lmsg.Score;
+                    continue;
+                }
 
                 if (!this.others.Contains(lmsg.Id))
                     this.others.Add(lmsg.Id, new LobbyPlayer());
