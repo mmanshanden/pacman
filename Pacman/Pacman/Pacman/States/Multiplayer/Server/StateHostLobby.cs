@@ -98,6 +98,9 @@ namespace Pacman
             if (received == null)
                 return;
 
+            if (received.Type != PacketType.Lobby)
+                return;
+
             int i = 2;
             NetMessageContent cmsg;
             while((cmsg = received.GetData()) != null)

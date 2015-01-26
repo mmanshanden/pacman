@@ -33,6 +33,10 @@ namespace Pacman
             base.controlSprite = "back";
 
             this.client = client;
+
+            this.self = new LobbyPlayer();
+            this.others = new IndexedGameObjectList();
+            this.ready = false;
         }
 
         public override void HandleInput(InputHelper inputHelper)
