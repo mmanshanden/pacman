@@ -12,7 +12,7 @@ namespace Network
     {
         private bool Debug = false;
 
-        const float SendInterval =  1/ 32f;
+        const float SendInterval =  1/ 40f;
         const int ServerPort = 1000;
 
         private Thread serverThread;

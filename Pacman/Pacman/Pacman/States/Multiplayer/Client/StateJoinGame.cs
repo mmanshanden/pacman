@@ -102,11 +102,11 @@ namespace Pacman
                 }
             }
             
-
             
-
             this.returnToLobby = false;
             this.mapUpdateTimer = MapUpdateInterval;
+
+            this.level.Player.NetPlayer = true;
         }
 
         public void HandleInput(InputHelper inputHelper)
@@ -182,8 +182,17 @@ namespace Pacman
                         {
                             PlayerMessage pmsg = cmsg as PlayerMessage;
 
-                            // update lives and score with server data
-                            this.level.Player.Lives = pmsg.Lives;
+                            Pacman ownplayer = this.level.Player;
+
+                            if (pmsg.Lives != ownplayer.Lives)
+                            {
+                                if (pmsg.Lives == ownplayer.Lives - 1)
+                                    ownplayer.Die();
+
+                                else
+                                    ownplayer.UpdateObject(pmsg); // out of sync, sync with server
+                            }
+                            
                             this.level.Player.Score = pmsg.Score;
                             continue;
                         }

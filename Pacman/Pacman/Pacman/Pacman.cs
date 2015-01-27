@@ -38,6 +38,8 @@ namespace Pacman
             }
         }
 
+        public bool NetPlayer { get; set; }
+
         public Pacman()
         {
             this.Lives = 3;
@@ -46,6 +48,7 @@ namespace Pacman
 
             this.time = AnimationTime;
             this.closed = false;
+            this.NetPlayer = false;
         }
 
         public override void Collision_GameObject(GameObject gameObject)
@@ -54,7 +57,8 @@ namespace Pacman
             if (ghost != null)
             {
                 if (ghost.State == Ghost.States.Chase || ghost.State == Ghost.States.Scatter || ghost.State == Ghost.States.Leave)
-                    this.Die();
+                    if (!this.NetPlayer)
+                        this.Die();
                 if (ghost.State == Ghost.States.Frightened)
                 {
                     int ghostScore = 200 * this.ghostCombo;
@@ -198,22 +202,9 @@ namespace Pacman
             this.Direction = pmsg.Direction;
             this.Speed = pmsg.Speed;
 
+            
             if (pmsg.Lives != -1)
-            {
-                if (pmsg.Lives == this.Lives - 1)
-                    this.Die();
-                else
-                {
-                    if (pmsg.Lives != this.Lives)
-                    {
-                        this.Position = pmsg.Position;
-                        this.Direction = pmsg.Direction;
-                        this.Speed = pmsg.Speed;
-                        this.Lives = pmsg.Lives;
-                        this.Score = pmsg.Score;
-                    }
-                }
-            }
+                this.Lives = pmsg.Lives;
 
             if (pmsg.Score != -1)
                 this.Score = pmsg.Score;

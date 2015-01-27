@@ -17,7 +17,7 @@ namespace Network
         private bool Debug = false;
 
         // interval in which to send messages to server.
-        const float SendInterval = 1 / 32f;
+        const float SendInterval = 1 / 40f;
 
         private int clientConnectionId;
         private int loginReplyRetries;
