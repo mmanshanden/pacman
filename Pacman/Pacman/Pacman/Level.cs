@@ -71,7 +71,7 @@ namespace Pacman
 
         public void HandleInput(InputHelper inputHelper)
         {
-            this.Player.Direction = inputHelper.GetDirectionalInput();
+            this.Player.HandleInput(inputHelper);
         }
 
         public void LoadGameBoard(char[,] grid)

@@ -1,5 +1,6 @@
 ﻿using Base;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Network;
 
 namespace Pacman
@@ -99,6 +100,27 @@ namespace Pacman
         public void HandleInput(InputHelper inputHelper)
         {
             this.Direction = inputHelper.GetDirectionalInput();
+
+            // move camera controller
+            Vector2 rs = inputHelper.RightStickVector();
+            Game.Camera.Phi += rs.X * 0.03f;
+            Game.Camera.Rho += rs.Y * -0.03f;
+
+            // move camera keyboard
+            if (inputHelper.KeyDown(Keys.Up))
+                Game.Camera.Rho += 0.03f;
+            if (inputHelper.KeyDown(Keys.Down))
+                Game.Camera.Rho -= 0.03f;
+            if (inputHelper.KeyDown(Keys.Left))
+                Game.Camera.Phi -= 0.03f;
+            if (inputHelper.KeyDown(Keys.Right))
+                Game.Camera.Phi += 0.03f;
+
+            // zoom camera
+            if (inputHelper.KeyDown(Keys.PageUp))
+                Game.Camera.Zoom -= 0.5f;
+            if (inputHelper.KeyDown(Keys.PageDown))
+                Game.Camera.Zoom += 0.5f;
         }
 
         public override void Draw(DrawHelper drawHelper)
