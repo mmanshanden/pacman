@@ -115,7 +115,7 @@ namespace Pacman
                 this.State = States.Wait;
 
                 //Let ghost wait 3 seconds before leaving ghosthouse again
-                this.waitTimer = 3; 
+                this.waitTimer = 4; 
             }
 
         }

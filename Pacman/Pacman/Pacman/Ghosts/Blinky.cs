@@ -10,9 +10,9 @@ namespace Pacman
         public override Vector2 GetTarget(Ghost.States state)
         {
             if (state == States.Chase)
-                return this.GhostHouse.GetPacman().Center;               
+                return this.GhostHouse.GetPacman().Center;
             if (state == States.Wait)
-                    return this.GhostHouse.Center;
+                return this.GhostHouse.Center; 
             return base.GetTarget(state);
         }
         
@@ -66,6 +66,25 @@ namespace Pacman
             blinky.waitTimer = 0; 
 
             return blinky;
+        }
+
+        public override void Collision_Target(GameBoard board, GameTile tile)
+        {
+            // If a ghost is leaving and is on the ghosthouse entry set its state to Chase.
+            if (this.Center == GhostHouse.Entry && this.State == States.Leave)
+            {
+                this.State = States.Chase;
+            }
+
+            // If ghost is dead and is on the Ghosthouse entry set its State to wait.
+            if (this.Center == GhostHouse.Entry && this.State == States.Dead)
+            {
+                this.State = States.Wait;
+
+                //Blinky doesn't wait.. long...
+                this.waitTimer = 1f;
+            }
+
         }
     }
 }
