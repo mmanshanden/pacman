@@ -131,6 +131,9 @@ namespace Pacman
             this.self.Position = new Vector2(0.25f, 0.25f);
             this.self.Draw(drawManager);
 
+            if (!this.others.Contains(0))
+                return;
+
             GameObject partner = this.others.Get(0);
             partner.Position = new Vector2(0.75f, 0.25f);
             partner.Draw(drawManager);
@@ -148,7 +151,10 @@ namespace Pacman
 
             this.self.Name = "You";
             this.self.Draw(drawHelper);
-           
+
+            if (!this.others.Contains(0))
+                return;
+
             GameObject partner = this.others.Get(0);
             (partner as LobbyPlayer).Name = "Partner"; 
             partner.Position = new Vector2(0.75f, 0.25f);
