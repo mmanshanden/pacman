@@ -22,7 +22,7 @@ namespace Pacman
 
         public StateHostLobby(int levelIndex)
         {
-            if (levelIndex < 3)
+            if (levelIndex < 5)
                 base.controlSprite = "lobbyhost";
             else
                 base.controlSprite = "back";
@@ -51,7 +51,7 @@ namespace Pacman
 
         public StateHostLobby(int levelIndex, GameServer server, NetMessage gamedata, bool keepScore = false)
         {
-            if (levelIndex < 3)
+            if (levelIndex < 5)
                 base.controlSprite = "lobbyhost";
             else
                 base.controlSprite = "back";
@@ -93,7 +93,7 @@ namespace Pacman
 
         public override void HandleInput(InputHelper inputHelper)
         {
-            if (inputHelper.KeyDown(Keys.X) && this.players.Count > 1 && this.levelIndex < 3)
+            if (inputHelper.KeyDown(Keys.X) && this.players.Count > 1 && this.levelIndex < 5)
             {
                 if (this.keepScore == false)
                 {
