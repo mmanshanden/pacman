@@ -63,10 +63,10 @@ namespace Pacman
         {
             switch (this.selectedMenu)
             {
-                case 1:
+                case 0:
                     drawHelper.DrawBox("menu_gamemode_singleplayer", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center);
                     break;
-                case 0:
+                case 1:
                     drawHelper.DrawBox("menu_gamemode_multiplayer", new Vector2(0.5f, 0.5f), DrawHelper.Origin.Center);
                     break;
             }
