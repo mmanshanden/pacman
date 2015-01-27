@@ -50,7 +50,7 @@ namespace Base
             this.durations["bubble"]  = new TimeSpan(0, 0, 0, 0, 565);
             this.startTimes["bubble"] = DateTime.Now;
 
-            this.durations["powerup"]  = new TimeSpan(0, 0, 0, 1, 200);
+            this.durations["powerup"]  = new TimeSpan(0, 0, 0, 1, 600);
             this.startTimes["powerup"] = DateTime.Now;
         }
 
