@@ -105,6 +105,8 @@ namespace Pacman
         {
             // Draw the score on the screen
             drawHelper.DrawString(this.Score.ToString(), new Vector2(0.98f, 0.02f), DrawHelper.Origin.TopRight, Color.White);
+
+            drawHelper.DrawString(this.Lives.ToString(), new Vector2(0.02f, 0.02f), DrawHelper.Origin.TopLeft, Color.White);
         }
     }
 }
