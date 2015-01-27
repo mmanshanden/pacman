@@ -96,7 +96,7 @@ namespace Pacman
         {
             if (this.Lives < 1)
                 return;
-
+            this.ghostCombo = 1; 
             this.Lives--;
             // Reset position to Spawn
             this.Position = this.spawn;
