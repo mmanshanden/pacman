@@ -71,6 +71,11 @@ namespace Base
             this.textures["menu_pause_resume"]   = content.Load<Texture2D>("sprites/menu/pause/resume");
             this.textures["menu_pause_mainmenu"] = content.Load<Texture2D>("sprites/menu/pause/mainmenu"); 
 
+            // lobby
+            this.textures["menu_lobby_frame"]  = content.Load<Texture2D>("sprites/menu/lobbyhost/frame");
+            this.textures["menu_lobby_you"]    = content.Load<Texture2D>("sprites/menu/lobbyhost/you");
+            this.textures["menu_lobby_partner"] = content.Load<Texture2D>("sprites/menu/lobbyhost/partner");
+
             this.spriteFont    = content.Load<SpriteFont>("fonts/ui");
             this.spriteFontBig = content.Load<SpriteFont>("fonts/bigui");
         }

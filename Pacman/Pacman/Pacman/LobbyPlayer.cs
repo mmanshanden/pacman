@@ -76,11 +76,11 @@ namespace Pacman
 
         public override void Draw(_3dgl.DrawManager drawManager)
         {
-            Game.Camera.Zoom = 3;
+            Game.Camera.Zoom = 2.5f;
             Game.Camera.Phi = 0;
             Game.Camera.Rho = 0.4f;
             Game.Camera.Target = Vector2.Zero;
-            Game.Camera.SetCameraHeight(0);
+            Game.Camera.SetCameraHeight(0.5f);
 
             if (this.model != null)
             {
@@ -104,8 +104,13 @@ namespace Pacman
 
         public override void Draw(DrawHelper drawHelper)
         {
-            drawHelper.DrawString(this.Name, this.Position, DrawHelper.Origin.Center, Color.White);
-            drawHelper.DrawBox(this.model, this.Position + Vector2.UnitY * 0.2f, DrawHelper.Origin.Center);
+            if (this.Name == "You")
+                drawHelper.DrawBox("menu_lobby_you", this.Position, DrawHelper.Origin.Center);
+            else
+                drawHelper.DrawBox("menu_lobby_partner", this.Position, DrawHelper.Origin.Center);
+
+            drawHelper.DrawBox(this.model, this.Position + Vector2.UnitY * 0.24f, DrawHelper.Origin.Center);
+            drawHelper.DrawBox("menu_lobby_frame", this.Position + Vector2.UnitY * 0.25f, DrawHelper.Origin.Center);
 
             if (this.Score != 0)
                 drawHelper.DrawString(this.Score.ToString(), this.Position + Vector2.UnitY * 0.4f, DrawHelper.Origin.Center, Color.White);
