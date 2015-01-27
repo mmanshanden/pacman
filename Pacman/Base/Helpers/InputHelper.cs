@@ -48,6 +48,10 @@ namespace Base
                     return state.IsButtonDown(Buttons.DPadUp);
                 case Keys.Escape:
                     return state.IsButtonDown(Buttons.Start);
+                case Keys.PageUp:
+                    return state.IsButtonDown(Buttons.RightShoulder);
+                case Keys.PageDown:
+                    return state.IsButtonDown(Buttons.LeftShoulder);
             }
 
             return false;
