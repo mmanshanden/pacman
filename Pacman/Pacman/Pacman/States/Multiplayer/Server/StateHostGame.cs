@@ -86,6 +86,7 @@ namespace Pacman
                 level.Add(ghosthouse);
 
                 ghosthouse.Entry = levelfile.ReadVector("ghosthouse" + i + "_entry");
+                ghosthouse.Center = levelfile.ReadVector("ghosthouse" + i + "_center");
 
                 Blinky blinky = Blinky.LoadBlinky(levelfile, i);
                 ghosthouse.Add(blinky);
