@@ -43,6 +43,7 @@ namespace Pacman
             this.inputHelper = new InputHelper();
 
             Game.SoundManager = this.soundHelper;
+            Game.SoundManager.Enabled = true;
 
             // 2d loading
             this.drawHelper2d.LoadTextures(this.Content);
