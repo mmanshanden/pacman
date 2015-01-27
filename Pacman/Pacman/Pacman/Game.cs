@@ -27,8 +27,10 @@ namespace Pacman
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
 
-            this.graphics.PreferredBackBufferWidth = 1280;
-            this.graphics.PreferredBackBufferHeight = 720;
+            this.graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            this.graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            this.graphics.IsFullScreen = true;
+
             this.graphics.ApplyChanges();
 
             this.Window.AllowUserResizing = true;
@@ -77,27 +79,7 @@ namespace Pacman
             screen.Y = GraphicsDevice.Viewport.Height;
             this.drawHelper2d.Screen = screen;
 
-            // move camera controller
-            Vector2 rs = inputHelper.RightStickVector();
-            Camera.Phi += rs.X * 0.03f;
-            Camera.Rho += rs.Y * -0.03f;
-
-            // move camera keyboard
-            if (inputHelper.KeyDown(Keys.Up))
-                Camera.Rho += 0.03f;
-            if (inputHelper.KeyDown(Keys.Down))
-                Camera.Rho -= 0.03f;
-            if (inputHelper.KeyDown(Keys.Left))
-                Camera.Phi -= 0.03f;
-            if (inputHelper.KeyDown(Keys.Right))
-                Camera.Phi += 0.03f;
-
-            // zoom camera
-            if (inputHelper.KeyDown(Keys.PageUp))
-                Camera.Zoom -= 0.5f;
-            if (inputHelper.KeyDown(Keys.PageDown))
-                Camera.Zoom += 0.5f;
-
+           
             // show/hide console
             if (this.inputHelper.KeyPressed(Keys.OemTilde))
                 Console.Visible = !Console.Visible;
