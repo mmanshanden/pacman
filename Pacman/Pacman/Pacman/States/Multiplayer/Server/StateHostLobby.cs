@@ -215,7 +215,7 @@ namespace Pacman
                 totalscore += lplayer.Score;
 
             if (totalscore > 0)
-                drawHelper.DrawStringBig("Total Score: " + totalscore, new Vector2(0.5f, 0.2f), DrawHelper.Origin.Center, Color.White);
+                drawHelper.DrawStringBig("Total Score: " + totalscore, new Vector2(0.5f, 0.1f), DrawHelper.Origin.Center, Color.White);
         }
     }
 }

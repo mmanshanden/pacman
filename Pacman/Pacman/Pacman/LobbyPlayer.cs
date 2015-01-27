@@ -113,7 +113,7 @@ namespace Pacman
             drawHelper.DrawBox("menu_lobby_frame", this.Position + Vector2.UnitY * 0.25f, DrawHelper.Origin.Center);
 
             if (this.Score != 0)
-                drawHelper.DrawString(this.Score.ToString(), this.Position + Vector2.UnitY * 0.4f, DrawHelper.Origin.Center, Color.White);
+                drawHelper.DrawString(this.Score.ToString(), this.Position + Vector2.UnitY * 0.5f, DrawHelper.Origin.Center, Color.White);
         }
     }
 }
