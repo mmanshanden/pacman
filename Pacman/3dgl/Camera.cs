@@ -40,6 +40,11 @@ namespace _3dgl
             set;
         }
 
+        public void UpdateProjection()
+        {
+            this.effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, this.graphicsDevice.Viewport.AspectRatio, 0.1f, 100f);
+        }
+
         public Vector2 Target
         {
             // translate position in 2d space

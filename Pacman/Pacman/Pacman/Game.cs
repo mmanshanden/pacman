@@ -29,13 +29,23 @@ namespace Pacman
 
             this.graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             this.graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            this.graphics.IsFullScreen = true;
+            this.graphics.IsFullScreen = false;
 
             this.graphics.ApplyChanges();
 
             this.Window.AllowUserResizing = true;
+            this.Window.ClientSizeChanged += Window_ClientSizeChanged;
 
             Game.Random = new Random();
+        }
+
+        void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            this.graphics.PreferredBackBufferWidth = GraphicsDevice.Viewport.Width;
+            this.graphics.PreferredBackBufferHeight = GraphicsDevice.Viewport.Height;
+            this.graphics.ApplyChanges();
+
+            this.drawHelper3d.Camera.UpdateProjection();
         }
 
         protected override void LoadContent()
